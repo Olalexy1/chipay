@@ -31,9 +31,10 @@ const ServiceSection = () => {
 
       <div className="w-full flex flex-col justify-center">
         <h1 className="font-montserrat font-semibold text-2xl mb-3 text-slate-800">
-          Our Payment Services
+          Our unique <br/>
+          payment Services
         </h1>
-        <p className="font-montserrat  text-base text-slate-400 mb-5">
+        <p className="font-montserrat  text-base text-slate-400 mb-5 w-10/12">
           Discover convenience, security, and global reach with our payment services. From seamless transactions to robust security features, we offer a comprehensive platform for all your financial needs. Experience peace of mind knowing your transactions are handled with care and efficiency.
         </p>
 
@@ -50,10 +51,11 @@ const ServiceSection = () => {
         </ul>
 
         <h1 className="font-montserrat font-semibold text-2xl mb-3 text-slate-800">
-          Our Payment Services
+          Enjoy phenomenal <br/>
+          transaction success rates
         </h1>
-        <p className="font-montserrat  text-base text-slate-400">
-          Discover convenience, security, and global reach with our payment services. From seamless transactions to robust security features, we offer a comprehensive platform for all your financial needs. Experience peace of mind knowing your transactions are handled with care and efficiency.
+        <p className="font-montserrat  text-base text-slate-400 w-10/12">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur omnis repellat sit, corrupti doloremque commodi atque doloribus perspiciatis quas ullam itaque error dignissimos reprehenderit nulla nihil nam aspernatur explicabo debitis!
         </p>
       </div>
     </section>

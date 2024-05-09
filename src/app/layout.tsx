@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning
-    className="scrollbar-thumb-blue-800 scrollbar-track-blue-50 scrollbar">
+    className="scrollbar-thumb-blue-800 scrollbar-track-gray-100 scrollbar">
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",

@@ -20,7 +20,7 @@ export default function Home() {
                 <CompaniesSection />
             </section>
 
-            <section className='padding'>
+            <section className='padding bg-blue-50'>
                 <CallToActionSection />
             </section>
 
