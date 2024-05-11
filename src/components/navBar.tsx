@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image";
-import Logo from '../../public/images/chipayLogo.png';
+import Logo from '../../public/images/chiPayLogo.png';
 import MobileNavBar from "./mobileNavBar";
 import { Button } from '@/components/ui/button';
 
