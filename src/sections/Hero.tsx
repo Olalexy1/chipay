@@ -10,7 +10,7 @@ const Hero = () => {
         >
             <div className='relative xl:w-2/5 flex flex-col justify-center items-start w-full  max-xl:padding-x'>
 
-                <h1 className='mt-10 font-palanquin text-8xl max-sm:text-[72px] max-sm:leading-[72px] font-bold'>
+                <h1 className='mt-10 font-palanquin text-8xl max-sm:text-[52px] max-sm:leading-[82px] font-bold'>
                     <span className='relative'>
                         Seamless Secure
                     </span>
@@ -22,9 +22,9 @@ const Hero = () => {
                     Welcome to ChiPay, where simplicity meets security. Say goodbye to complex transactions and hello to seamless payments.
                 </p>
 
-                <div className="flex flex-row justify-start items-center space-x-3">
-                    <Link className='primary-button group' href="/sign-up">
-                        <p className='primary-button-text'>Create an Account</p>
+                <div className="flex flex-col space-y-5 sm:flex-row justify-start items-center sm:space-x-3 sm:space-y-0">
+                    <Link className='primary-button group w-fit' href="/sign-up">
+                        <p className='primary-button-text'>Create an account</p>
                     </Link>
 
                     <Link href="sign-in" className="link text-blue-800 lg:hidden">Sign In</Link>
@@ -34,13 +34,13 @@ const Hero = () => {
 
             </div>
 
-            <div className='relative flex-1 flex justify-center items-center xl:min-h-screen'>
+            <div className='relative flex-1 flex justify-center items-center'>
                 <Image
                     src={AnimatedBackground}
                     alt='Hero Image'
                     width={610}
                     height={502}
-                    className='object-contain relative size-full'
+                    className='object-contain relative w-full'
                 />
             </div>
         </section>

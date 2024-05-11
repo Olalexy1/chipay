@@ -3,6 +3,7 @@ import ServiceSection from "./ServiceSection";
 import CompaniesSection from "./CompaniesSection";
 import CallToActionSection from "./CallToActionSection";
 import FooterSection from "./FooterSection";
+import ReviewsSection from "./ReviewsSection";
 
 export {
   Hero,
@@ -10,4 +11,5 @@ export {
   CompaniesSection,
   CallToActionSection,
   FooterSection,
+  ReviewsSection
 };
