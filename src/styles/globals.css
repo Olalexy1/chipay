@@ -17,9 +17,9 @@
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
+/* .no-scrollbar::-webkit-scrollbar {
   display: none;
-}
+} */
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
@@ -32,24 +32,24 @@
   -webkit-backdrop-filter: blur(4px);
 }
 
-.custom-scrollbar::-webkit-scrollbar {
+/* .custom-scrollbar::-webkit-scrollbar {
   width: 3px;
   height: 3px;
   border-radius: 2px;
-}
+} */
 
-.custom-scrollbar::-webkit-scrollbar-track {
+/* .custom-scrollbar::-webkit-scrollbar-track {
   background: #dddddd;
-}
+} */
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
+/* .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #5c5c7b;
   border-radius: 50px;
-}
+} */
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+/* .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #7878a3;
-}
+} */
 
 @layer utilities {
   .padding {
@@ -80,23 +80,26 @@
     @apply sm:pb-24 pb-12;
   }
 
+  .input {
+    @apply flex w-full text-base leading-normal text-slate-gray px-8 max-sm:px-6 outline-none sm:border-none rounded-2xl bg-transparent bg-blue-50;
+  }
+
   .info-text {
     @apply font-montserrat text-slate-gray text-lg leading-7;
   }
 
   .primary-button {
-    @apply flex h-fit w-fit rounded-2xl hover:-translate-y-2 active:-translate-y-2 bg-blue-800 py-4 px-6 shadow-lg space-y-3
-    duration-300
+    @apply flex h-fit items-center justify-center rounded-2xl hover:-translate-y-2 active:-translate-y-2 bg-blue-800 py-4 px-[28px] shadow-lg space-y-3
+    duration-300;
   }
 
   .primary-button-text {
-    @apply font-montserrat text-base leading-7 text-slate-100 duration-300 group-active:-translate-y-2 font-semibold;
+    @apply font-montserrat text-center text-base text-slate-100 duration-300 group-active:-translate-y-2 font-semibold leading-none no-underline outline-none transition-colors;
   }
 
   .link {
-    @apply font-semibold font-montserrat text-base hover:text-blue-800;
+    @apply font-semibold font-montserrat text-base hover:text-blue-800 leading-none no-underline outline-none transition-colors;
   }
-
 
   /* new utilities */
   .input-class {

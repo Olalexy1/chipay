@@ -5,9 +5,9 @@ import { MarqueImages } from '@/constants';
 
 const CompaniesSection = () => {
   return (
-    <section className='w-full flex'>
+    <section className='w-full flex max-container'>
       <Marquee
-        speed={30}
+        speed={40}
         direction='left'
         pauseOnClick
         gradient

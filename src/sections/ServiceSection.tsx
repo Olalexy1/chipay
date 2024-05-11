@@ -6,16 +6,17 @@ import { Services } from '@/constants'
 
 const ServiceSection = () => {
   return (
-    <section className="w-full flex xl:flex-row flex-col justify-center min-h-screen gap-10 max-container">
-      <div className="w-full flex flex-col justify-start">
+    <section className="flex justify-between items-start  max-md:flex-col-reverse gap-10 max-container">
+
+      <div className="flex flex-1 flex-col justify-start">
         <h1 className="font-montserrat font-semibold text-2xl mb-3 text-slate-800">
-          Simple and Reliable payment
+          Simple and Reliable Payment
         </h1>
-        <p className="font-montserrat  text-base text-slate-400 mb-5">
+        <p className="font-montserrat text-balance text-base text-slate-400 mb-5">
           Experience the freedom of effortless payments, anywhere you go.
         </p>
 
-        <div className="bg-blue-50 rounded-md">
+        <div className="bg-blue-50 rounded-2xl flex-1">
           <Image
             src={ServicesImage}
             alt='Hero Image'
@@ -24,17 +25,14 @@ const ServiceSection = () => {
             className='object-contain relative size-full'
           />
         </div>
-
-
-
       </div>
 
-      <div className="w-full flex flex-col justify-center">
+      <div className="flex flex-1 flex-col justify-center">
         <h1 className="font-montserrat font-semibold text-2xl mb-3 text-slate-800">
-          Our unique <br/>
-          payment Services
+          Our unique <br />
+          Payment Services
         </h1>
-        <p className="font-montserrat  text-base text-slate-400 mb-5 w-10/12">
+        <p className="font-montserrat text-base text-slate-400 mb-5 w-10/12 text-balance">
           Discover convenience, security, and global reach with our payment services. From seamless transactions to robust security features, we offer a comprehensive platform for all your financial needs. Experience peace of mind knowing your transactions are handled with care and efficiency.
         </p>
 
@@ -51,10 +49,14 @@ const ServiceSection = () => {
         </ul>
 
         <h1 className="font-montserrat font-semibold text-2xl mb-3 text-slate-800">
-          Enjoy phenomenal <br/>
-          transaction success rates
+          Enjoy Phenomenal <br />
+          Transaction Success Rates
         </h1>
-        <p className="font-montserrat  text-base text-slate-400 w-10/12">
+        <p className="font-montserrat text-base text-slate-400 w-10/12 text-balance mb-10">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur omnis repellat sit, corrupti doloremque commodi atque doloribus perspiciatis quas ullam itaque error dignissimos reprehenderit nulla nihil nam aspernatur explicabo debitis!
+        </p>
+
+        <p className="font-montserrat text-base text-slate-400 w-10/12 text-balance">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur omnis repellat sit, corrupti doloremque commodi atque doloribus perspiciatis quas ullam itaque error dignissimos reprehenderit nulla nihil nam aspernatur explicabo debitis!
         </p>
       </div>

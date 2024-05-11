@@ -4,11 +4,10 @@ import * as React from "react"
 import Link from "next/link"
 import Image from "next/image";
 import Logo from '../../public/images/chipayLogo.png';
-import { Menu } from "lucide-react"
 import MobileNavBar from "./mobileNavBar";
+import { Button } from '@/components/ui/button';
 
 import { cn } from "@/lib/utils"
-// import { Icons } from "@/components/icons"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,51 +17,21 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { Button } from "./ui/button";
-
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-  },
-  {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
-]
+import { navLinks } from '@/constants'
+import { useState } from "react";
 
 const NavBar = () => {
+  const [activeContent, setActiveContent] = React.useState('why')
+  const [open, setOpen] = useState(false);
+
+  const handleActiveContent = (id: string) => {
+    setActiveContent(id)
+    console.log('see logged id: ', id)
+  }
 
   return (
-    <header className='padding-x py-5 w-full sticky top-0 z-40 backdrop-filter backdrop-blur'>
-      <nav className='max-container flex justify-between'>
+    <header className='w-full z-50 bg-white sticky top-0 md:relative'>
+      <nav className='max-container flex justify-between z-50 bg-white padding-x py-5'>
         <a href='/' className="flex items-center">
           <Image
             src={Logo}
@@ -74,90 +43,63 @@ const NavBar = () => {
           <p className="font-bold text-xl font-montserrat text-blue-800">ChiPay</p>
         </a>
         <NavigationMenu className="mx-auto hidden md:flex">
-          <NavigationMenuList className="">
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="link text-slate-500">Why ChiPay</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] bg-white">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md border-2 border-red-600"
-                        href="/"
-                      >
-                        {/* <Icons.logo className="h-6 w-6" /> */}
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                          shadcn/ui
-                        </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
-                          Beautifully designed components that you can copy and
-                          paste into your apps. Accessible. Customizable. Open
-                          Source.
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-                  <ListItem href="/docs" title="Introduction">
-                    Re-usable components built using Radix UI and Tailwind CSS.
-                  </ListItem>
-                  <ListItem href="/docs/installation" title="Installation">
-                    How to install dependencies and structure your app.
-                  </ListItem>
-                  <ListItem href="/docs/primitives/typography" title="Typography">
-                    Styles for headings, paragraphs, lists...etc
-                  </ListItem>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="link text-slate-500">Resources</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-white">
-                  {components.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="link text-slate-500">Company</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-white">
-                  {components.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+          <NavigationMenuList>
 
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="link text-slate-500">Support</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-white">
-                  {components.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+            {
+              navLinks.categories.slice(0, 1).map((items) => (
+                <NavigationMenuItem key={items.id}>
+                  <NavigationMenuTrigger className="link text-slate-600">{items.name}</NavigationMenuTrigger>
+                  <NavigationMenuContent className="mt-3 rounded-2xl">
+                    <ul className="flex flex-row md:w-[550px] lg:w-[600px] bg-white">
+                      <li className="basis-2/4 bg-blue-50 p-4 space-y-2">
+                        {items.pages.map((pages) => (
+                          <NavigationMenuLink onMouseEnter={() => handleActiveContent(pages.id)} asChild key={pages.id}>
+                            <Link href={pages.href} className={`flex w-full rounded-lg hover:bg-blue-800 hover:text-white text-slate-600 py-4 px-5 ${pages.id === activeContent && ' bg-blue-800 text-white'}`}>
+                              <p className="font-montserrat text-base font-semibold">{pages.name}</p>
+                            </Link>
+                          </NavigationMenuLink>
+                        ))}
+                      </li>
+                      <div className="basis-2/4 flex grow p-4">
+
+                        {items.pages.map((pages) => (
+
+                          activeContent === pages.id &&
+
+                          <div key={pages.id} className="">
+                            <p className="font-montserrat text-slate-600 text-base font-semibold">{pages.content?.title}</p>
+                          </div>
+
+                        ))}
+
+                      </div>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+              ))
+            }
+
+
+            {
+              navLinks.categories.slice(1).map((items) => (
+                <NavigationMenuItem key={items.id}>
+                  <NavigationMenuTrigger className="link text-slate-600">{items.name}</NavigationMenuTrigger>
+                  <NavigationMenuContent className="mt-3 rounded-2xl">
+                    <ul className="py-3 px-1 bg-white w-full">
+                      {items.pages.map((component) => (
+                        <ListItem
+                          key={component.name}
+                          title={component.name}
+                          href={component.href}
+                        >
+                        </ListItem>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              ))
+            }
 
             {/* <NavigationMenuItem>
               <Link href="/docs" legacyBehavior passHref>
@@ -171,15 +113,41 @@ const NavBar = () => {
         </NavigationMenu>
 
         <div className="space-x-3 hidden lg:flex items-center">
-          <Link className='primary-button group' href="/sign-up">
-            <p className='primary-button-text'>Create an Account</p>
+          <Link className='primary-button group w-fit' href="/sign-up">
+            <p className='primary-button-text'>Sign Up</p>
           </Link>
           <Link href="sign-in" className="link text-blue-800">Sign In</Link>
         </div>
 
-        <div>
-          <MobileNavBar />
+        <div onClick={() => setOpen(!open)} className="md:hidden cursor-pointer group flex h-20 w-20 items-center justify-center rounded-3xl p-2">
+          <div className="space-y-2">
+            <span className={`block h-1 w-10 origin-center rounded-full bg-blue-800 transition-transform ease-in-out ${open ? 'translate-y-1.5 rotate-45' : ''}`}></span>
+            <span className={`block h-1 origin-center rounded-full bg-blue-800 transition-transform ease-in-out ${open ? '-translate-y-1.5 -rotate-45 w-10' : 'w-8'}`}></span>
+            <span className={`block h-1 w-6 origin-center rounded-full bg-blue-800 transition-transform ease-in-out ${open ? 'hidden' : ''}`}></span>
+          </div>
         </div>
+
+        <ul className={`-z-[1] md:hidden min-h-screen flex flex-col absolute bg-blue-50 w-full pt-[120px] px-9 transition-all duration-400 ease-in left-0 rounded-br-xl ${open ? 'top-0' : '-top-[3000px]'}`}>
+          <div className="flex-grow">
+            {
+              navLinks.categories.map((link) => (
+                <li key={link.name} className='md:ml-8 text-xl md:my-0 my-3'>
+                  <Link href={'#'} className='text-gray-800 hover:text-gray-400 duration-500'>{link.name}</Link>
+                </li>
+              ))
+            }
+          </div>
+
+
+          <div className="flex flex-col gap-y-6 justify-end items-center mb-5">
+            <Link className='primary-button group w-full' href="/sign-up">
+              <p className='primary-button-text'>Sign Up</p>
+            </Link>
+            <Link href="sign-in" className="link text-blue-800 w-full text-center rounded-2xl hover:-translate-y-2 active:-translate-y-2 bg-blue-100 py-4 px-6 shadow-lg space-y-3 duration-300"
+            >Sign In
+            </Link>
+          </div>
+        </ul>
       </nav>
     </header>
   )
@@ -190,20 +158,17 @@ const ListItem = React.forwardRef<
   React.ComponentPropsWithoutRef<"a">
 >(({ className, title, children, ...props }, ref) => {
   return (
-    <li>
+    <li className="w-auto">
       <NavigationMenuLink asChild>
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-slate-600 hover:text-blue-800",
             className
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
+          <p className="text-base font-medium leading-none text-nowrap">{title}</p>
         </a>
       </NavigationMenuLink>
     </li>
