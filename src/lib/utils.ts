@@ -205,8 +205,14 @@ export const authFormSchema = (type: string) => z.object({
   postalCode: type === 'sign-in' ? z.string().optional() : z.string().min(3).max(6),
   dateOfBirth: type === 'sign-in' ? z.string().optional() : z.string().min(3),
   ssn: type === 'sign-in' ? z.string().optional() : z.string().min(3),
-  confirmPassword: type === 'sign-in' ? z.string().optional() : z.string().min(3),
+  confirmPassword: type === 'sign-in' ? z.string().optional() : z.string().min(8),
   // both
   email: z.string().email(),
   password: z.string().min(8),
 })
+
+export const avatarLetters = (inputString: string | undefined) => {
+  const words = inputString?.split(' '); // Split the string into words
+  const firstLetters = words?.map(word => word.charAt(0)); // Extract the first letter of each word
+  return firstLetters?.join(''); // Join the first letters back together
+}
