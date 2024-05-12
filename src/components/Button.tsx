@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Children, ReactNode } from "react";
 
 interface ButtonPops {
-    label: string;
+    label?: string;
     iconURL?: string;
     backgroundColor?: string;
     textColor?: string;
@@ -12,6 +12,7 @@ interface ButtonPops {
     className?: string;
     onClick?: () => void;
     isDisabled?: boolean;
+    type?: "submit" | "reset" | "button" | undefined;
 }
 
 const Button: React.FC<ButtonPops> = ({
@@ -24,11 +25,14 @@ const Button: React.FC<ButtonPops> = ({
     children,
     className,
     onClick,
-    isDisabled
+    isDisabled,
+    type
 }) => {
     return (
         <button
-            className={`flex justify-center items-center gap-2 px-7 py-4 border font-montserrat text-lg leading-none
+            type={type}
+            disabled={isDisabled}
+            className={`flex justify-center items-center gap-2 px-7 py-4 border font-montserrat text-base leading-none
         ${backgroundColor
                     ? `${backgroundColor} ${textColor} ${borderColor}`
                     : "bg-blue-800 text-white border-blue-800"

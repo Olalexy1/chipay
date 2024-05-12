@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "ChiPay",
   description: "Stay connected to your finances with our secure banking app. Manage accounts, transfer funds, pay bills, and monitor transactions seamlessly on-the-go",
   icons: {
-    icon: "/images/chipayLogo.png",
+    icon: "/images/chiPayLogo.png",
   },
 };
 
