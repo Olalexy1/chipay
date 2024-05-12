@@ -17,9 +17,9 @@
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-/* .no-scrollbar::-webkit-scrollbar {
+.no-scrollbar::-webkit-scrollbar {
   display: none;
-} */
+}
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
@@ -32,24 +32,24 @@
   -webkit-backdrop-filter: blur(4px);
 }
 
-/* .custom-scrollbar::-webkit-scrollbar {
+.custom-scrollbar::-webkit-scrollbar {
   width: 3px;
   height: 3px;
   border-radius: 2px;
-} */
+}
 
-/* .custom-scrollbar::-webkit-scrollbar-track {
+.custom-scrollbar::-webkit-scrollbar-track {
   background: #dddddd;
-} */
+}
 
-/* .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #5c5c7b;
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #1e40af;
   border-radius: 50px;
-} */
+}
 
-/* .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #7878a3;
-} */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #1d4ed8;
+}
 
 @layer utilities {
   .padding {
@@ -103,7 +103,7 @@
 
   /* new utilities */
   .input-class {
-    @apply text-16 placeholder:text-16 rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
+    @apply text-16 flex w-full placeholder:text-16 rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
   }
 
   .sheet-content button {
@@ -334,7 +334,7 @@
 
   /* Auth Form */
   .auth-form {
-    @apply flex min-h-screen w-full max-w-[420px] flex-col justify-center gap-5 py-10 md:gap-8;
+    @apply flex w-full flex-col py-5 pl-5;
   }
 
   .form-item {

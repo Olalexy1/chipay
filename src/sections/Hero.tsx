@@ -27,7 +27,7 @@ const Hero = () => {
                         <p className='primary-button-text'>Create an account</p>
                     </Link>
 
-                    <Link href="sign-in" className="link text-blue-800 lg:hidden">Sign In</Link>
+                    {/* <Link href="sign-in" className="link text-blue-800 text-start lg:hidden">Sign In</Link> */}
                 </div>
 
 
