@@ -10,24 +10,20 @@ import { useForm } from "react-hook-form"
 import Button from './Button';
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form"
 import CustomInput from './customInput';
 import { authFormSchema } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
-// import PlaidLink from './PlaidLink';
+import PlaidLink from './PlaidLink';
 
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  console.log('see user: ', user)
 
   const formSchema = authFormSchema(type);
 
@@ -72,7 +68,7 @@ const AuthForm = ({ type }: { type: string }) => {
           password: data.password,
         })
 
-        if(response) router.push('/dashboard')
+        if (response) router.push('/dashboard')
       }
     } catch (error) {
       console.log(error);
@@ -112,7 +108,7 @@ const AuthForm = ({ type }: { type: string }) => {
       <div className='flex relative flex-col h-full justify-center items-center scrollbar-none scrollbar-thumb-blue-800 scrollbar-track-white md:scrollbar-thin scrollbar-thumb-rounded-2xl mb-5 pr-5 overflow-y-auto md:px-[10%] lg:px-[12%]'>
         {user ? (
           <div className="flex flex-col gap-4">
-            {/* do something with user if logged in */}
+            <PlaidLink user={user} variant="primary" />
           </div>
         ) : (
           <div className='w-full h-full flex-1'>
@@ -138,40 +134,44 @@ const AuthForm = ({ type }: { type: string }) => {
                   {type === 'sign-up' && (
                     <>
                       <div className="flex gap-4">
-                        <CustomInput control={form.control} name='firstName' label="First Name" placeholder='Enter your first name' />
-                        <CustomInput control={form.control} name='lastName' label="Last Name" placeholder='Enter your last name' />
+                        <CustomInput control={form.control} name='firstName' label="First Name" placeholder='Enter your first name' inputType='text' autoComplete="given-name" id="firsName" />
+                        <CustomInput control={form.control} name='lastName' label="Last Name" placeholder='Enter your last name' inputType='text' autoComplete="family-name" id='lastName' />
                       </div>
 
-                      <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' type="email" />
+                      <CustomInput control={form.control} name='address1' label="Address" placeholder='Enter your specific address' autoComplete='street-address' id='address1' />
 
-                      <CustomInput control={form.control} name='address1' label="Address" placeholder='Enter your specific address' />
-
-                      <CustomInput control={form.control} name='city' label="City" placeholder='Enter your city' />
+                      <CustomInput control={form.control} name='city' label="City" placeholder='Enter your city' autoComplete='on' id='city' />
                       <div className="flex gap-4">
 
-                        <CustomInput control={form.control} name='state' label="State" placeholder='Example: Lagos State' />
+                        <CustomInput control={form.control} name='state' label="State" placeholder='Enter your state' autoComplete='on' id='state' />
 
-                        <CustomInput control={form.control} name='postalCode' label="Postal Code" placeholder='Example: 11101' />
+                        <CustomInput control={form.control} name='postalCode' label="Postal Code" placeholder='Example: 11101' autoComplete='section-user1 billing postal-code' id='postalCode' />
 
                       </div>
-                      {/* <div className="flex gap-4">
-                      <CustomInput control={form.control} name='dateOfBirth' label="Date of Birth" placeholder='YYYY-MM-DD' />
-                      <CustomInput control={form.control} name='ssn' label="SSN" placeholder='Example: 1234' />
-                    </div> */}
+                      <div className="flex gap-4">
+                        <CustomInput control={form.control} name='dateOfBirth' label="Date of Birth" placeholder='YYYY-MM-DD' inputType="date" id='dateOfBirth' />
+                        <CustomInput control={form.control} name='ssn' label="SSN" placeholder='Example: 1234' id='ssn' />
+                      </div>
                     </>
                   )}
 
-                  <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' type="password" />
+                  <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' inputType="email" autoComplete='email' id='email' />
 
-                  <CustomInput control={form.control} name='confirmPassword' label="Confirm Password" placeholder='Confirm your password' type="password" />
+                  <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' inputType="password" id='password' />
+
+                  {type === 'sign-up' && (
+
+                    <CustomInput control={form.control} name='confirmPassword' label="Confirm Password" placeholder='Confirm your password' inputType="password" id='confirmPassword' />
+
+                  )}
 
                   <div className="pb-10">
                     <Button type="submit" isDisabled={isLoading} className="py-3">
                       {isLoading ? (
-                        <>
-                          <Loader2 size={20} className="animate-spin" /> &nbsp;
-                          <span>Loading...</span>
-                        </>
+                        <div className='flex items-center space-x-1'>
+                          <Loader2 size={20} className="animate-spin" />
+                          <p>Loading...</p>
+                        </div>
                       ) : type === 'sign-in'
                         ? 'Sign In' : 'Sign Up'}
                     </Button>
@@ -184,8 +184,8 @@ const AuthForm = ({ type }: { type: string }) => {
       </div>
 
       <div className='flex w-full justify-between pr-5'>
-          <Link className='text-[14px] text-slate-500 font-normal hover:text-blue-800 duration-500 leading-none' href='#'>Privacy Policy</Link>
-          <Link className='text-[14px] text-slate-500 font-normal hover:text-blue-800 duration-500 leading-none' href='#'>Terms Of Service</Link>
+        <Link className='text-[14px] text-slate-500 font-normal hover:text-blue-800 duration-500 leading-none' href='#'>Privacy Policy</Link>
+        <Link className='text-[14px] text-slate-500 font-normal hover:text-blue-800 duration-500 leading-none' href='#'>Terms Of Service</Link>
       </div>
 
     </section>
