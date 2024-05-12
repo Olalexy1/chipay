@@ -119,35 +119,7 @@ const NavBar = () => {
           <Link href="sign-in" className="link text-blue-800">Sign In</Link>
         </div>
 
-        <div onClick={() => setOpen(!open)} className="md:hidden cursor-pointer group flex h-20 w-20 items-center justify-center rounded-3xl p-2">
-          <div className="space-y-2">
-            <span className={`block h-1 w-10 origin-center rounded-full bg-blue-800 transition-transform ease-in-out ${open ? 'translate-y-1.5 rotate-45' : ''}`}></span>
-            <span className={`block h-1 origin-center rounded-full bg-blue-800 transition-transform ease-in-out ${open ? '-translate-y-1.5 -rotate-45 w-10' : 'w-8'}`}></span>
-            <span className={`block h-1 w-6 origin-center rounded-full bg-blue-800 transition-transform ease-in-out ${open ? 'hidden' : ''}`}></span>
-          </div>
-        </div>
-
-        <ul className={`-z-[1] md:hidden min-h-screen flex flex-col absolute bg-blue-50 w-full pt-[120px] px-9 transition-all duration-400 ease-in left-0 rounded-br-xl ${open ? 'top-0' : '-top-[3000px]'}`}>
-          <div className="flex-grow">
-            {
-              navLinks.categories.map((link) => (
-                <li key={link.name} className='md:ml-8 text-xl md:my-0 my-3'>
-                  <Link href={'#'} className='text-gray-800 hover:text-gray-400 duration-500'>{link.name}</Link>
-                </li>
-              ))
-            }
-          </div>
-
-
-          <div className="flex flex-col gap-y-6 justify-end items-center mb-5">
-            <Link className='primary-button group w-full' href="/sign-up">
-              <p className='primary-button-text'>Sign Up</p>
-            </Link>
-            <Link href="sign-in" className="link text-blue-800 w-full text-center rounded-2xl hover:-translate-y-2 active:-translate-y-2 bg-blue-100 py-4 px-6 shadow-lg space-y-3 duration-300"
-            >Sign In
-            </Link>
-          </div>
-        </ul>
+        <MobileNavBar/>
       </nav>
     </header>
   )

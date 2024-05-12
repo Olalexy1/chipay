@@ -29,9 +29,9 @@ const FooterSection = () => {
         <div className='flex flex-col w-full lg:w-5/12'>
           <p className='text-base text-slate-900 font-semibold mb-1'>Stay up to date.</p>
 
-          <div className='w-full flex my-5'>
-            <input type='email' maxLength={256} placeholder='Enter email address' className='input -mr-5' />
-            <Button label='Subscribe' className='w-5/12 z-10 py-5'/>
+          <div className='w-full flex my-5 flex-col md:flex-row space-y-3 md:space-y-0'>
+            <input type='email' maxLength={256} placeholder='Enter email address' className='input py-5 -mr-5' />
+            <Button label='Subscribe' className='w-full md:w-5/12 z-10 py-5'/>
           </div>
 
           <p className='text-base text-slate-700 font-semibold my-3'>Nigeria Address</p>
