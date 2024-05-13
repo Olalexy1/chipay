@@ -2,6 +2,8 @@ import { getLoggedInUser } from "@/lib/actions/user.actions";
 import NavBar from "@/components/navBar";
 import { Hero, ServiceSection, CompaniesSection, ReviewsSection, CallToActionSection, FooterSection } from "@/sections";
 
+export const dynamic = "force-dynamic"
+
 export default async function Home() {
     const loggedIn = await getLoggedInUser();
     
