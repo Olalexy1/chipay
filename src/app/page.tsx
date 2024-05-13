@@ -1,12 +1,15 @@
-
+import { getLoggedInUser } from "@/lib/actions/user.actions";
 import NavBar from "@/components/navBar";
 import { Hero, ServiceSection, CompaniesSection, ReviewsSection, CallToActionSection, FooterSection } from "@/sections";
 
-export default function Home() {
+export const dynamic = "force-dynamic"
+
+export default async function Home() {
+    const loggedIn = await getLoggedInUser();
+    
     return (
         <main className="relative">
-
-            <NavBar />
+            <NavBar user={loggedIn} />
 
             <section className='xl:padding-l wide:padding-r padding-b'>
                <Hero />

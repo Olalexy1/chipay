@@ -5,7 +5,9 @@ import Link from "next/link"
 import Image from "next/image";
 import Logo from '../../public/images/chiPayLogo.png';
 import MobileNavBar from "./mobileNavBar";
-import { Button } from '@/components/ui/button';
+import { avatarLetters } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 
 import { cn } from "@/lib/utils"
 import {
@@ -20,14 +22,15 @@ import {
 import { navLinks } from '@/constants'
 import { useState } from "react";
 
-const NavBar = () => {
+const NavBar = ({ user }: { user: User | null }) => {
   const [activeContent, setActiveContent] = React.useState('why')
-  const [open, setOpen] = useState(false);
 
   const handleActiveContent = (id: string) => {
     setActiveContent(id)
     console.log('see logged id: ', id)
   }
+
+  console.log(user?.name, 'see name')
 
   return (
     <header className='w-full z-50 bg-white sticky top-0 md:relative'>
@@ -112,14 +115,22 @@ const NavBar = () => {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="space-x-3 hidden lg:flex items-center">
-          <Link className='primary-button group w-fit' href="/sign-up">
-            <p className='primary-button-text'>Sign Up</p>
-          </Link>
-          <Link href="sign-in" className="link text-blue-800">Sign In</Link>
-        </div>
-
-        <MobileNavBar/>
+        {user === null ?
+          <>
+            <div className="space-x-3 hidden lg:flex items-center">
+              <Link className='primary-button group w-fit' href="/sign-up">
+                <p className='primary-button-text'>Sign Up</p>
+              </Link>
+              <Link href="sign-in" className="link text-blue-800">Sign In</Link>
+            </div>
+          </> :
+          <>
+            <Link className='primary-button group w-fit' href="/dashboard">
+              <p className='primary-button-text'>Dashboard</p>
+            </Link>
+          </>
+        }
+        <MobileNavBar user={user} />
       </nav>
     </header>
   )
