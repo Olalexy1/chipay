@@ -103,7 +103,7 @@
 
   /* new utilities */
   .input-class {
-    @apply text-16 flex w-full placeholder:text-16 rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
+    @apply text-16 flex w-full placeholder:text-16 rounded-2xl border-none text-gray-900 placeholder:text-gray-500 outline-none bg-transparent;
   }
 
   .sheet-content button {
@@ -213,7 +213,7 @@
 
   /* Right sidebar */
   .right-sidebar {
-    @apply no-scrollbar hidden h-screen max-h-screen flex-col border-l border-gray-200 xl:flex w-[355px] xl:overflow-y-scroll !important;
+    @apply no-scrollbar hidden h-screen max-h-screen flex-col border-l border-gray-200 2xl:flex w-[355px] xl:overflow-y-scroll !important;
   }
 
   .profile-banner {
@@ -346,7 +346,7 @@
   }
 
   .form-message {
-    @apply text-12 text-red-500;
+    @apply text-12 text-red-500 pl-3;
   }
 
   .form-btn {
@@ -427,7 +427,7 @@
   }
 
   .sidebar-link {
-    @apply flex gap-3 items-center py-1 md:p-3 2xl:p-4 rounded-lg justify-center xl:justify-start;
+    @apply flex gap-3 items-center py-1 md:p-3 2xl:p-4 rounded-lg justify-center xl:justify-start hover:bg-blue-800;
   }
 
   .sidebar-label {

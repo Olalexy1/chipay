@@ -15,9 +15,9 @@ export default async function DashboardLayout({
   if (!loggedIn) redirect('/sign-in')
 
   return (
-    <main className="flex h-screen w-full font-inter">
+    <main className="flex h-screen w-full font-inter overflow-y-hidden scrollbar-thumb-blue-800 scrollbar-track-white scrollbar-thin scrollbar-thumb-rounded-2xl">
       <Sidebar user={loggedIn} />
-      <div className="flex size-full flex-col border-2 border-red-600">
+      <div className="flex size-full flex-col">
         <div className="root-layout">
           <Image src="/images/chiPayLogo.png" width={40} height={40} alt="logo" />
           <div>

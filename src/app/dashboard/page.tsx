@@ -4,20 +4,23 @@ import RightSidebar from '@/components/RightSidebar';
 import TotalBalanceBox from '@/components/TotalBalanceBox';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
+import { useGetAllUserTransactions, getAllSupportedAirtimeCountries } from '@/lib/actions/chimoney.actions';
 
 export const dynamic = "force-dynamic"
 
 const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
   const currentPage = Number(page as string) || 1;
   const loggedIn = await getLoggedInUser();
-  const accounts = await getAccounts({ 
-    userId: loggedIn.$id 
+  const airtimeData = await getAllSupportedAirtimeCountries();
+  const transactionData = await useGetAllUserTransactions();
+  const accounts = await getAccounts({
+    userId: loggedIn.$id
   })
 
-  console.log('see accounts: ', accounts)
+  if (!accounts) return;
 
-  if(!accounts) return;
-  
+  // console.log(transactionData?.data, 'see all transactions')
+
   const accountsData = accounts?.data;
   const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId;
 
@@ -27,21 +30,21 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
     <section className="home">
       <div className="home-content">
         <header className="home-header">
-          <HeaderBox 
+          <HeaderBox
             type="greeting"
             title="Welcome"
             user={loggedIn?.firstName || 'Guest'}
             subtext="Access and manage your account and transactions efficiently."
           />
 
-          <TotalBalanceBox 
+          <TotalBalanceBox
             accounts={accountsData}
             totalBanks={accounts?.totalBanks}
             totalCurrentBalance={accounts?.totalCurrentBalance}
           />
         </header>
 
-        <RecentTransactions 
+        <RecentTransactions
           accounts={accountsData}
           transactions={account?.transactions}
           appwriteItemId={appwriteItemId}
@@ -49,7 +52,7 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
         />
       </div>
 
-      <RightSidebar 
+      <RightSidebar
         user={loggedIn}
         transactions={account?.transactions}
         banks={accountsData?.slice(0, 2)}

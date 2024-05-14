@@ -13,6 +13,11 @@ import {
   LagosInternal,
   MTN,
   PiggyVest,
+  LogoutIcon,
+  HomeIcon,
+  TransactionIcon, 
+  TransferIcon,
+  MoneyIcon
 } from "../../public/icons";
 
 export const Services = [

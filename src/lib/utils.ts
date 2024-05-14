@@ -1,12 +1,12 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import qs from "query-string";
+import { toast, ToastContent, ToastOptions, Slide, Id } from "react-toastify";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
-
 
 // FORMAT DATE TIME
 export const formatDateTime = (dateString: Date) => {
@@ -195,24 +195,148 @@ export const getTransactionStatus = (date: Date) => {
   return date > twoDaysAgo ? "Processing" : "Success";
 };
 
-export const authFormSchema = (type: string) => z.object({
-  // sign up
-  firstName: type === 'sign-in' ? z.string().optional() : z.string().min(3),
-  lastName: type === 'sign-in' ? z.string().optional() : z.string().min(3),
-  address1: type === 'sign-in' ? z.string().optional() : z.string().max(50),
-  city: type === 'sign-in' ? z.string().optional() : z.string().max(50),
-  state: type === 'sign-in' ? z.string().optional() : z.string().min(2).max(2),
-  postalCode: type === 'sign-in' ? z.string().optional() : z.string().min(3).max(6),
-  dateOfBirth: type === 'sign-in' ? z.string().optional() : z.string().min(3),
-  ssn: type === 'sign-in' ? z.string().optional() : z.string().min(3),
-  confirmPassword: type === 'sign-in' ? z.string().optional() : z.string().min(8),
-  // both
-  email: z.string().email(),
-  password: z.string().min(8),
-})
+// Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character
+const passwordValidation = new RegExp(
+  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+);
+
+export const authFormSchema = (type: string) =>
+  z
+    .object({
+      // sign up
+      firstName:
+        type === "sign-in"
+          ? z.string().trim().optional()
+          : z
+              .string({ message: "First name is required." })
+              .trim()
+              .min(3, {
+                message: "First name must be at least 3 characters long.",
+              })
+              .max(256, {
+                message:
+                  "First name must be between 3 and 256 characters long.",
+              }),
+      lastName:
+        type === "sign-in"
+          ? z.string().trim().optional()
+          : z
+              .string({ message: "Last name is required." })
+              .trim()
+              .min(3, {
+                message: "Last name must be at least 3 characters long.",
+              })
+              .max(256, {
+                message: "Last name must be between 3 and 256 characters long",
+              }),
+      address1:
+        type === "sign-in"
+          ? z.string().optional()
+          : z
+              .string({ message: "Address is required." })
+              .max(256, {
+                message: "Address is cannot be more than 256 characters.",
+              }),
+      city:
+        type === "sign-in"
+          ? z.string().optional()
+          : z
+              .string({ message: "City is required." })
+              .max(50, { message: "City cannot be more than 256 characters." }),
+      state:
+        type === "sign-in"
+          ? z.string().optional()
+          : z
+              .string({ message: "State is required." })
+              .max(256, {
+                message: "State cannot be more than 256 characters",
+              }),
+      postalCode:
+        type === "sign-in"
+          ? z.string().optional()
+          : z.string({ message: "Postal code is required." }).length(6, {
+              message: "Postal code must be 6 characters long.",
+            }),
+      dateOfBirth:
+        type === "sign-in"
+          ? z.string().optional()
+          : z.string({ message: "Date of birth is required." }).date(),
+      // ssn:
+      //   type === "sign-in"
+      //     ? z.string().optional()
+      //     : z.string().min(3, { message: "SSN is required." }),
+      confirmPassword:
+        type === "sign-in"
+          ? z.string().optional()
+          : z.string({ message: "Confirm password is required." }),
+      // both
+      email: z
+        .string({ message: "Email is required." })
+        .email({ message: "Enter a valid email address." }),
+      password: z
+        .string({ message: "Password is required." })
+        .min(8, { message: "Password must be at least 8 characters." })
+        .regex(passwordValidation, {
+          message: "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+        }),
+    })
+    .refine(
+      (values) => {
+        return values.password === values.confirmPassword;
+      },
+      {
+        message: "Passwords must match!",
+        path: ["confirmPassword"],
+      }
+    );
 
 export const avatarLetters = (inputString: string | undefined) => {
-  const words = inputString?.split(' '); // Split the string into words
-  const firstLetters = words?.map(word => word.charAt(0)); // Extract the first letter of each word
-  return firstLetters?.join(''); // Join the first letters back together
-}
+  const words = inputString?.split(" "); // Split the string into words
+  const firstLetters = words?.map((word) => word.charAt(0)); // Extract the first letter of each word
+  return firstLetters?.join(""); // Join the first letters back together
+};
+
+export const defaultToastOptions: ToastOptions = {
+  position: "top-right",
+  autoClose: 5000,
+  hideProgressBar: true,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "colored",
+  transition: Slide,
+};
+
+type ToastType = "success" | "error" | "info" | "warning" | "default";
+
+/**
+ * Display toast
+ *
+ * @param {ToastType} type
+ * @param {ToastContent} content
+ * @param {ToastOptions} [options=defaultToastOption]
+ * @return {Id}
+ */
+export const showToast = (
+  type: ToastType,
+  content: ToastContent,
+  options: Partial<ToastOptions> = {}
+): Id => {
+  const optionsToApply = { ...defaultToastOptions, ...options };
+
+  switch (type) {
+    case "success":
+      return toast.success(content, optionsToApply);
+    case "error":
+      return toast.error(content, optionsToApply);
+    case "info":
+      return toast.info(content, optionsToApply);
+    case "warning":
+      return toast.warn(content, optionsToApply);
+    case "default":
+      return toast(content, optionsToApply);
+    default:
+      return toast(content, optionsToApply);
+  }
+};
