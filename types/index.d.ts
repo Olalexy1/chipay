@@ -15,7 +15,7 @@ declare type SignUpParams = {
   state: string;
   postalCode: string;
   dateOfBirth: string;
-  ssn: string;
+  ssn? : string; // Only required if country is US
   email: string;
   password: string;
 };
@@ -29,8 +29,8 @@ declare type User = {
   $id: string;
   email: string;
   userId: string;
-  dwollaCustomerUrl: string;
-  dwollaCustomerId: string;
+  dwollaCustomerUrl?: string;
+  dwollaCustomerId?: string;
   firstName: string;
   lastName: string;
   name: string;
@@ -39,7 +39,7 @@ declare type User = {
   state: string;
   postalCode: string;
   dateOfBirth: string;
-  ssn: string;
+  ssn?: string;
 };
 
 declare type NewUserParams = {
@@ -327,4 +327,10 @@ declare interface getBankProps {
 
 declare interface getBankByAccountIdProps {
   accountId: string;
+}
+
+declare interface AccountDetails {
+  countryCode: string;
+  account_bank: string;
+  account_number: string;
 }

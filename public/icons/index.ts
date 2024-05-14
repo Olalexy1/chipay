@@ -12,6 +12,11 @@ import KudaBank from './kuda-Stack.svg';
 import LagosInternal from './Lagos-Internal-Revenue-Service.svg';
 import MTN from './MTN-Plain.svg';
 import PiggyVest from './Piggyvest.svg';
+import LogoutIcon from './logoutIcon';
+import HomeIcon from './homeIcon';
+import MoneyIcon from './moneyIcon';
+import TransactionIcon from './transactionIcon';
+import TransferIcon from './transferIcon';
 
 export {
     AirPeace,
@@ -28,4 +33,9 @@ export {
     LagosInternal,
     MTN,
     PiggyVest,
+    LogoutIcon,
+    HomeIcon,
+    MoneyIcon,
+    TransactionIcon,
+    TransferIcon
 };
