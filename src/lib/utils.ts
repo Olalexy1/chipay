@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import qs from "query-string";
 import { toast, ToastContent, ToastOptions, Slide, Id } from "react-toastify";
+import { Wallet } from "lucide-react";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -205,7 +206,7 @@ export const authFormSchema = (type: string) =>
     .object({
       // sign up
       firstName:
-        type === "sign-in"
+        type === "sign-in" || type === "transfer"
           ? z.string().trim().optional()
           : z
               .string({ message: "First name is required." })
@@ -218,7 +219,7 @@ export const authFormSchema = (type: string) =>
                   "First name must be between 3 and 256 characters long.",
               }),
       lastName:
-        type === "sign-in"
+        type === "sign-in" || type === "transfer"
           ? z.string().trim().optional()
           : z
               .string({ message: "Last name is required." })
@@ -230,59 +231,76 @@ export const authFormSchema = (type: string) =>
                 message: "Last name must be between 3 and 256 characters long",
               }),
       address1:
-        type === "sign-in"
+        type === "sign-in" || type === "transfer"
           ? z.string().optional()
-          : z
-              .string({ message: "Address is required." })
-              .max(256, {
-                message: "Address is cannot be more than 256 characters.",
-              }),
+          : z.string({ message: "Address is required." }).max(256, {
+              message: "Address is cannot be more than 256 characters.",
+            }),
       city:
-        type === "sign-in"
+        type === "sign-in" || type === "transfer"
           ? z.string().optional()
           : z
               .string({ message: "City is required." })
               .max(50, { message: "City cannot be more than 256 characters." }),
       state:
-        type === "sign-in"
+        type === "sign-in" || type === "transfer"
           ? z.string().optional()
-          : z
-              .string({ message: "State is required." })
-              .max(256, {
-                message: "State cannot be more than 256 characters",
-              }),
+          : z.string({ message: "State is required." }).max(256, {
+              message: "State cannot be more than 256 characters",
+            }),
       postalCode:
-        type === "sign-in"
+        type === "sign-in" || type === "transfer"
           ? z.string().optional()
           : z.string({ message: "Postal code is required." }).length(6, {
               message: "Postal code must be 6 characters long.",
             }),
       dateOfBirth:
-        type === "sign-in"
+        type === "sign-in" || type === "transfer"
           ? z.string().optional()
           : z.string({ message: "Date of birth is required." }).date(),
-      // ssn:
-      //   type === "sign-in"
-      //     ? z.string().optional()
-      //     : z.string().min(3, { message: "SSN is required." }),
       confirmPassword:
-        type === "sign-in"
+        type === "sign-in" || type === "transfer"
           ? z.string().optional()
           : z.string({ message: "Confirm password is required." }),
       // both
-      email: z
-        .string({ message: "Email is required." })
-        .email({ message: "Enter a valid email address." }),
-      password: z
-        .string({ message: "Password is required." })
-        .min(8, { message: "Password must be at least 8 characters." })
-        .regex(passwordValidation, {
-          message: "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
-        }),
+      email:
+        type === "sign-in" || type === "sign-up"
+          ? z
+              .string({ message: "Email is required." })
+              .email({ message: "Enter a valid email address." })
+          : z.string().optional(),
+      password:
+        type === "sign-in" || type === "sign-up"
+          ? z
+              .string({ message: "Password is required." })
+              .min(8, { message: "Password must be at least 8 characters." })
+              .regex(passwordValidation, {
+                message:
+                  "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+              })
+          : z.string().optional(),
+      //transfer  form
+      receiver:
+        type === "transfer"
+          ? z.string({ message: "Receiver is required" }).trim()
+          : z.string().optional(),
+      wallet:
+        type === "transfer"
+          ? z.string({ message: "Wallet ID is required" }).trim()
+          : z.string().optional(),
+      valueInUSD:
+        type === "transfer"
+          ? z.coerce
+              .number()
+              .min(10, { message: "Amount cannot be less than 10 USD" })
+          : z.number().optional(),
     })
     .refine(
       (values) => {
-        return values.password === values.confirmPassword;
+        if (type === "sign-up") {
+          return values.password === values.confirmPassword;
+        }
+        return true;
       },
       {
         message: "Passwords must match!",
