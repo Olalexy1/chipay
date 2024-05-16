@@ -15,7 +15,6 @@ declare type SignUpParams = {
   state: string;
   postalCode: string;
   dateOfBirth: string;
-  ssn? : string; // Only required if country is US
   email: string;
   password: string;
 };
@@ -52,15 +51,15 @@ declare type NewUserParams = {
 declare type Account = {
   id: string;
   availableBalance: number;
-  currentBalance: number;
-  officialName: string;
-  mask: string;
-  institutionId: string;
-  name: string;
-  type: string;
-  subtype: string;
-  appwriteItemId: string;
-  shareableId: string;
+  currentBalance?: number;
+  officialName?: string;
+  mask?: string;
+  institutionId?: string;
+  name?: string;
+  type?: string;
+  subtype?: string;
+  appwriteItemId?: string;
+  shareableId?: string;
 };
 
 declare type Transaction = {
@@ -179,15 +178,6 @@ declare interface PlaidLinkProps {
   dwollaCustomerId?: string;
 }
 
-// declare type User = sdk.Models.Document & {
-//   accountId: string;
-//   email: string;
-//   name: string;
-//   items: string[];
-//   accessToken: string;
-//   image: string;
-// };
-
 declare interface AuthFormProps {
   type: "sign-in" | "sign-up";
 }
@@ -203,15 +193,39 @@ declare interface BankTabItemProps {
   appwriteItemId?: string;
 }
 
+declare interface WalletTransactions {
+  id: string;
+  amount?: number;
+  balanceBefore?: number;
+  meta?: {
+    date: {
+      _seconds: number;
+      _nanoseconds: number;
+    };
+  };
+  newBalance?: number;
+  description?: string;
+}
+
+declare interface Wallets {
+  id: string;
+  owner?: string;
+  balance?: number;
+  type?: string;
+  transactions?: WalletTransactions[];
+}
+
 declare interface TotalBalanceBoxProps {
-  accounts: Account[];
-  totalBanks: number;
-  totalCurrentBalance: number;
+  wallets?: Wallets[];
+  balance?: number;
+  type?: string;
+  id?: string;
+  className?: string;
 }
 
 declare interface FooterProps {
   user: User;
-  type?: 'mobile' | 'desktop'
+  type?: "mobile" | "desktop";
 }
 
 declare interface RightSidebarProps {
@@ -226,9 +240,9 @@ declare interface SiderbarProps {
 
 declare interface RecentTransactionsProps {
   accounts: Account[];
-  transactions: Transaction[];
-  appwriteItemId: string;
-  page: number;
+  transactions?: Transaction[];
+  appwriteItemId?: string;
+  page?: number;
 }
 
 declare interface TransactionHistoryTableProps {
@@ -253,7 +267,9 @@ declare interface DoughnutChartProps {
 }
 
 declare interface PaymentTransferFormProps {
-  accounts: Account[];
+  accounts?: Account[];
+  subAccountId?: string;
+  type: string
 }
 
 // Actions
@@ -333,4 +349,19 @@ declare interface AccountDetails {
   countryCode: string;
   account_bank: string;
   account_number: string;
+}
+
+declare interface ErrorResponse {
+  message?: string | null;
+  code?: number | null;
+  response?: string | null;
+  status?: string | null;
+  error?: string | null;
+}
+
+declare interface WalletTransferProps {
+  subAccount: string;
+  receiver: string;
+  wallet?: string;
+  valueInUSD?: number;
 }

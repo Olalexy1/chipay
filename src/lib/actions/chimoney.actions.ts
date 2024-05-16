@@ -54,6 +54,20 @@ export const getAllBankBranchCodes = async (bankId: string) => {
   }
 };
 
+export const getSubAccountDetails = async (subAccountId: string) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/v0.2/sub-account/get?id=${subAccountId}`,
+      getOptions
+    );
+    const json = await response.json();
+    return parseStringify(json);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 export const useVerifyBankAccount = async (accounts: AccountDetails[]) => {
   const options = {
     method: "POST",
@@ -103,5 +117,55 @@ export const useGetAllUserTransactions = async (subAccount?: string) => {
   } catch (error) {
     console.log(error);
     return null;
+  }
+};
+
+export const useGetAllUserWallets = async (subAccount?: string) => {
+  const requestBody = subAccount ? { subAccount } : {};
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "X-API-KEY": API_KEY!,
+    },
+    body: JSON.stringify(requestBody),
+  };
+
+  try {
+    const response = await fetch(`${API_URL}/v0.2/wallets/list`, options);
+
+    const json = await response.json();
+    return parseStringify(json);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const transferToChiMoneyWallets = async (
+  transferInfo: WalletTransferProps
+) => {
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "X-API-KEY": API_KEY!,
+    },
+    body: JSON.stringify(transferInfo),
+  };
+
+  let data;
+  let error: ErrorResponse | Promise<any> | string | null;
+
+  try {
+    const response = await fetch(`${API_URL}/v0.2/wallets/transfer`, options);
+
+    const json = await response.json();
+    data = parseStringify(json);
+    return { data, error: null };
+  } catch (err) {
+    console.log(err);
+    error = parseStringify(err);
+    return { data: null, error: error };
   }
 };

@@ -15,9 +15,9 @@ import {
   PiggyVest,
   LogoutIcon,
   HomeIcon,
-  TransactionIcon, 
+  TransactionIcon,
   TransferIcon,
-  MoneyIcon
+  MoneyIcon,
 } from "../../public/icons";
 
 export const Services = [
@@ -197,7 +197,7 @@ export const sidebarLinks = [
   {
     imgURL: "/icons/dollar-circle.svg",
     route: "/dashboard/my-banks",
-    label: "My Banks",
+    label: "My Wallets",
   },
   {
     imgURL: "/icons/transaction.svg",
@@ -331,3 +331,9 @@ export const transactionCategoryStyles = {
     chipBackgroundColor: "bg-inherit",
   },
 };
+
+export const wallets = [
+  { id: 1, value: "chi", name: "Chi Wallet" },
+  { id: 2, value: "momo", name: "Momo Wallet" },
+  { id: 3, value: "airtime", name: "Airtime Wallet" },
+];
