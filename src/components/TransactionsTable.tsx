@@ -8,7 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { transactionCategoryStyles } from "@/constants"
-import { cn, formatAmount, formatDateTime, getTransactionStatus, removeSpecialCharacters } from "@/lib/utils"
+import { cn, formatAmount } from "@/lib/utils"
+import { getPublicProfile } from "@/lib/actions/chimoney.actions"
 
 const CategoryBadge = ({ category }: CategoryBadgeProps) => {
   const {
@@ -16,69 +17,82 @@ const CategoryBadge = ({ category }: CategoryBadgeProps) => {
     backgroundColor,
     textColor,
     chipBackgroundColor,
-   } = transactionCategoryStyles[category as keyof typeof transactionCategoryStyles] || transactionCategoryStyles.default
-   
+  } = transactionCategoryStyles[category as keyof typeof transactionCategoryStyles] || transactionCategoryStyles.default
+
   return (
     <div className={cn('category-badge', borderColor, chipBackgroundColor)}>
       <div className={cn('size-2 rounded-full', backgroundColor)} />
       <p className={cn('text-[12px] font-medium', textColor)}>{category}</p>
     </div>
   )
-} 
+}
 
-const TransactionsTable = ({ transactions }: TransactionTableProps) => {
+const TransactionsTable = async ({ transactions, recipientIds }: TransactionTableProps) => {
+  let ids = recipientIds!
+
+  const getProfiles = async (ids: string[]) => {
+    let profiles = [];
+    for (let id of ids) {
+      if (id) {
+        let profile = await getPublicProfile(id);
+        profiles.push(profile.data.data);
+      }
+    }
+    return profiles;
+  }
+
+  const profiles = await getProfiles(ids)
+
   return (
     <Table>
       <TableHeader className="bg-[#f9fafb]">
         <TableRow>
-          <TableHead className="px-2">Transaction</TableHead>
+          <TableHead className="px-2">Transaction Id</TableHead>
           <TableHead className="px-2">Amount</TableHead>
           <TableHead className="px-2">Status</TableHead>
-          <TableHead className="px-2">Date</TableHead>
-          <TableHead className="px-2 max-md:hidden">Channel</TableHead>
-          <TableHead className="px-2 max-md:hidden">Category</TableHead>
+          <TableHead className="px-2">Transaction Type</TableHead>
+          <TableHead className="px-2 max-md:hidden">Date</TableHead>
+          <TableHead className="px-2 max-md:hidden">Receiver/Sender</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {transactions.map((t: Transaction) => {
-          const status = getTransactionStatus(new Date(t.date))
-          const amount = formatAmount(t.amount)
+        {Array.isArray(transactions) && transactions.map((t: Transaction) => {
 
-          const isDebit = t.type === 'debit';
-          const isCredit = t.type === 'credit';
+          const amount = formatAmount(t.valueInUSD);
+          const date = new Date(t.paymentDate);
+          const dateString = date.toDateString();
+
+          const matchingProfile = profiles.find((profile) => profile.id === t.receiver);
 
           return (
-            <TableRow key={t.id} className={`${isDebit || amount[0] === '-' ? 'bg-[#FFFBFA]' : 'bg-[#F6FEF9]'} !over:bg-none !border-b-DEFAULT`}>
+            <TableRow key={t.id}
+            >
               <TableCell className="max-w-[250px] pl-2 pr-10">
                 <div className="flex items-center gap-3">
                   <h1 className="text-14 truncate font-semibold text-[#344054]">
-                    {removeSpecialCharacters(t.name)}
+                    {t.t_id}
                   </h1>
                 </div>
               </TableCell>
 
-              <TableCell className={`pl-2 pr-10 font-semibold ${
-                isDebit || amount[0] === '-' ?
-                  'text-[#f04438]'
-                  : 'text-[#039855]'
-              }`}>
-                {isDebit ? `-${amount}` : isCredit ? amount : amount}
+              <TableCell className={`pl-2 pr-10 font-semibold `}>
+                {amount}
               </TableCell>
 
               <TableCell className="pl-2 pr-10">
-                <CategoryBadge category={status} /> 
+                <CategoryBadge category={t.deliveryStatus || 'pending'} />
               </TableCell>
 
-              <TableCell className="min-w-32 pl-2 pr-10">
-                {formatDateTime(new Date(t.date)).dateTime}
+              <TableCell className="min-w-32 pl-2 pr-10 capitalize">
+                {t.type}
               </TableCell>
 
-              <TableCell className="pl-2 pr-10 capitalize min-w-24">
-               {t.paymentChannel}
+              <TableCell className="pl-2 pr-10 capitalize">
+                {dateString}
               </TableCell>
 
               <TableCell className="pl-2 pr-10 max-md:hidden">
-               <CategoryBadge category={t.category} /> 
+                {matchingProfile ? matchingProfile.name : "not available"}
               </TableCell>
             </TableRow>
           )

@@ -4,6 +4,7 @@ import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
 import '@/styles/globals.css'
 import { ThemeProvider } from "@/components/theme-provider"
+import ToastProvider from "@/lib/react-toastify/ToastProvider"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -25,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning
-    className="scrollbar-thumb-blue-800 scrollbar-track-gray-100 scrollbar">
+      className="scrollbar-thumb-blue-800 scrollbar-track-gray-100 scrollbar-thin">
       <body
         className={cn(
           "min-h-screen font-sans antialiased",
@@ -38,7 +39,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         > */}
+        <ToastProvider>
           {children}
+        </ToastProvider>
         {/* </ThemeProvider> */}
       </body>
     </html>

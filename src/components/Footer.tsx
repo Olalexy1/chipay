@@ -2,6 +2,7 @@ import { logoutAccount } from '@/lib/actions/user.actions'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import { MdLogout } from "react-icons/md";
 
 const Footer = ({ user, type = 'desktop' }: FooterProps) => {
   const router = useRouter();
@@ -30,7 +31,7 @@ const Footer = ({ user, type = 'desktop' }: FooterProps) => {
       </div>
 
       <div className="footer_image" onClick={handleLogOut}>
-        <Image src="icons/logout.svg" fill alt="jsm" />
+        <MdLogout className='text-gray-600' />
       </div>
     </footer>
   )

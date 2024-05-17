@@ -1,59 +1,52 @@
 import HeaderBox from '@/components/HeaderBox'
 import RecentTransactions from '@/components/RecentTransactions';
-import RightSidebar from '@/components/RightSidebar';
 import TotalBalanceBox from '@/components/TotalBalanceBox';
-import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
+import { getAllUserTransactions, getAllUserWallets, getSubAccountDetails } from '@/lib/actions/chimoney.actions';
 
 export const dynamic = "force-dynamic"
 
 const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
   const currentPage = Number(page as string) || 1;
   const loggedIn = await getLoggedInUser();
-  const accounts = await getAccounts({ 
-    userId: loggedIn.$id 
-  })
+  const subAccountId = await loggedIn.chiMoneyUserId
+  const subAccount = await getSubAccountDetails(subAccountId);
+  const transactionData = await getAllUserTransactions(subAccountId);
 
-  console.log('see accounts: ', accounts)
+  const userWallets = await getAllUserWallets(subAccountId)
 
-  if(!accounts) return;
-  
-  const accountsData = accounts?.data;
-  const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId;
+  if (!userWallets) return;
 
-  const account = await getAccount({ appwriteItemId })
+  const userWalletsData = userWallets?.data;
 
   return (
     <section className="home">
-      <div className="home-content">
+      <div className="home-content scrollbar-thumb-blue-800 scrollbar-track-gray-100 scrollbar-thin overflow-y-scroll">
         <header className="home-header">
-          <HeaderBox 
+          <HeaderBox
             type="greeting"
             title="Welcome"
             user={loggedIn?.firstName || 'Guest'}
-            subtext="Access and manage your account and transactions efficiently."
+            subtext="Access and manage your wallets and transactions efficiently."
           />
 
-          <TotalBalanceBox 
-            accounts={accountsData}
-            totalBanks={accounts?.totalBanks}
-            totalCurrentBalance={accounts?.totalCurrentBalance}
-          />
+          <div className="flex flex-row flex-wrap gap-2">
+            {userWalletsData.map((subAccount: Wallets) => (
+              <TotalBalanceBox
+                key={subAccount.id}
+                balance={subAccount.balance}
+                type={subAccount.type}
+              />
+            ))}
+          </div>
         </header>
 
-        <RecentTransactions 
-          accounts={accountsData}
-          transactions={account?.transactions}
-          appwriteItemId={appwriteItemId}
+        <RecentTransactions
+          transactions={transactionData?.data}
           page={currentPage}
         />
-      </div>
 
-      <RightSidebar 
-        user={loggedIn}
-        transactions={account?.transactions}
-        banks={accountsData?.slice(0, 2)}
-      />
+      </div>
     </section>
   )
 }
