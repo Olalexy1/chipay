@@ -1,27 +1,26 @@
 import HeaderBox from '@/components/HeaderBox'
 import PaymentTransferForm from '@/components/PaymentTransferForm'
-import { getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import React from 'react'
 
 export const dynamic = "force-dynamic"
 
-const Transfer = async () => {
+const Receive = async () => {
   const loggedIn = await getLoggedInUser();
   const subAccountId = await loggedIn.chiMoneyUserId;
 
   return (
-    <section className="payment-transfer">
+    <section className="payment-transfer min-h-screen">
       <HeaderBox
-        title="Transfer Funds"
-        subtext="Please provide any specific details or notes related to the payment transfer"
+        title="Receive Funds"
+        subtext="Initiate a payment request to receive funds"
       />
 
       <section className="size-full pt-5">
-        <PaymentTransferForm type='transfer' subAccountId={subAccountId} />
+
       </section>
     </section>
   )
 }
 
-export default Transfer
+export default Receive

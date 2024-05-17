@@ -68,7 +68,7 @@ export const getSubAccountDetails = async (subAccountId: string) => {
   }
 };
 
-export const useVerifyBankAccount = async (accounts: AccountDetails[]) => {
+export const verifyBankAccount = async (accounts: AccountDetails[]) => {
   const options = {
     method: "POST",
     headers: {
@@ -95,15 +95,15 @@ export const useVerifyBankAccount = async (accounts: AccountDetails[]) => {
   }
 };
 
-export const useGetAllUserTransactions = async (subAccount?: string) => {
-  const requestBody = subAccount ? { subAccount } : {};
+export const getAllUserTransactions = async (subAccount: string) => {
+  // const requestBody = subAccount ? { subAccount } : {};
   const options = {
     method: "POST",
     headers: {
       accept: "application/json",
       "X-API-KEY": API_KEY!,
     },
-    body: JSON.stringify(requestBody),
+    body: JSON.stringify(subAccount),
   };
 
   try {
@@ -120,7 +120,7 @@ export const useGetAllUserTransactions = async (subAccount?: string) => {
   }
 };
 
-export const useGetAllUserWallets = async (subAccount?: string) => {
+export const getAllUserWallets = async (subAccount?: string) => {
   const requestBody = subAccount ? { subAccount } : {};
   const options = {
     method: "POST",
@@ -143,13 +143,15 @@ export const useGetAllUserWallets = async (subAccount?: string) => {
 };
 
 export const transferToChiMoneyWallets = async (
-  transferInfo: WalletTransferProps
+  transferInfo?: WalletTransferProps
 ) => {
+  console.log(transferInfo, "see transfer info");
   const options = {
     method: "POST",
     headers: {
       accept: "application/json",
       "X-API-KEY": API_KEY!,
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(transferInfo),
   };
@@ -162,6 +164,7 @@ export const transferToChiMoneyWallets = async (
 
     const json = await response.json();
     data = parseStringify(json);
+    console.log(data, "see response");
     return { data, error: null };
   } catch (err) {
     console.log(err);

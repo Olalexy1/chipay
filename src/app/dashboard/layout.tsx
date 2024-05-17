@@ -15,7 +15,7 @@ export default async function DashboardLayout({
   if (!loggedIn) redirect('/sign-in')
 
   return (
-    <main className="flex h-screen w-full font-inter overflow-y-hidden scrollbar-thumb-blue-800 scrollbar-track-white scrollbar-thin scrollbar-thumb-rounded-2xl">
+    <main className="flex h-screen w-full font-inter overflow-y-hidden">
       <Sidebar user={loggedIn} />
       <div className="flex size-full flex-col">
         <div className="root-layout">

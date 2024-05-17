@@ -13,10 +13,17 @@ import CustomInput from './customInput';
 import SelectInput from "./customDropdown";
 import { wallets } from "@/constants";
 import { transferToChiMoneyWallets } from "@/lib/actions/chimoney.actions";
+import Modal from './Modal';
 
 const PaymentTransferForm = ({ subAccountId, accounts, type }: PaymentTransferFormProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    console.log('I am clicked')
+    setShowModal(!showModal);
+  };
 
   const formSchema = authFormSchema(type);
 
@@ -28,28 +35,28 @@ const PaymentTransferForm = ({ subAccountId, accounts, type }: PaymentTransferFo
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log(data, ': see form values')
     setIsLoading(true);
 
     try {
 
       // create transfer transaction
       const transactionData = {
-        subAccount: subAccountId!,
+        // subAccount: subAccountId!,
         receiver: data.receiver!,
         wallet: data.wallet!,
         valueInUSD: data.valueInUSD!,
       };
 
-      console.log('see transaction data', transactionData)
+      // console.log(transactionData, ': see transaction values')
+
+      // setShowModal(true)
 
       const payment = await transferToChiMoneyWallets(transactionData)
 
-      form.reset();
-      router.push("/dashboard");
+      // console.log('see payment data', payment)
 
-      if (payment.error) {
-        showToast("error", `Transfer failed: ${payment.error}`);
+      if (payment.data.status === 'error') {
+        showToast("error", `Transfer failed: ${payment.data.error}`);
       } else {
         showToast("success", "Transfer successful");
         form.reset();
@@ -64,29 +71,32 @@ const PaymentTransferForm = ({ subAccountId, accounts, type }: PaymentTransferFo
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-8">
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-8">
 
-        <CustomInput control={form.control} name='receiver' label="ChiMoney User or Organization ID" placeholder='Enter your ChiMoney User or Organization ID' inputType='text' id="receiver" />
+          <CustomInput control={form.control} name='receiver' label="ChiMoney User or Organization ID" placeholder='Enter your ChiMoney User or Organization ID' inputType='text' id="receiver" />
 
-        <SelectInput control={form.control} name="wallet" label="Wallet" placeholder="Select a wallet" data={wallets} id="wallet" />
+          <SelectInput control={form.control} name="wallet" label="Wallet" placeholder="Select a wallet" data={wallets} id="wallet" />
 
-        <CustomInput control={form.control} name='valueInUSD' label="Amount In USD" placeholder='Enter amount in USD' inputType='number' id='valueInUsd' />
+          <CustomInput control={form.control} name='valueInUSD' label="Amount In USD" placeholder='Enter amount in USD' inputType='number' id='valueInUsd' />
 
-        <div className="payment-transfer_btn-box">
-          <Button type="submit" className="payment-transfer_btn" isDisabled={isLoading}>
-            {isLoading ? (
-              <div className='flex items-center space-x-1'>
-                <Loader2 size={20} className="animate-spin" />
-                <p className='text-[14px]'>Sending...</p>
-              </div>
-            ) : (
-              "Transfer Funds"
-            )}
-          </Button>
-        </div>
-      </form>
-    </Form>
+          <div className="payment-transfer_btn-box">
+            <Button type="submit" className="payment-transfer_btn" isDisabled={isLoading}>
+              {isLoading ? (
+                <div className='flex items-center space-x-1'>
+                  <Loader2 size={20} className="animate-spin" />
+                  <p className='text-[14px]'>Sending...</p>
+                </div>
+              ) : (
+                "Transfer Funds"
+              )}
+            </Button>
+          </div>
+        </form>
+      </Form>
+      <Modal modalOpen={showModal} modalClose={toggleModal}/>
+    </>
   );
 };
 
