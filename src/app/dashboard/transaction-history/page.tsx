@@ -26,6 +26,9 @@ const TransactionHistory = async ({ searchParams: { id, page } }: SearchParamPro
   const currentTransactions = transactionsData?.slice(
     indexOfFirstTransaction, indexOfLastTransaction
   )
+
+  let transactionsRecipientIds = currentTransactions.map((transaction: { receiver: any; }) => transaction.receiver);
+
   return (
     <div className="transactions scrollbar-thumb-blue-800 scrollbar-track-gray-100 scrollbar-thin overflow-y-scroll">
       <div className="transactions-header">
@@ -38,7 +41,7 @@ const TransactionHistory = async ({ searchParams: { id, page } }: SearchParamPro
       <div className="space-y-6">
         <section className="flex w-full flex-col gap-6">
           <TransactionsTable
-            transactions={currentTransactions}
+            transactions={currentTransactions} recipientIds={transactionsRecipientIds}
           />
           {totalPages > 1 && (
             <div className="my-4 w-full">

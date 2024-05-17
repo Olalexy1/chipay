@@ -27,9 +27,22 @@ const CategoryBadge = ({ category }: CategoryBadgeProps) => {
   )
 }
 
-const TransactionsTable = async ({ transactions }: TransactionTableProps) => {
+const TransactionsTable = async ({ transactions, recipientIds }: TransactionTableProps) => {
+  let ids = recipientIds!
 
- // const receiverProfile = await getPublicProfile(profileId)
+  const getProfiles = async (ids: string[]) => {
+    let profiles = [];
+    for (let id of ids) {
+      if (id) {
+        let profile = await getPublicProfile(id);
+        profiles.push(profile.data.data);
+      }
+    }
+    return profiles;
+  }
+
+  const profiles = await getProfiles(ids)
+
   return (
     <Table>
       <TableHeader className="bg-[#f9fafb]">
@@ -49,9 +62,10 @@ const TransactionsTable = async ({ transactions }: TransactionTableProps) => {
           const date = new Date(t.paymentDate);
           const dateString = date.toDateString();
 
+          const matchingProfile = profiles.find((profile) => profile.id === t.receiver);
+
           return (
             <TableRow key={t.id}
-            // className={`${isDebit || amount[0] === '-' ? 'bg-[#FFFBFA]' : 'bg-[#F6FEF9]'} !over:bg-none !border-b-DEFAULT`}
             >
               <TableCell className="max-w-[250px] pl-2 pr-10">
                 <div className="flex items-center gap-3">
@@ -60,16 +74,6 @@ const TransactionsTable = async ({ transactions }: TransactionTableProps) => {
                   </h1>
                 </div>
               </TableCell>
-
-              {/* <TableCell className={`pl-2 pr-10 font-semibold 
-              ${
-                isDebit || amount[0] === '-' ?
-                  'text-[#f04438]'
-                  : 'text-[#039855]'
-              }
-              `}>
-                {isDebit ? `-${amount}` : isCredit ? amount : amount}
-              </TableCell> */}
 
               <TableCell className={`pl-2 pr-10 font-semibold `}>
                 {amount}
@@ -88,7 +92,7 @@ const TransactionsTable = async ({ transactions }: TransactionTableProps) => {
               </TableCell>
 
               <TableCell className="pl-2 pr-10 max-md:hidden">
-                {t.receiver || "not available"}
+                {matchingProfile ? matchingProfile.name : "not available"}
               </TableCell>
             </TableRow>
           )

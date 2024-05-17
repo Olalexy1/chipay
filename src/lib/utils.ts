@@ -120,7 +120,7 @@ export const authFormSchema = (type: string) =>
     .object({
       // sign up
       firstName:
-        type === "sign-in" || type === "transfer"
+        type === "sign-in" || type === "transfer" || type === "receive"
           ? z.string().trim().optional()
           : z
               .string({ message: "First name is required." })
@@ -133,7 +133,7 @@ export const authFormSchema = (type: string) =>
                   "First name must be between 3 and 256 characters long.",
               }),
       lastName:
-        type === "sign-in" || type === "transfer"
+        type === "sign-in" || type === "transfer" || type === "receive"
           ? z.string().trim().optional()
           : z
               .string({ message: "Last name is required." })
@@ -145,35 +145,35 @@ export const authFormSchema = (type: string) =>
                 message: "Last name must be between 3 and 256 characters long",
               }),
       address1:
-        type === "sign-in" || type === "transfer"
+        type === "sign-in" || type === "transfer" || type === "receive"
           ? z.string().optional()
           : z.string({ message: "Address is required." }).max(256, {
               message: "Address is cannot be more than 256 characters.",
             }),
       city:
-        type === "sign-in" || type === "transfer"
+        type === "sign-in" || type === "transfer" || type === "receive"
           ? z.string().optional()
           : z
               .string({ message: "City is required." })
               .max(50, { message: "City cannot be more than 256 characters." }),
       state:
-        type === "sign-in" || type === "transfer"
+        type === "sign-in" || type === "transfer" || type === "receive"
           ? z.string().optional()
           : z.string({ message: "State is required." }).max(256, {
               message: "State cannot be more than 256 characters",
             }),
       postalCode:
-        type === "sign-in" || type === "transfer"
+        type === "sign-in" || type === "transfer" || type === "receive"
           ? z.string().optional()
           : z.string({ message: "Postal code is required." }).length(6, {
               message: "Postal code must be 6 characters long.",
             }),
       dateOfBirth:
-        type === "sign-in" || type === "transfer"
+        type === "sign-in" || type === "transfer" || type === "receive"
           ? z.string().optional()
           : z.string({ message: "Date of birth is required." }).date(),
       confirmPassword:
-        type === "sign-in" || type === "transfer"
+        type === "sign-in" || type === "transfer" || type === "receive"
           ? z.string().optional()
           : z.string({ message: "Confirm password is required." }),
       // both
