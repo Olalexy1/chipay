@@ -15,10 +15,6 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
   const userWallets = await getAllUserWallets(subAccountId)
 
-  // console.log('Sub Account data: ', subAccount)
-
-  console.log('see account transaction details: ', subAccountId, userWallets)
-
   if (!userWallets) return;
 
   const userWalletsData = userWallets?.data;

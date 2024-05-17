@@ -16,6 +16,8 @@ const RecentTransactions = ({
     indexOfFirstTransaction, indexOfLastTransaction
   )
 
+  let transactionsRecipientIds = currentTransactions.map(transaction => transaction.receiver);
+
   return (
     <section className="recent-transactions">
       <header className="flex items-center justify-between">
@@ -28,7 +30,7 @@ const RecentTransactions = ({
         </Link>
       </header>
       <div>
-        <TransactionsTable transactions={currentTransactions} />
+        <TransactionsTable transactions={currentTransactions} recipientIds={transactionsRecipientIds}/>
 
         {totalPages > 1 && (
           <div className="my-4 w-full">

@@ -30,7 +30,7 @@ const PaymentTransferForm = ({ subAccountId, type }: PaymentTransferFormProps) =
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      valueInUSD: 0,
+      valueInUSD: 10,
     },
   });
 
@@ -50,8 +50,6 @@ const PaymentTransferForm = ({ subAccountId, type }: PaymentTransferFormProps) =
       // setShowModal(true)
 
       const payment = await transferToChiMoneyWallets(transactionData)
-
-      // console.log('see payment data', payment)
 
       if (payment.data.status === 'error') {
         showToast("error", `Transfer failed: ${payment.data.error}`);

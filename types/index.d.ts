@@ -154,6 +154,7 @@ declare interface CategoryBadgeProps {
 
 declare interface TransactionTableProps {
   transactions: Transaction[];
+  recipientIds: string[];
 }
 
 declare interface CategoryProps {

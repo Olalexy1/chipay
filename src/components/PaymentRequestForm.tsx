@@ -55,8 +55,6 @@ const PaymentRequestForm = ({ subAccountId, type }: PaymentTransferFormProps) =>
 
             const initiatePayment = await paymentRequest(requestData)
 
-            // console.log('see payment data', payment)
-
             if (initiatePayment.data.status === 'error') {
                 showToast("error", `Request failed: ${initiatePayment.data.error}`);
             } else {

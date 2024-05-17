@@ -173,7 +173,7 @@ export const transferToChiMoneyWallets = async (
   }
 };
 
-export const getPublicProfile = async (userId: string) => {
+export const getPublicProfile = async (userID: string) => {
   const options = {
     method: "POST",
     headers: {
@@ -181,7 +181,7 @@ export const getPublicProfile = async (userId: string) => {
       'content-type': 'application/json',
       "X-API-KEY": API_KEY!
     },
-    body: JSON.stringify(userId),
+    body: JSON.stringify({userID}),
   };
 
   let data;
@@ -195,7 +195,6 @@ export const getPublicProfile = async (userId: string) => {
 
     const json = await response.json();
     data = parseStringify(json);
-    console.log(data, "see response");
     return { data, error: null };
   } catch (err) {
     console.log(err);
@@ -224,7 +223,7 @@ export const paymentRequest = async (
     const response = await fetch(`${API_URL}/v0.2/payment/initiate`, options);
     const json = await response.json();
     data = parseStringify(json);
-    console.log(data, "see response");
+    console.log(data, "see initiate response");
     return { data, error: null };
   } catch (err) {
     console.log(err);
