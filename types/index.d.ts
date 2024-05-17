@@ -165,9 +165,8 @@ declare interface DoughnutChartProps {
 }
 
 declare interface PaymentTransferFormProps {
-  accounts?: Account[];
   subAccountId?: string;
-  type: string
+  type: string;
 }
 
 // Actions
@@ -229,7 +228,6 @@ declare interface WalletTransferProps {
   valueInUSD?: number;
 }
 
-
 declare interface Integration {
   reference: string;
   appID: string;
@@ -279,4 +277,13 @@ declare interface Transaction {
   updatedDate: string;
   deliveryStatus: string;
   status: string;
+}
+
+declare interface PaymentRequestProps {
+  valueInUSD?: number;
+  payerEmail: string;
+  currency?: string;
+  amount?: string;
+  redirect_url?: string;
+  subAccount?: string;
 }

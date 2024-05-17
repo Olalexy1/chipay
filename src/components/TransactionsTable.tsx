@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table"
 import { transactionCategoryStyles } from "@/constants"
 import { cn, formatAmount } from "@/lib/utils"
+import { getPublicProfile } from "@/lib/actions/chimoney.actions"
 
 const CategoryBadge = ({ category }: CategoryBadgeProps) => {
   const {
@@ -28,6 +29,7 @@ const CategoryBadge = ({ category }: CategoryBadgeProps) => {
 
 const TransactionsTable = async ({ transactions }: TransactionTableProps) => {
 
+ // const receiverProfile = await getPublicProfile(profileId)
   return (
     <Table>
       <TableHeader className="bg-[#f9fafb]">
@@ -37,7 +39,7 @@ const TransactionsTable = async ({ transactions }: TransactionTableProps) => {
           <TableHead className="px-2">Status</TableHead>
           <TableHead className="px-2">Transaction Type</TableHead>
           <TableHead className="px-2 max-md:hidden">Date</TableHead>
-          <TableHead className="px-2 max-md:hidden">Category</TableHead>
+          <TableHead className="px-2 max-md:hidden">Receiver/Sender</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -46,7 +48,6 @@ const TransactionsTable = async ({ transactions }: TransactionTableProps) => {
           const amount = formatAmount(t.valueInUSD);
           const date = new Date(t.paymentDate);
           const dateString = date.toDateString();
-
 
           return (
             <TableRow key={t.id}

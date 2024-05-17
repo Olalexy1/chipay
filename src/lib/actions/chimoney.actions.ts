@@ -73,6 +73,7 @@ export const verifyBankAccount = async (accounts: AccountDetails[]) => {
     method: "POST",
     headers: {
       accept: "application/json",
+      "content-Type": "application/json",
       "X-API-KEY": API_KEY!,
     },
     body: JSON.stringify({
@@ -126,6 +127,7 @@ export const getAllUserWallets = async (subAccount?: string) => {
     method: "POST",
     headers: {
       accept: "application/json",
+      'content-type': 'application/json',
       "X-API-KEY": API_KEY!,
     },
     body: JSON.stringify(requestBody),
@@ -143,15 +145,14 @@ export const getAllUserWallets = async (subAccount?: string) => {
 };
 
 export const transferToChiMoneyWallets = async (
-  transferInfo?: WalletTransferProps
+  transferInfo: WalletTransferProps
 ) => {
-  console.log(transferInfo, "see transfer info");
   const options = {
     method: "POST",
     headers: {
       accept: "application/json",
-      "X-API-KEY": API_KEY!,
-      "Content-Type": "application/json",
+      'content-type': 'application/json',
+      "X-API-KEY": API_KEY!
     },
     body: JSON.stringify(transferInfo),
   };
@@ -162,6 +163,65 @@ export const transferToChiMoneyWallets = async (
   try {
     const response = await fetch(`${API_URL}/v0.2/wallets/transfer`, options);
 
+    const json = await response.json();
+    data = parseStringify(json);
+    return { data, error: null };
+  } catch (err) {
+    console.log(err);
+    error = parseStringify(err);
+    return { data: null, error: error };
+  }
+};
+
+export const getPublicProfile = async (userId: string) => {
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      'content-type': 'application/json',
+      "X-API-KEY": API_KEY!
+    },
+    body: JSON.stringify(userId),
+  };
+
+  let data;
+  let error: ErrorResponse | Promise<any> | string | null;
+
+  try {
+    const response = await fetch(
+      `${API_URL}/v0.2/accounts/public-profile`,
+      options
+    );
+
+    const json = await response.json();
+    data = parseStringify(json);
+    console.log(data, "see response");
+    return { data, error: null };
+  } catch (err) {
+    console.log(err);
+    error = parseStringify(err);
+    return { data: null, error: error };
+  }
+};
+
+export const paymentRequest = async (
+  paymentRequest: PaymentRequestProps
+) => {
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "X-API-KEY": API_KEY!,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(paymentRequest),
+  };
+
+  let data;
+  let error: ErrorResponse | Promise<any> | string | null;
+
+  try {
+    const response = await fetch(`${API_URL}/v0.2/payment/initiate`, options);
     const json = await response.json();
     data = parseStringify(json);
     console.log(data, "see response");

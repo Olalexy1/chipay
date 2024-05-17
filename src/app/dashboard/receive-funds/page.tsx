@@ -2,6 +2,7 @@ import HeaderBox from '@/components/HeaderBox'
 import PaymentTransferForm from '@/components/PaymentTransferForm'
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import React from 'react'
+import PaymentRequestForm from '@/components/PaymentRequestForm';
 
 export const dynamic = "force-dynamic"
 
@@ -17,7 +18,7 @@ const Receive = async () => {
       />
 
       <section className="size-full pt-5">
-
+        <PaymentRequestForm type='receive' subAccountId={subAccountId}/>
       </section>
     </section>
   )
