@@ -192,6 +192,7 @@ export const authFormSchema = (type: string) =>
                 message:
                   "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
               })
+              .trim()
           : z.string().optional(),
       //transfer  form
       receiver:
@@ -203,11 +204,21 @@ export const authFormSchema = (type: string) =>
           ? z.string({ message: "Wallet ID is required" }).trim()
           : z.string().optional(),
       valueInUSD:
-        type === "transfer"
+        type === "transfer" || type === "receive"
           ? z.coerce
               .number()
               .min(10, { message: "Amount cannot be less than 10 USD" })
           : z.number().optional(),
+      //receive form
+      payerEmail:
+        type === "receive"
+          ? z
+              .string({ message: "Email is required." })
+              .email({ message: "Enter a valid email address." })
+          : z.string().optional(),
+      currency: z.string().trim().optional(),
+      amount: z.string().trim().optional(),
+      redirect_url: z.string().trim().optional(),
     })
     .refine(
       (values) => {

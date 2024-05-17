@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { authFormSchema, decryptId, showToast } from "@/lib/utils";
+import { authFormSchema, showToast } from "@/lib/utils";
 import Button from './Button';
 import { Form } from "./ui/form";
 import CustomInput from './customInput';
@@ -15,7 +15,7 @@ import { wallets } from "@/constants";
 import { transferToChiMoneyWallets } from "@/lib/actions/chimoney.actions";
 import Modal from './Modal';
 
-const PaymentTransferForm = ({ subAccountId, accounts, type }: PaymentTransferFormProps) => {
+const PaymentTransferForm = ({ subAccountId, type }: PaymentTransferFormProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -46,8 +46,6 @@ const PaymentTransferForm = ({ subAccountId, accounts, type }: PaymentTransferFo
         wallet: data.wallet!,
         valueInUSD: data.valueInUSD!,
       };
-
-      // console.log(transactionData, ': see transaction values')
 
       // setShowModal(true)
 

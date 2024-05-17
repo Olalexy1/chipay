@@ -17,7 +17,7 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
   // console.log('Sub Account data: ', subAccount)
 
-  console.log('see account transaction details: ', subAccountId, transactionData)
+  console.log('see account transaction details: ', subAccountId, userWallets)
 
   if (!userWallets) return;
 
