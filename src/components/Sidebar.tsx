@@ -6,7 +6,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Footer from './Footer'
-import PlaidLink from './PlaidLink'
 import {
   HomeIcon,
   TransactionIcon,
@@ -14,35 +13,6 @@ import {
   MoneyIcon
 } from "../../public/icons";
 
-// const SidebarItem = ({ item, isActive }: any) => {
-//   const IconComponent = () => {
-//     switch (item.label) {
-//       case 'Home':
-//         return <HomeIcon className={cn('size-[24px]', { 'text-white': isActive })} />
-//       case 'My Banks':
-//         return <MoneyIcon className={cn('size-[24px]', { 'text-white': isActive })} />
-//       case 'Transaction History':
-//         return <TransactionIcon className={cn('size-[24px]', { 'text-white': isActive })} />
-//       case 'Transfer Funds':
-//         return <TransferIcon className={cn('size-[24px]', { 'text-white': isActive })} />
-//       default:
-//         return null;
-//     }
-//   }
-
-//   return (
-//     <Link href={item.route} key={item.label}
-//       className={cn('sidebar-link group', { 'bg-blue-800': isActive })}
-//     >
-//       <div className="relative size-6">
-//         <IconComponent />
-//       </div>
-//       <p className={cn("sidebar-label text-nowrap group-hover:text-white", { "!text-white": isActive })}>
-//         {item.label}
-//       </p>
-//     </Link>
-//   )
-// }
 
 const Sidebar = ({ user }: SiderbarProps) => {
   const pathname = usePathname();
@@ -73,11 +43,10 @@ const Sidebar = ({ user }: SiderbarProps) => {
                   src={item.imgURL}
                   alt={item.label}
                   fill
-                  className={cn('group-hover:!brightness-[3] group-hover:!invert-0', {
+                  className={cn(`group-hover:!brightness-[3] group-hover:!invert-0 ${item.label === 'Receive Funds' ? 'rotate-180' : ''}`, {
                     'brightness-[3] invert-0': isActive
                   })}
                 />
-
               </div>
               <p className={cn("sidebar-label text-nowrap group-hover:text-white", { "!text-white": isActive })}>
                 {item.label}
@@ -85,8 +54,6 @@ const Sidebar = ({ user }: SiderbarProps) => {
             </Link>
           )
         })}
-
-        {/* <PlaidLink user={user} /> */}
       </nav>
 
       <Footer user={user} />
