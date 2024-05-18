@@ -58,7 +58,7 @@ const SelectInput = ({ control, name, label, placeholder, data, id }: CustomInpu
                         </FormControl>
                         <SelectContent className="w-full bg-white py-3">
                             {
-                                data.map((item) => (
+                                data?.map((item) => (
 
                                     <SelectItem
                                         id={id}

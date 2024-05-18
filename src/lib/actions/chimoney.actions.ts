@@ -151,7 +151,7 @@ export const transferToChiMoneyWallets = async (
 ) => {
   const decryptTransferInfo: WalletTransferProps = {
     subAccount: decryptId(transferInfo.subAccount!),
-    receiver: transferInfo.receiver,
+    receiver: decryptId(transferInfo.receiver!),
     wallet: transferInfo.wallet!,
     valueInUSD: transferInfo.valueInUSD!,
   };
@@ -236,6 +236,65 @@ export const paymentRequest = async (paymentRequest: PaymentRequestProps) => {
 
   try {
     const response = await fetch(`${API_URL}/v0.2/payment/initiate`, options);
+    const json = await response.json();
+    data = parseStringify(json);
+    return { data, error: null };
+  } catch (err) {
+    console.log(err);
+    error = parseStringify(err);
+    return { data: null, error: error };
+  }
+};
+
+export const getAllSubAccountAssociatedWithUser = async () => {
+  let data;
+  let error: Promise<any> | string | null;
+  try {
+    const response = await fetch(
+      `${API_URL}/v0.2/sub-account/list`,
+      getOptions
+    );
+    const json = await response.json();
+    data = parseStringify(json);
+    return { data, error: null };
+  } catch (err) {
+    error = parseStringify(err);
+    return { data: null, error: error };
+  }
+};
+
+export const transferToOtherUsers = async (
+  transferInfo: TransferToOtherUsersProps
+) => {
+  const decryptTransferInfo: TransferToOtherUsersPayload = {
+    chimoneys: [
+      {
+        email: transferInfo.email!,
+        // phone: transferInfo.phone,
+        valueInUSD: transferInfo.valueInUSD,
+        amount: transferInfo.amount,
+        currency: transferInfo.currency,
+      },
+    ],
+    subAccount: decryptId(transferInfo.subAccount!),
+  };
+
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      "X-API-KEY": API_KEY!,
+    },
+    body: JSON.stringify(decryptTransferInfo),
+  };
+
+  let data;
+  let error: Promise<any> | string | null;
+
+  try {
+    const response = await fetch(`${API_URL}/v0.2/payouts/chimoney`, options);
+
     const json = await response.json();
     data = parseStringify(json);
     return { data, error: null };

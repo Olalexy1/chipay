@@ -2,7 +2,14 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import qs from "query-string";
-import { toast, ToastContent, ToastOptions, Slide, Id } from "react-toastify";
+import {
+  toast,
+  ToastContent,
+  ToastOptions,
+  Slide,
+  Id,
+  Bounce,
+} from "react-toastify";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -115,12 +122,15 @@ const passwordValidation = new RegExp(
   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
 );
 
+// Phone number validation regex
+const phoneRegex = new RegExp("^\\+?[1-9]\\d{1,14}$");
+
 export const authFormSchema = (type: string) =>
   z
     .object({
       // sign up
       firstName:
-        type === "sign-in" || type === "transfer" || type === "receive"
+        type === "sign-in" || type === "transfer" || type === "receive" || type === "transferToOtherUsers"
           ? z.string().trim().optional()
           : z
               .string({ message: "First name is required." })
@@ -133,7 +143,7 @@ export const authFormSchema = (type: string) =>
                   "First name must be between 3 and 256 characters long.",
               }),
       lastName:
-        type === "sign-in" || type === "transfer" || type === "receive"
+        type === "sign-in" || type === "transfer" || type === "receive" || type === "transferToOtherUsers"
           ? z.string().trim().optional()
           : z
               .string({ message: "Last name is required." })
@@ -145,35 +155,35 @@ export const authFormSchema = (type: string) =>
                 message: "Last name must be between 3 and 256 characters long",
               }),
       address1:
-        type === "sign-in" || type === "transfer" || type === "receive"
+        type === "sign-in" || type === "transfer" || type === "receive" || type === "transferToOtherUsers"
           ? z.string().optional()
           : z.string({ message: "Address is required." }).max(256, {
               message: "Address is cannot be more than 256 characters.",
             }),
       city:
-        type === "sign-in" || type === "transfer" || type === "receive"
+        type === "sign-in" || type === "transfer" || type === "receive" || type === "transferToOtherUsers"
           ? z.string().optional()
           : z
               .string({ message: "City is required." })
               .max(50, { message: "City cannot be more than 256 characters." }),
       state:
-        type === "sign-in" || type === "transfer" || type === "receive"
+        type === "sign-in" || type === "transfer" || type === "receive" || type === "transferToOtherUsers"
           ? z.string().optional()
           : z.string({ message: "State is required." }).max(256, {
               message: "State cannot be more than 256 characters",
             }),
-      postalCode:
-        type === "sign-in" || type === "transfer" || type === "receive"
+      postalCode: 
+        type === "sign-in" || type === "transfer" || type === "receive" || type === "transferToOtherUsers"
           ? z.string().optional()
           : z.string({ message: "Postal code is required." }).length(6, {
               message: "Postal code must be 6 characters long.",
             }),
       dateOfBirth:
-        type === "sign-in" || type === "transfer" || type === "receive"
+        type === "sign-in" || type === "transfer" || type === "receive" || type === "transferToOtherUsers"
           ? z.string().optional()
           : z.string({ message: "Date of birth is required." }).date(),
       confirmPassword:
-        type === "sign-in" || type === "transfer" || type === "receive"
+        type === "sign-in" || type === "transfer" || type === "receive" || type === "transferToOtherUsers"
           ? z.string().optional()
           : z.string({ message: "Confirm password is required." }),
       // both
@@ -204,7 +214,9 @@ export const authFormSchema = (type: string) =>
           ? z.string({ message: "Wallet ID is required" }).trim()
           : z.string().optional(),
       valueInUSD:
-        type === "transfer" || type === "receive"
+        type === "transfer" ||
+        type === "receive" ||
+        type === "transferToOtherUsers"
           ? z.coerce
               .number()
               .min(10, { message: "Amount cannot be less than 10 USD" })
@@ -216,9 +228,25 @@ export const authFormSchema = (type: string) =>
               .string({ message: "Email is required." })
               .email({ message: "Enter a valid email address." })
           : z.string().optional(),
+      receiverEmail:
+        type === "transferToOtherUsers"
+          ? z
+              .string({ message: "Email is required." })
+              .email({ message: "Enter a valid email address." })
+          : z.string().optional(),
       currency: z.string().trim().optional(),
       amount: z.string().trim().optional(),
       redirect_url: z.string().trim().optional(),
+      //transfer to other users
+      phoneNumber:
+        type === "transferToOtherUsers"
+          ? z
+              .string({ message: "Recipient phone Number is required" })
+              .regex(phoneRegex, {
+                message: "Recipient Phone Number with country code.",
+              })
+              .trim()
+          : z.string().optional(),
     })
     .refine(
       (values) => {
@@ -242,13 +270,13 @@ export const avatarLetters = (inputString: string | undefined) => {
 export const defaultToastOptions: ToastOptions = {
   position: "top-right",
   autoClose: 5000,
-  hideProgressBar: true,
+  hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,
   draggable: true,
   progress: undefined,
-  theme: "colored",
-  transition: Slide,
+  theme: "light",
+  transition: Bounce,
 };
 
 type ToastType = "success" | "error" | "info" | "warning" | "default";

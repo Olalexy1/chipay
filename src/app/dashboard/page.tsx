@@ -3,6 +3,8 @@ import RecentTransactions from '@/components/RecentTransactions';
 import TotalBalanceBox from '@/components/TotalBalanceBox';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { getAllUserTransactions, getAllUserWallets, getSubAccountDetails } from '@/lib/actions/chimoney.actions';
+import Button from '@/components/Button';
+import Link from 'next/link';
 
 export const dynamic = "force-dynamic"
 
@@ -43,6 +45,20 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
                 type={subAccount.type}
               />
             ))}
+          </div>
+
+          <div className='flex flex-row gap-5 w-full lg:hidden'>
+            <Link href={'/dashboard/transfer-funds'} className='flex-1'>
+              <Button fullWidth>
+                <p className='text-16 font-semibold'>Transfer Funds</p>
+              </Button>
+            </Link>
+
+            <Link href={'/dashboard/receive-funds'} className='flex-1'>
+              <Button fullWidth>
+                <p className='text-16 font-semibold'>Receive Funds</p>
+              </Button>
+            </Link>
           </div>
         </header>
 
