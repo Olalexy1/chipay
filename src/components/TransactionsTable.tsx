@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { transactionCategoryStyles } from "@/constants"
-import { cn, formatAmount } from "@/lib/utils"
+import { cn, formatAmount, formatDateTime } from "@/lib/utils"
 import { getPublicProfile } from "@/lib/actions/chimoney.actions"
 
 const CategoryBadge = ({ category }: CategoryBadgeProps) => {
@@ -61,7 +61,7 @@ const TransactionsTable = async ({ transactions, recipientIds }: TransactionTabl
 
           const amount = formatAmount(t.valueInUSD);
           const date = new Date(t.paymentDate);
-          const dateString = date.toDateString();
+          const formattedDate = formatDateTime(date)
 
           const matchingProfile = profiles.find((profile) => profile.id === t.receiver);
 
@@ -89,7 +89,7 @@ const TransactionsTable = async ({ transactions, recipientIds }: TransactionTabl
               </TableCell>
 
               <TableCell className="pl-2 pr-10 capitalize">
-                {dateString}
+                {formattedDate.dateTime}
               </TableCell>
 
               <TableCell className="pl-2 pr-10 max-md:hidden">
