@@ -18,8 +18,8 @@ const MyBanks = async () => {
   const userWalletsData = userWallets?.data;
 
   return (
-    <section className='flex scrollbar-thumb-blue-800 scrollbar-track-gray-100 scrollbar-thin overflow-y-scroll'>
-      <div className="my-banks pb-5">
+    <section className='flex scrollbar-thumb-blue-800 scrollbar-track-gray-100 scrollbar-thin overflow-y-scroll min-h-screen'>
+      <div className="my-wallets pb-5">
         <HeaderBox
           title="My Wallets"
           subtext="Effortlessly manage your transactions."
