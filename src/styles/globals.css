@@ -243,6 +243,10 @@
     @apply flex flex-col justify-between gap-8 px-6 py-8;
   }
 
+  .my-wallets {
+    @apply flex h-screen max-h-screen w-full flex-col gap-8 bg-gray-25 p-8 xl:py-12;
+  }
+
   .transactions {
     @apply flex max-h-screen w-full flex-col gap-8 overflow-y-scroll bg-gray-25 p-8 xl:py-12;
   }
