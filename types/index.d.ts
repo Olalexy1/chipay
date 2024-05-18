@@ -128,12 +128,6 @@ declare interface FooterProps {
   type?: "mobile" | "desktop";
 }
 
-declare interface RightSidebarProps {
-  user: User;
-  transactions: Transaction[];
-  banks: Bank[] & Account[];
-}
-
 declare interface SiderbarProps {
   user: User;
 }
@@ -288,4 +282,25 @@ declare interface PaymentRequestProps {
   amount?: string;
   redirect_url?: string;
   subAccount?: string;
+}
+
+declare type ChimoneyTransferProps = {
+  email: string;
+  phone?: string;
+  valueInUSD: number;
+  amount?: number;
+  currency?: string;
+};
+declare interface TransferToOtherUsersPayload {
+  chimoneys: ChimoneyTransferProps[];
+  subAccount: string;
+}
+
+declare interface TransferToOtherUsersProps {
+  email?: string;
+  phone?: string;
+  valueInUSD: number;
+  amount?: number;
+  currency?: string;
+  subAccount: string;
 }

@@ -192,7 +192,7 @@ export const sidebarLinks = [
   {
     imgURL: "/icons/home.svg",
     route: "/dashboard",
-    label: "Home",
+    label: "Account Overview",
   },
   {
     imgURL: "/icons/dollar-circle.svg",

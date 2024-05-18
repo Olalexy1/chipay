@@ -12,10 +12,9 @@ import { Form } from "./ui/form";
 import CustomInput from './customInput';
 import SelectInput from "./customDropdown";
 import { wallets } from "@/constants";
-import { transferToChiMoneyWallets } from "@/lib/actions/chimoney.actions";
+import { transferToChiMoneyWallets, transferToOtherUsers } from "@/lib/actions/chimoney.actions";
 import Modal from './Modal';
 import SearchableSelect from './searchableDropdown';
-import ComboboxForm from "./TextComboBox";
 
 const PaymentTransferForm = ({ subAccountId, type, allSubAccounts }: PaymentTransferFormProps) => {
   const router = useRouter();
@@ -43,24 +42,52 @@ const PaymentTransferForm = ({ subAccountId, type, allSubAccounts }: PaymentTran
 
     try {
 
-      // create transfer transaction
-      const transactionData = {
-        subAccount: subAccountId!,
-        receiver: data.receiver!,
-        wallet: data.wallet!,
-        valueInUSD: data.valueInUSD!,
-      };
+      if (type === 'transfer') {
+        // create transfer transaction
+        const transactionData = {
+          subAccount: subAccountId!,
+          receiver: data.receiver!,
+          wallet: data.wallet!,
+          valueInUSD: data.valueInUSD!,
+        };
 
-      // setShowModal(true)
+        // setShowModal(true)
 
-      const payment = await transferToChiMoneyWallets(transactionData)
+        const payment = await transferToChiMoneyWallets(transactionData)
 
-      if (payment.data.status === 'error') {
-        showToast("error", `Transfer failed: ${payment.data.error}`);
-      } else {
-        showToast("success", "Transfer successful");
-        form.reset();
-        router.push('/dashboard');
+        if (payment.data.status === 'error') {
+          showToast("error", `Transfer failed: ${payment.data.error}`);
+        } else {
+          showToast("success", "Transfer successful");
+          form.reset();
+          router.push('/dashboard');
+        }
+      }
+
+      if (type === "transferToOtherUsers") {
+        // create transfer transaction
+        const transactionData = {
+          subAccount: subAccountId!,
+          email: data.payerEmail,
+          // phone: data.phoneNumber,
+          valueInUSD: data.valueInUSD!,
+          // amount: data.amount!,
+          currency: data.currency,
+        };
+
+        // setShowModal(true)
+
+        const payment = await transferToOtherUsers(transactionData)
+
+        console.log(payment, 'see payment response from transfer to others')
+
+        if (payment.data.status === 'error') {
+          showToast("error", `Transfer failed: ${payment.data.error}`);
+        } else {
+          showToast("success", "Transfer successful");
+          form.reset();
+          router.push('/dashboard');
+        }
       }
 
     } catch (error) {
@@ -75,15 +102,27 @@ const PaymentTransferForm = ({ subAccountId, type, allSubAccounts }: PaymentTran
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-8">
 
-          {/* <CustomInput control={form.control} name='receiver' label="ChiMoney User or Organization ID" placeholder='Enter your ChiMoney User or Organization ID' inputType='text' id="receiver" /> */}
+          {type === 'transfer' && (
+            <div className="flex gap-4 justify-center">
+              <SearchableSelect control={form.control} name="receiver" label="ChiMoney User or Organization" placeholder="Select a Receiver" id="receiver" emptyState="No Receiver Account found." data={allSubAccountsData} form={form} />
 
-          <div className="flex gap-4 justify-center">
-            <SearchableSelect control={form.control} name="receiver" label="ChiMoney User or Organization" placeholder="Select a Receiver" id="receiver" emptyState="No Receiver Account found." data={allSubAccountsData} form={form}/>
+              <SelectInput control={form.control} name="wallet" label="Wallet" placeholder="Select a wallet" data={wallets} id="wallet" />
+            </div>
+          )}
 
-            <SelectInput control={form.control} name="wallet" label="Wallet" placeholder="Select a wallet" data={wallets} id="wallet" />
-          </div>
+          {type === 'transferToOtherUsers' && (
+            <CustomInput control={form.control} name='receiverEmail' label="Receiver Email" placeholder='Enter receiver email Address' inputType="email" autoComplete='email' id='receiverEmail' />
+          )}
+
+          {type === 'transferToOtherUsers' && (
+            <CustomInput control={form.control} name='phoneNumber' label="Receiver Phone Number" placeholder='Enter receiver phone number' inputType='tel' id='phoneNumber' />
+          )}
 
           <CustomInput control={form.control} name='valueInUSD' label="Amount In USD" placeholder='Enter amount in USD' inputType='number' id='valueInUsd' />
+
+          {type === 'transferToOtherUsers' && (
+            <CustomInput control={form.control} name='currency' label="Currency" placeholder='ISO Currency String like CAD, USD etc.' inputType='text' id='currency' />
+          )}
 
           <div className="payment-transfer_btn-box">
             <Button type="submit" className="payment-transfer_btn" isDisabled={isLoading}>
