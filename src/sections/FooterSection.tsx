@@ -88,12 +88,12 @@ const FooterSection = () => {
         <p className='text-base text-center text-slate-500 font-normal my-3'>ChiPay - Licensed by the central bank of Nigeria.</p>
       </div>
 
-      <div className='flex w-full justify-between border-t-[1px] pt-5 border-[#e4e4e4]'>
-        <Link href="https://storyset.com/people" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 duration-500'>People illustrations by Storyset</Link>
+      <div className='flex w-full justify-between border-t-[1px] pt-5 border-[#e4e4e4] gap-2'>
+        <Link href="https://storyset.com/people" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 text-balance'>People illustrations by Storyset</Link>
 
-        <Link href="https://storyset.com/app" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 duration-500'>App illustrations by Storyset</Link>
+        <Link href="https://storyset.com/app" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 text-balance'>App illustrations by Storyset</Link>
 
-        <Link href="https://storyset.com/online" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 duration-500'>Online illustrations by Storyset</Link>
+        <Link href="https://storyset.com/online" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 text-balance'>Online illustrations by Storyset</Link>
       </div>
 
     </section >

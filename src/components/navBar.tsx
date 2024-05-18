@@ -31,9 +31,9 @@ const NavBar = ({ user }: { user: User | null }) => {
   }
 
   return (
-    <header className='w-full z-50 bg-white sticky top-0 md:relative'>
-      <nav className='max-container flex justify-between z-50 bg-white padding-x py-5'>
-        <a href='/' className="flex items-center">
+    <header className='w-full z-50 bg-white sticky top-0 md:relative padding-x'>
+      <nav className='max-container flex justify-between z-50 bg-white py-5'>
+        <Link href='/' className="flex items-center">
           <Image
             src={Logo}
             alt='logo'
@@ -42,7 +42,7 @@ const NavBar = ({ user }: { user: User | null }) => {
             className='m-0 w-[40px] h-[40px] p-0 mr-3'
           />
           <p className="font-bold text-xl font-montserrat text-blue-800">ChiPay</p>
-        </a>
+        </Link>
         <NavigationMenu className="mx-auto hidden md:flex">
           <NavigationMenuList>
 
@@ -122,11 +122,11 @@ const NavBar = ({ user }: { user: User | null }) => {
               <Link href="sign-in" className="link text-blue-800">Sign In</Link>
             </div>
           </> :
-          <>
+          <div className="hidden lg:flex">
             <Link className='primary-button group w-fit' href="/dashboard">
               <p className='primary-button-text'>Dashboard</p>
             </Link>
-          </>
+          </div>
         }
         <MobileNavBar user={user} />
       </nav>

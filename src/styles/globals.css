@@ -164,7 +164,7 @@
 
   /* Home */
   .home {
-    @apply no-scrollbar flex w-full flex-row max-xl:max-h-screen max-xl:overflow-y-scroll;
+    @apply no-scrollbar flex w-full flex-row max-xl:max-h-screen max-xl:overflow-y-scroll bg-white;
   }
 
   .home-content {
@@ -211,7 +211,6 @@
     @apply custom-scrollbar mb-8 flex w-full flex-nowrap;
   }
 
-  /* Right sidebar */
   .right-sidebar {
     @apply no-scrollbar hidden h-screen max-h-screen flex-col border-l border-gray-200 2xl:flex w-[355px] xl:overflow-y-scroll !important;
   }
@@ -244,12 +243,6 @@
     @apply flex flex-col justify-between gap-8 px-6 py-8;
   }
 
-  /* My Banks */
-  .my-banks {
-    @apply flex h-screen max-h-screen w-full flex-col gap-8 bg-gray-25 p-8 xl:py-12;
-  }
-
-  /* My Banks */
   .transactions {
     @apply flex max-h-screen w-full flex-col gap-8 overflow-y-scroll bg-gray-25 p-8 xl:py-12;
   }
@@ -278,7 +271,6 @@
     @apply text-14 lg:text-16 font-normal text-gray-600;
   }
 
-  /* Bank Card */
   .bank-card {
     @apply relative flex h-[190px] w-full max-w-[320px] justify-between rounded-[20px] border border-white bg-bank-gradient shadow-creditCard backdrop-blur-[6px];
   }
@@ -291,7 +283,6 @@
     @apply flex size-full flex-1 flex-col items-end justify-between rounded-r-[20px] bg-bank-gradient bg-cover bg-center bg-no-repeat py-5 pr-5;
   }
 
-  /* Bank Info */
   .bank-info {
     @apply gap-[18px] flex p-4 transition-all border bg-blue-25 border-transparent;
   }
@@ -312,19 +303,6 @@
 
   .mobilenav-sheet_close {
     @apply flex gap-3 items-center p-4 rounded-lg w-full max-w-60 hover:bg-blue-800;
-  }
-
-  /* PlaidLink */
-  .plaidlink-primary {
-    @apply text-16 rounded-lg border border-bankGradient bg-bank-gradient font-semibold text-white shadow-form;
-  }
-
-  .plaidlink-ghost {
-    @apply flex cursor-pointer items-center justify-center gap-3 rounded-lg px-3 py-7 hover:bg-white lg:justify-start;
-  }
-
-  .plaidlink-default {
-    @apply flex !justify-start cursor-pointer gap-3 rounded-lg !bg-transparent flex-row;
   }
 
   /* Auth */
