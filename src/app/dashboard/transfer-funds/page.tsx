@@ -1,12 +1,14 @@
 import HeaderBox from '@/components/HeaderBox'
 import PaymentTransferForm from '@/components/PaymentTransferForm'
 import { getLoggedInUser } from '@/lib/actions/user.actions';
+import { decryptId } from '@/lib/utils';
 import React from 'react'
 
 export const dynamic = "force-dynamic"
 
 const Transfer = async () => {
   const loggedIn = await getLoggedInUser();
+  if (!loggedIn) return;
   const subAccountId = await loggedIn.chiMoneyUserId;
 
   return (

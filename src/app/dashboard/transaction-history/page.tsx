@@ -10,6 +10,9 @@ export const dynamic = "force-dynamic"
 const TransactionHistory = async ({ searchParams: { id, page } }: SearchParamProps) => {
   const currentPage = Number(page as string) || 1;
   const loggedIn = await getLoggedInUser();
+
+  if (!loggedIn) return;
+  
   const subAccountId = await loggedIn.chiMoneyUserId
   const transactions = await getAllUserTransactions(subAccountId);
 

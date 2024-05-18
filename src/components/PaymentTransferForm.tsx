@@ -41,7 +41,7 @@ const PaymentTransferForm = ({ subAccountId, type }: PaymentTransferFormProps) =
 
       // create transfer transaction
       const transactionData = {
-        // subAccount: subAccountId!,
+        subAccount: subAccountId!,
         receiver: data.receiver!,
         wallet: data.wallet!,
         valueInUSD: data.valueInUSD!,
@@ -91,7 +91,7 @@ const PaymentTransferForm = ({ subAccountId, type }: PaymentTransferFormProps) =
           </div>
         </form>
       </Form>
-      <Modal modalOpen={showModal} modalClose={toggleModal}/>
+      {/* <Modal modalOpen={showModal} modalClose={toggleModal}/> */}
     </>
   );
 };

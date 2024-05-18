@@ -9,8 +9,13 @@ export const dynamic = "force-dynamic"
 const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
   const currentPage = Number(page as string) || 1;
   const loggedIn = await getLoggedInUser();
-  const subAccountId = await loggedIn.chiMoneyUserId
-  const subAccount = await getSubAccountDetails(subAccountId);
+
+  if (!loggedIn) return;
+
+  const subAccountId = await loggedIn?.chiMoneyUserId
+
+  // const subAccount = await getSubAccountDetails(subAccountId);
+
   const transactionData = await getAllUserTransactions(subAccountId);
 
   const userWallets = await getAllUserWallets(subAccountId)
