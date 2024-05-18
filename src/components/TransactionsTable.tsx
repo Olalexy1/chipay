@@ -52,8 +52,8 @@ const TransactionsTable = async ({ transactions, recipientIds }: TransactionTabl
           <TableHead className="px-2">Amount</TableHead>
           <TableHead className="px-2">Status</TableHead>
           <TableHead className="px-2">Transaction Type</TableHead>
-          <TableHead className="px-2 max-md:hidden">Date</TableHead>
-          <TableHead className="px-2 max-md:hidden">Receiver/Sender</TableHead>
+          <TableHead className="px-2">Date</TableHead>
+          <TableHead className="px-2">Receiver/Sender</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -92,7 +92,7 @@ const TransactionsTable = async ({ transactions, recipientIds }: TransactionTabl
                 {formattedDate.dateTime}
               </TableCell>
 
-              <TableCell className="pl-2 pr-10 max-md:hidden">
+              <TableCell className="pl-2 pr-10">
                 {matchingProfile ? matchingProfile.name : "not available"}
               </TableCell>
             </TableRow>

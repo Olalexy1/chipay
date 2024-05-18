@@ -25,7 +25,7 @@ const MyBanks = async () => {
           subtext="Effortlessly manage your transactions."
         />
 
-        <div className="space-y-4">
+        <div className="space-y-4 pb-4">
           <h2 className="header-2">
             Your Wallets
           </h2>
