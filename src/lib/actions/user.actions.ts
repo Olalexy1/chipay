@@ -3,7 +3,7 @@
 import { AppwriteException, ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
-import { parseStringify } from "../utils";
+import { parseStringify, decryptId, encryptId } from "../utils";
 
 const {
   APPWRITE_DATABASE_ID: DATABASE_ID,
@@ -32,9 +32,11 @@ export const signIn = async ({ email, password }: signInProps) => {
   let data;
   let error: ErrorResponse | Promise<any> | string | null;
 
+  const decryptPassword = decryptId(password)
+
   try {
     const { account } = await createAdminClient();
-    const session = await account.createEmailPasswordSession(email, password);
+    const session = await account.createEmailPasswordSession(email, decryptPassword);
 
     cookies().set("chimoney-session", session.secret, {
       path: "/",
@@ -61,6 +63,8 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
   let newUserAccount;
 
+  const decryptPassword = decryptId(password)
+
   let data;
   let error: ErrorResponse | Promise<any> | string | null;
 
@@ -70,7 +74,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     newUserAccount = await account.create(
       ID.unique(),
       email,
-      password,
+      decryptPassword,
       `${firstName} ${lastName}`
     );
 
@@ -103,6 +107,8 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       return { data: null, error: parseStringify(error) };
     }
 
+    const encryptChiMoneyUserId = encryptId(chiMoneyUserID.data.id)
+
     const newUser = await database.createDocument(
       DATABASE_ID!,
       USER_COLLECTION_ID!,
@@ -110,11 +116,11 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       {
         ...userData,
         userId: newUserAccount.$id, //id from auth creation
-        chiMoneyUserId: chiMoneyUserID.data.id, //sub account id
+        chiMoneyUserId: encryptChiMoneyUserId, //sub account id
       }
     );
 
-    const session = await account.createEmailPasswordSession(email, password);
+    const session = await account.createEmailPasswordSession(email, decryptPassword);
 
     cookies().set("chimoney-session", session.secret, {
       path: "/",

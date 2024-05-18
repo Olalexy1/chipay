@@ -35,8 +35,6 @@ const PaymentRequestForm = ({ subAccountId, type }: PaymentTransferFormProps) =>
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setIsLoading(true);
 
-        console.log('submit clicked')
-
         try {
 
             // create request transaction
@@ -48,8 +46,6 @@ const PaymentRequestForm = ({ subAccountId, type }: PaymentTransferFormProps) =>
                 redirect_url: data.redirect_url,
                 subAccount: subAccountId!,
             };
-
-            console.log('see request data', requestData)
 
             // setShowModal(true)
 
@@ -99,7 +95,7 @@ const PaymentRequestForm = ({ subAccountId, type }: PaymentTransferFormProps) =>
                     </div>
                 </form>
             </Form>
-            <Modal modalOpen={showModal} modalClose={toggleModal} />
+            {/* <Modal modalOpen={showModal} modalClose={toggleModal} /> */}
         </>
     );
 };

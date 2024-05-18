@@ -35,7 +35,8 @@ const TransactionsTable = async ({ transactions, recipientIds }: TransactionTabl
     for (let id of ids) {
       if (id) {
         let profile = await getPublicProfile(id);
-        profiles.push(profile.data.data);
+        let eachProfile = await profile.data.data
+        profiles.push(eachProfile);
       }
     }
     return profiles;

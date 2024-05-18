@@ -27,10 +27,8 @@ const NavBar = ({ user }: { user: User | null }) => {
 
   const handleActiveContent = (id: string) => {
     setActiveContent(id)
-    console.log('see logged id: ', id)
+    // console.log('see logged id: ', id)
   }
-
-  console.log(user?.name, 'see name')
 
   return (
     <header className='w-full z-50 bg-white sticky top-0 md:relative'>

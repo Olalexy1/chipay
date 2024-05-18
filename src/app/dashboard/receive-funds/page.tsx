@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic"
 
 const Receive = async () => {
   const loggedIn = await getLoggedInUser();
+  if (!loggedIn) return;
   const subAccountId = await loggedIn.chiMoneyUserId;
 
   return (

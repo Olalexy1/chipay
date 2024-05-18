@@ -1,6 +1,6 @@
 "use server";
 
-import { parseStringify } from "../utils";
+import { decryptId, parseStringify } from "../utils";
 
 const { CHIMONEY_API_KEY: API_KEY, CHIMONEY_API_URL: API_URL } = process.env;
 
@@ -55,9 +55,10 @@ export const getAllBankBranchCodes = async (bankId: string) => {
 };
 
 export const getSubAccountDetails = async (subAccountId: string) => {
+  const decryptSubAccountId = decryptId(subAccountId);
   try {
     const response = await fetch(
-      `${API_URL}/v0.2/sub-account/get?id=${subAccountId}`,
+      `${API_URL}/v0.2/sub-account/get?id=${decryptSubAccountId}`,
       getOptions
     );
     const json = await response.json();
@@ -81,8 +82,6 @@ export const verifyBankAccount = async (accounts: AccountDetails[]) => {
     }),
   };
 
-  //   verifyAccountNumbers: [{countryCode: 'NG', account_bank: '044', account_number: '0690000031'}]
-
   try {
     const response = await fetch(
       `${API_URL}/v0.2/info/verify-bank-account-number`,
@@ -96,15 +95,17 @@ export const verifyBankAccount = async (accounts: AccountDetails[]) => {
   }
 };
 
-export const getAllUserTransactions = async (subAccount: string) => {
+export const getAllUserTransactions = async (subAccountId: string) => {
   // const requestBody = subAccount ? { subAccount } : {};
+  const decryptSubAccountId = decryptId(subAccountId);
   const options = {
     method: "POST",
     headers: {
       accept: "application/json",
+      "content-type": "application/json",
       "X-API-KEY": API_KEY!,
     },
-    body: JSON.stringify(subAccount),
+    body: JSON.stringify({ subAccount: `${decryptSubAccountId}` }),
   };
 
   try {
@@ -121,16 +122,17 @@ export const getAllUserTransactions = async (subAccount: string) => {
   }
 };
 
-export const getAllUserWallets = async (subAccount?: string) => {
-  const requestBody = subAccount ? { subAccount } : {};
+export const getAllUserWallets = async (subAccountId: string) => {
+  const subAccount = decryptId(subAccountId);
+
   const options = {
     method: "POST",
     headers: {
       accept: "application/json",
-      'content-type': 'application/json',
+      "content-type": "application/json",
       "X-API-KEY": API_KEY!,
     },
-    body: JSON.stringify(requestBody),
+    body: JSON.stringify({ subAccount }),
   };
 
   try {
@@ -147,14 +149,21 @@ export const getAllUserWallets = async (subAccount?: string) => {
 export const transferToChiMoneyWallets = async (
   transferInfo: WalletTransferProps
 ) => {
+  const decryptTransferInfo: WalletTransferProps = {
+    subAccount: decryptId(transferInfo.subAccount!),
+    receiver: transferInfo.receiver,
+    wallet: transferInfo.wallet!,
+    valueInUSD: transferInfo.valueInUSD!,
+  };
+
   const options = {
     method: "POST",
     headers: {
       accept: "application/json",
-      'content-type': 'application/json',
-      "X-API-KEY": API_KEY!
+      "content-type": "application/json",
+      "X-API-KEY": API_KEY!,
     },
-    body: JSON.stringify(transferInfo),
+    body: JSON.stringify(decryptTransferInfo),
   };
 
   let data;
@@ -178,10 +187,10 @@ export const getPublicProfile = async (userID: string) => {
     method: "POST",
     headers: {
       accept: "application/json",
-      'content-type': 'application/json',
-      "X-API-KEY": API_KEY!
+      "content-type": "application/json",
+      "X-API-KEY": API_KEY!,
     },
-    body: JSON.stringify({userID}),
+    body: JSON.stringify({ userID }),
   };
 
   let data;
@@ -203,9 +212,15 @@ export const getPublicProfile = async (userID: string) => {
   }
 };
 
-export const paymentRequest = async (
-  paymentRequest: PaymentRequestProps
-) => {
+export const paymentRequest = async (paymentRequest: PaymentRequestProps) => {
+  const decryptPaymentRequest: PaymentRequestProps = {
+    subAccount: decryptId(paymentRequest.subAccount!),
+    valueInUSD: paymentRequest.valueInUSD!,
+    currency: paymentRequest.currency,
+    payerEmail: paymentRequest.payerEmail!,
+    amount: paymentRequest.amount,
+    redirect_url: paymentRequest.redirect_url,
+  };
   const options = {
     method: "POST",
     headers: {
@@ -213,7 +228,7 @@ export const paymentRequest = async (
       "X-API-KEY": API_KEY!,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(paymentRequest),
+    body: JSON.stringify(decryptPaymentRequest),
   };
 
   let data;
@@ -223,7 +238,6 @@ export const paymentRequest = async (
     const response = await fetch(`${API_URL}/v0.2/payment/initiate`, options);
     const json = await response.json();
     data = parseStringify(json);
-    console.log(data, "see initiate response");
     return { data, error: null };
   } catch (err) {
     console.log(err);

@@ -12,7 +12,7 @@ import {
   Form,
 } from "@/components/ui/form"
 import CustomInput from './customInput';
-import { authFormSchema, showToast } from '@/lib/utils';
+import { authFormSchema, showToast, encryptId } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
@@ -56,7 +56,7 @@ const AuthForm = ({ type }: { type: string }) => {
           postalCode: data.postalCode!,
           dateOfBirth: data.dateOfBirth!,
           email: data.email!,
-          password: data.password!
+          password: encryptId(data.password!)
         }
 
         const newUser = await signUp(userData);
@@ -72,10 +72,9 @@ const AuthForm = ({ type }: { type: string }) => {
       }
 
       if (type === 'sign-in') {
-        console.log('sign in button clicked')
         const response = await signIn({
           email: data.email!,
-          password: data.password!,
+          password: encryptId(data.password!),
         })
 
         if (response?.error) {

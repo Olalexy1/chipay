@@ -9,6 +9,9 @@ export const dynamic = "force-dynamic"
 
 const MyBanks = async () => {
   const loggedIn = await getLoggedInUser();
+
+  if (!loggedIn) return;
+  
   const subAccountId = await loggedIn.chiMoneyUserId
   const userWallets = await getAllUserWallets(subAccountId)
 
