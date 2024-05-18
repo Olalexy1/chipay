@@ -33,8 +33,8 @@ const Transfer = async () => {
 
       <Tabs defaultValue="to-chimoney-users" className="w-full mt-2">
         <TabsList className='w-full bg-blue-100 rounded-lg p-2 gap-2'>
-          <TabsTrigger className='w-full data-[state=active]:bg-blue-800' value="to-chimoney-users">To ChiMoney Users</TabsTrigger>
-          <TabsTrigger className='w-full data-[state=active]:bg-blue-800' value="to-other-users">To Other Users</TabsTrigger>
+          <TabsTrigger className='w-full data-[state=active]:bg-blue-800' value="to-chimoney-users">To ChiMoney</TabsTrigger>
+          <TabsTrigger className='w-full data-[state=active]:bg-blue-800' value="to-other-users">To Others</TabsTrigger>
         </TabsList>
         <TabsContent value="to-chimoney-users">
           <section className="size-full pt-5">

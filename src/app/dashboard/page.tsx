@@ -47,7 +47,7 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
             ))}
           </div>
 
-          <div className='flex flex-row gap-5 w-full lg:hidden'>
+          <div className='flex flex-row gap-3 w-full md:hidden'>
             <Link href={'/dashboard/transfer-funds'} className='flex-1'>
               <Button fullWidth>
                 <p className='text-16 font-semibold'>Transfer Funds</p>

@@ -8,7 +8,7 @@ export default async function Home() {
     const loggedIn = await getLoggedInUser();
     
     return (
-        <main className="relative">
+        <main className="relative bg-white">
             <NavBar user={loggedIn} />
 
             <section className='xl:padding-l wide:padding-r padding-b'>

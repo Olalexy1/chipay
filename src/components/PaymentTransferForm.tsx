@@ -100,11 +100,11 @@ const PaymentTransferForm = ({ subAccountId, type, allSubAccounts }: PaymentTran
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-8 pb-5 mb-2">
 
           {type === 'transfer' && (
             <div className="flex gap-4 justify-center">
-              <SearchableSelect control={form.control} name="receiver" label="ChiMoney User or Organization" placeholder="Select a Receiver" id="receiver" emptyState="No Receiver Account found." data={allSubAccountsData} form={form} />
+              <SearchableSelect control={form.control} name="receiver" label="ChiMoney User" placeholder="Select a Receiver" id="receiver" emptyState="No Receiver Account found." data={allSubAccountsData} form={form} />
 
               <SelectInput control={form.control} name="wallet" label="Wallet" placeholder="Select a wallet" data={wallets} id="wallet" />
             </div>

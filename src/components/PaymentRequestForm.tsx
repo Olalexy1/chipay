@@ -69,7 +69,7 @@ const PaymentRequestForm = ({ subAccountId, type }: PaymentTransferFormProps) =>
     return (
         <>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-8">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-8 pb-4">
 
                     <CustomInput control={form.control} name='valueInUSD' label="Amount In USD" placeholder='Enter amount in USD' inputType='number' id='valueInUsd' />
 

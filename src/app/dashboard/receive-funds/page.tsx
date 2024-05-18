@@ -18,7 +18,7 @@ const Receive = async () => {
         subtext="Initiate a payment request to receive funds"
       />
 
-      <section className="size-full py-5">
+      <section className="size-full py-5 mb-3">
         <PaymentRequestForm type='receive' subAccountId={subAccountId}/>
       </section>
     </section>
