@@ -14,8 +14,10 @@ import SelectInput from "./customDropdown";
 import { wallets } from "@/constants";
 import { transferToChiMoneyWallets } from "@/lib/actions/chimoney.actions";
 import Modal from './Modal';
+import SearchableSelect from './searchableDropdown';
+import ComboboxForm from "./TextComboBox";
 
-const PaymentTransferForm = ({ subAccountId, type }: PaymentTransferFormProps) => {
+const PaymentTransferForm = ({ subAccountId, type, allSubAccounts }: PaymentTransferFormProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -24,6 +26,8 @@ const PaymentTransferForm = ({ subAccountId, type }: PaymentTransferFormProps) =
     console.log('I am clicked')
     setShowModal(!showModal);
   };
+
+  const allSubAccountsData = allSubAccounts!
 
   const formSchema = authFormSchema(type);
 
@@ -71,9 +75,13 @@ const PaymentTransferForm = ({ subAccountId, type }: PaymentTransferFormProps) =
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-8">
 
-          <CustomInput control={form.control} name='receiver' label="ChiMoney User or Organization ID" placeholder='Enter your ChiMoney User or Organization ID' inputType='text' id="receiver" />
+          {/* <CustomInput control={form.control} name='receiver' label="ChiMoney User or Organization ID" placeholder='Enter your ChiMoney User or Organization ID' inputType='text' id="receiver" /> */}
 
-          <SelectInput control={form.control} name="wallet" label="Wallet" placeholder="Select a wallet" data={wallets} id="wallet" />
+          <div className="flex gap-4 justify-center">
+            <SearchableSelect control={form.control} name="receiver" label="ChiMoney User or Organization" placeholder="Select a Receiver" id="receiver" emptyState="No Receiver Account found." data={allSubAccountsData} form={form}/>
+
+            <SelectInput control={form.control} name="wallet" label="Wallet" placeholder="Select a wallet" data={wallets} id="wallet" />
+          </div>
 
           <CustomInput control={form.control} name='valueInUSD' label="Amount In USD" placeholder='Enter amount in USD' inputType='number' id='valueInUsd' />
 

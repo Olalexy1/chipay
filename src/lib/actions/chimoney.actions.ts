@@ -151,7 +151,7 @@ export const transferToChiMoneyWallets = async (
 ) => {
   const decryptTransferInfo: WalletTransferProps = {
     subAccount: decryptId(transferInfo.subAccount!),
-    receiver: transferInfo.receiver,
+    receiver: decryptId(transferInfo.receiver!),
     wallet: transferInfo.wallet!,
     valueInUSD: transferInfo.valueInUSD!,
   };
@@ -241,6 +241,23 @@ export const paymentRequest = async (paymentRequest: PaymentRequestProps) => {
     return { data, error: null };
   } catch (err) {
     console.log(err);
+    error = parseStringify(err);
+    return { data: null, error: error };
+  }
+};
+
+export const getAllSubAccountAssociatedWithUser = async () => {
+  let data;
+  let error: Promise<any> | string | null;
+  try {
+    const response = await fetch(
+      `${API_URL}/v0.2/sub-account/list`,
+      getOptions
+    );
+    const json = await response.json();
+    data = parseStringify(json);
+    return { data, error: null };
+  } catch (err) {
     error = parseStringify(err);
     return { data: null, error: error };
   }

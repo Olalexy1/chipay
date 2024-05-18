@@ -2,7 +2,14 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import qs from "query-string";
-import { toast, ToastContent, ToastOptions, Slide, Id } from "react-toastify";
+import {
+  toast,
+  ToastContent,
+  ToastOptions,
+  Slide,
+  Id,
+  Bounce,
+} from "react-toastify";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -242,13 +249,13 @@ export const avatarLetters = (inputString: string | undefined) => {
 export const defaultToastOptions: ToastOptions = {
   position: "top-right",
   autoClose: 5000,
-  hideProgressBar: true,
+  hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,
   draggable: true,
   progress: undefined,
-  theme: "colored",
-  transition: Slide,
+  theme: "light",
+  transition: Bounce,
 };
 
 type ToastType = "success" | "error" | "info" | "warning" | "default";
