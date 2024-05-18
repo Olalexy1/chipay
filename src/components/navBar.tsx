@@ -32,7 +32,7 @@ const NavBar = ({ user }: { user: User | null }) => {
 
   return (
     <header className='w-full z-50 bg-white sticky top-0 md:relative padding-x'>
-      <nav className='max-container flex justify-between z-50 bg-white py-5'>
+      <nav className='max-container flex justify-between z-50 py-5'>
         <Link href='/' className="flex items-center">
           <Image
             src={Logo}
