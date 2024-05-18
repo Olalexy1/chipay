@@ -3,7 +3,7 @@ import { Inter as FontSans } from "next/font/google"
 
 import { cn } from "@/lib/utils"
 import '@/styles/globals.css'
-import { ThemeProvider } from "@/components/theme-provider"
+// import { ThemeProvider } from "@/components/theme-provider"
 import ToastProvider from "@/lib/react-toastify/ToastProvider"
 
 const fontSans = FontSans({
@@ -33,16 +33,9 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        {/* <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        > */}
         <ToastProvider>
           {children}
         </ToastProvider>
-        {/* </ThemeProvider> */}
       </body>
     </html>
   );
