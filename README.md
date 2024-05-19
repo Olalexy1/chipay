@@ -1,7 +1,7 @@
 
 # **ChiPay Application Overview**
 
-This application is a web-based platform that allows users to create and manage their accounts, send and receive payments, and view transaction history. Built with Next.js, TypeScript, Tailwind, and Shadcn UI, the app utilizes Appwrite for backend services and authentication. It integrates Chimoney's API for seamless payment functionalities. Key features include:
+This application is a web-application that allows users to create and manage their accounts, send and receive payments, and view transaction history. Built with Next.js, TypeScript, Zod for form validation, Tailwind, and Shadcn UI, the app utilizes AppWrite for backend services and authentication. It integrates Chimoney's API for seamless payment functionalities. Key features include:
 
 - **User Authentication**: Secure sign up, login, and logout functionality.
 
@@ -9,11 +9,11 @@ This application is a web-based platform that allows users to create and manage 
 
 - **Send Payment**: Users can send payments using recipient's account ID, email, or phone number.
 
-- **Receive Payment**: Users can intiate a payment request, which is reflected in their account balance and transaction history.
+- **Receive Payment**: Users can initiate a payment request, which is reflected in their account balance and transaction history.
 
 - **Transaction History**: A detailed view of transaction history with dates, types, amounts, and recipient/sender information.
 
-- **Security Measures**: Client-side encryption of sensitive data and protection against common vulnerabilities.
+- **Security Measures**: Client-side encryption of sensitive data.
 
 # Live Application
 
@@ -25,11 +25,12 @@ My approach to building this application involved the following steps:
 
 - **Understanding the Flow**: I started by thoroughly understanding the requirements and planning the overall architecture of the application.
 - **Piece-by-Piece Development**: I broke down the development process into manageable pieces:
-	- Set up the frontend with Next.js, TypeScript, Tailwind, and Shadcn UI.
-	- Implemented user authentication using Appwrite.
+	- Set up the frontend with Next.js, TypeScript, Tailwind, and ShadCN UI.
+	- Implemented user authentication using AppWrite.
+	- Created necessary user documents and attributes on AppWrite.
 	- Integrated Chimoney's API for payment functionalities.
 	- Developed the dashboard and transaction history components.
-	- Ensured security measures were in place.
+	- Secured private routes and encrypted sensitive data on the client side.
 
 - **Integration**: After developing individual components, I integrated them to ensure seamless functionality across the application.
 
@@ -107,5 +108,3 @@ To run this project locally, you will need to add the following environment vari
 ![ScreenShot](/public/images/chipayImg3.png)
 
 ![ScreenShot](/public/images/chipayImg4.png)
-
-
