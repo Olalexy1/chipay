@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# **ChiPay Application Overview**
 
-First, run the development server:
+This application is a web-based platform that allows users to create and manage their accounts, send and receive payments, and view transaction history. Built with Next.js, TypeScript, Tailwind, and Shadcn UI, the app utilizes Appwrite for backend services and authentication. It integrates Chimoney's API for seamless payment functionalities. Key features include:
+
+- **User Authentication**: Secure sign up, login, and logout functionality.
+
+- **Dashboard**: User dashboard displaying wallet balances, recent transactions, and payment actions.
+
+- **Send Payment**: Users can send payments using recipient's account ID, email, or phone number.
+
+- **Receive Payment**: Users can intiate a payment request, which is reflected in their account balance and transaction history.
+
+- **Transaction History**: A detailed view of transaction history with dates, types, amounts, and recipient/sender information.
+
+- **Security Measures**: Client-side encryption of sensitive data and protection against common vulnerabilities.
+
+# Live Application
+
+The application is live and can be accessed at: [https://chipay-three.vercel.app/](https://chipay-three.vercel.app/)
+
+# Approach
+
+My approach to building this application involved the following steps:
+
+- **Understanding the Flow**: I started by thoroughly understanding the requirements and planning the overall architecture of the application.
+- **Piece-by-Piece Development**: I broke down the development process into manageable pieces:
+	- Set up the frontend with Next.js, TypeScript, Tailwind, and Shadcn UI.
+	- Implemented user authentication using Appwrite.
+	- Integrated Chimoney's API for payment functionalities.
+	- Developed the dashboard and transaction history components.
+	- Ensured security measures were in place.
+
+- **Integration**: After developing individual components, I integrated them to ensure seamless functionality across the application.
+
+This structured approach allowed me to build a robust and well-functioning application.
+
+# Challenges
+
+The primary challenge I encountered during the development process was my tendency towards perfectionism. Striving for perfect implementation and design sometimes slowed down the progress. However, I managed to overcome this by focusing on delivering a functional and secure application.
+
+# CI/CD with Vercel
+
+The application is hosted on Vercel, which provides a seamless CI/CD process. Once the code is pushed to the repository, Vercel automatically triggers a build and deployment process, ensuring smooth and efficient updates.
+
+# CI/CD Setup
+
+- **Connect Repository**: The GitHub repository is connected to Vercel.
+- **Automatic Deployments**: Every push to the main branch triggers an automatic deployment.
+- **Preview Deployments**: For every pull request, Vercel creates a unique preview URL for testing and validation.
+
+# Deployment Steps
+
+- **Push Code**: Push changes to the GitHub repository.
+- **Automatic Build**: Vercel detects the changes and starts the build process.
+- **Deployment**: After a successful build, the application is deployed, and a deployment link is generated automatically.
+
+# Local Installation
+
+First clone the repository, install the dependencies then run the development server:
+
+```bash
+git clone https://github.com/Olalexy1/chipay.git
+cd chipay
+```
+
+```bash
+npm install
+# or
+yarn dev
+```
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To run this project locally, you will need to add the following environment variables to your .env file
 
-## Learn More
+`NEXT_PUBLIC_SITE_URL`
 
-To learn more about Next.js, take a look at the following resources:
+`NEXT_PUBLIC_APPWRITE_ENDPOINT`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`NEXT_PUBLIC_APPWRITE_PROJECT`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+`APPWRITE_DATABASE_ID`
 
-## Deploy on Vercel
+`APPWRITE_USER_COLLECTION_ID`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`NEXT_APPWRITE_KEY`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+`CHIMONEY_API_KEY`
+
+`CHIMONEY_API_URL`
+
+## Screenshots
+
+![ScreenShot](/public/images/chipayImg1.png)
+
+![ScreenShot](/public/images/chipayImg2.png)
+
+![ScreenShot](/public/images/chipayImg3.png)
+
+![ScreenShot](/public/images/chipayImg4.png)
+
+
