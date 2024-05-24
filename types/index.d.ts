@@ -304,3 +304,15 @@ declare interface TransferToOtherUsersProps {
   currency?: string;
   subAccount: string;
 }
+
+declare type AnimatedTextProps = {
+  text: string | string[];
+  element?: keyof JSX.IntrinsicElements;
+  className?: string;
+  once?: boolean;
+  repeatDelay?: number;
+  animation?: {
+    hidden: Variant;
+    visible: Variant;
+  };
+};
