@@ -116,14 +116,30 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        'text-slide': {
+          '0%, 40%': {
+              transform: 'translateY(0%)',
+          },
+          '50%, 90%': {
+              transform: 'translateY(-33.33%)',
+          },
+          '100%': {
+              transform: 'translateY(-66.66%)',
+          },
+      },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "text-slide":
+          "text-slide 8s cubic-bezier(0.83, 0, 0.17, 1) infinite",
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar")({ nocompatible: true })],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwind-scrollbar")({ nocompatible: true }),
+  ],
 } satisfies Config;
 
 export default config;

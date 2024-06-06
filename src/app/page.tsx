@@ -11,7 +11,7 @@ export default async function Home() {
         <main className="relative bg-white">
             <NavBar user={loggedIn} />
 
-            <section className='xl:padding-l wide:padding-r padding-b'>
+            <section className='padding-x padding-b'>
                <Hero />
             </section>
 
