@@ -42,7 +42,7 @@ const SelectInput = ({ control, name, label, placeholder, data, id }: CustomInpu
             name={name}
             render={({ field }) => (
                 <div className="form-item w-full">
-                    <FormLabel className="form-label">
+                    <FormLabel className="form-label mb-[2px]">
                         {label}
                     </FormLabel>
                     <Select onValueChange={value => field.onChange({
@@ -52,8 +52,8 @@ const SelectInput = ({ control, name, label, placeholder, data, id }: CustomInpu
                         },
                     })}>
                         <FormControl>
-                            <SelectTrigger className="flex border-[1px] border-gray-300 rounded-2xl placeholder:text-gray-500">
-                                <SelectValue placeholder={placeholder} className="placeholder:text-gray-500 text-16 outline-none" />
+                            <SelectTrigger className="flex !border-[1px] !border-gray-300 rounded-2xl font-medium text-14">
+                                <SelectValue placeholder={placeholder}/>
                             </SelectTrigger>
                         </FormControl>
                         <SelectContent className="w-full bg-white py-3">

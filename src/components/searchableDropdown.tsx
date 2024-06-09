@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/popover"
 import { Control, FieldPath } from 'react-hook-form'
 import { authFormSchema } from '@/lib/utils'
+import React from "react"
 
 
 const formSchema = authFormSchema('transfer')
@@ -52,6 +53,8 @@ const SearchableSelect = ({ control, name, label, placeholder, id, data, onSelec
   //   resolver: zodResolver(formSchema),
   // })
 
+  const [open, setOpen] = React.useState(false)
+
   return (
     <FormField
       control={control}
@@ -59,7 +62,7 @@ const SearchableSelect = ({ control, name, label, placeholder, id, data, onSelec
       render={({ field }) => (
         <FormItem className="flex flex-col w-full">
           <FormLabel className="form-label">{label}</FormLabel>
-          <Popover>
+          <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
@@ -79,33 +82,34 @@ const SearchableSelect = ({ control, name, label, placeholder, id, data, onSelec
                 </Button>
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0 bg-white">
-              <Command>
-                <CommandInput placeholder={placeholder} />
+            <PopoverContent className="border-[1px] p-0 bg-white rounded-2xl">
+              <Command className="">
+                <CommandInput placeholder={placeholder} className="!opacity-50" />
                 <CommandList>
-                <CommandEmpty>{emptyState}</CommandEmpty>
-                <CommandGroup>
-                  {data.map((item) => (
-                    <CommandItem
-                      value={item.value}
-                      key={item.id}
-                      onSelect={() => {
-                        form.setValue("receiver", item.value)
-                      }}
-                      className=""
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          item.value === field.value
-                            ? "opacity-100"
-                            : "opacity-0"
-                        )}
-                      />
-                      {item.name}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
+                  <CommandEmpty>{emptyState}</CommandEmpty>
+                  <CommandGroup>
+                    {data.map((item) => (
+                      <CommandItem
+                        value={item.value}
+                        key={item.id}
+                        onSelect={() => {
+                          form.setValue("receiver", item.value)
+                          setOpen(false)
+                        }}
+                        className="!cursor-pointer font-semibold"
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            item.value === field.value
+                              ? "opacity-100"
+                              : "opacity-0"
+                          )}
+                        />
+                        {item.name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
                 </CommandList>
               </Command>
             </PopoverContent>

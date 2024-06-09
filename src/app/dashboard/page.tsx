@@ -5,6 +5,8 @@ import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { getAllUserTransactions, getAllUserWallets, getSubAccountDetails } from '@/lib/actions/chimoney.actions';
 import Button from '@/components/Button';
 import Link from 'next/link';
+import Image from 'next/image';
+import EmptyData from '../../../public/icons/no-data-animate-min.svg';
 
 export const dynamic = "force-dynamic"
 
@@ -18,13 +20,15 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
   // const subAccount = await getSubAccountDetails(subAccountId);
 
-  const transactionData = await getAllUserTransactions(subAccountId);
+  const transactions = await getAllUserTransactions(subAccountId);
 
   const userWallets = await getAllUserWallets(subAccountId)
 
   if (!userWallets) return;
 
   const userWalletsData = userWallets?.data;
+
+  const transactionData = transactions?.data;
 
   return (
     <section className="home">
@@ -62,10 +66,35 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
           </div>
         </header>
 
-        <RecentTransactions
-          transactions={transactionData?.data}
-          page={currentPage}
-        />
+        {transactionData && transactionData.length > 0
+
+          ?
+          <>
+            <RecentTransactions
+              transactions={transactionData}
+              page={currentPage}
+            />
+          </>
+
+          :
+
+          <div className='relative flex-1 flex-col justify-center items-center'>
+            <header className="flex items-center justify-between">
+              <h2 className="recent-transactions-label">No Recent Transactions to Display</h2>
+            </header>
+            <div className='flex justify-center items-center border-[1px] border-gray-200 mt-3 rounded-lg'>
+              <Image
+              src={EmptyData}
+              alt='Empty Table State'
+              width={500}
+              height={500}
+              className='object-contain relative'
+            />
+            </div>
+          </div>
+        }
+
+
 
       </div>
     </section>

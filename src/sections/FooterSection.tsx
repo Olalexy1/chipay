@@ -31,7 +31,7 @@ const FooterSection = () => {
 
           <div className='w-full flex my-5 flex-col md:flex-row space-y-3 md:space-y-0'>
             <input type='email' maxLength={256} placeholder='Enter email address' className='input py-5 -mr-5' />
-            <Button label='Subscribe' className='w-full md:w-5/12 z-10 py-5' />
+            <Button label='Subscribe' className='w-full md:w-5/12 z-10 py-5 font-semibold' />
           </div>
 
           <p className='text-base text-slate-700 font-semibold my-3'>Nigeria Address</p>
@@ -94,6 +94,8 @@ const FooterSection = () => {
         <Link href="https://storyset.com/app" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 text-balance'>App illustrations by Storyset</Link>
 
         <Link href="https://storyset.com/online" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 text-balance'>Online illustrations by Storyset</Link>
+
+        {/* <Link href="https://storyset.com/data" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 text-balance'>Data illustrations by Storyset</Link> */}
       </div>
 
     </section >
