@@ -79,8 +79,6 @@ const PaymentTransferForm = ({ subAccountId, type, allSubAccounts }: PaymentTran
 
         const payment = await transferToOtherUsers(transactionData)
 
-        console.log(payment, 'see payment response from transfer to others')
-
         if (payment.data.status === 'error') {
           showToast("error", `Transfer failed: ${payment.data.error}`);
         } else {
@@ -104,7 +102,7 @@ const PaymentTransferForm = ({ subAccountId, type, allSubAccounts }: PaymentTran
 
           {type === 'transfer' && (
             <div className="flex gap-4 justify-center">
-              <SearchableSelect control={form.control} name="receiver" label="ChiMoney User" placeholder="Select a Receiver" id="receiver" emptyState="No Receiver Account found." data={allSubAccountsData} form={form} />
+              <SearchableSelect control={form.control} name="receiver" label="ChiMoney User" placeholder="Select a receiver" id="receiver" emptyState="No Receiver Account found." data={allSubAccountsData} form={form} />
 
               <SelectInput control={form.control} name="wallet" label="Wallet" placeholder="Select a wallet" data={wallets} id="wallet" />
             </div>

@@ -103,7 +103,7 @@
 
   /* new utilities */
   .input-class {
-    @apply text-16 flex w-full placeholder:text-16 rounded-2xl border-none text-gray-900 placeholder:text-gray-500 outline-none bg-transparent;
+    @apply text-14 flex w-full placeholder:text-16 rounded-2xl border-none text-gray-900 placeholder:text-gray-500 outline-none bg-transparent;
   }
 
   .sheet-content button {
@@ -361,7 +361,7 @@
   }
 
   .payment-transfer_btn {
-    @apply text-14 w-full bg-blue-800 font-semibold text-white shadow-form !important;
+    @apply text-14 bg-blue-800 font-semibold text-white shadow-form !important;
   }
 
   /* Root Layout */

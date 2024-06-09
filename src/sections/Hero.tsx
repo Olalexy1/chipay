@@ -29,7 +29,7 @@ const Hero = () => {
                 </h1>
 
                 <p className='font-montserrat font-medium text-slate-gray text-lg leading-6 mt-2 mb-5 sm:max-w-md'>
-                    Welcome to ChiPay, where simplicity meets security. Say goodbye to complex transactions and hello to seamless payments.
+                    Welcome to ChiPay, where simplicity meets security. Say goodbye to complex transactions and hello to seamless payments and payouts.
                 </p>
 
                 <div className="flex flex-col space-y-5 sm:flex-row justify-start items-center sm:space-x-3 sm:space-y-0 mt-3">

@@ -132,7 +132,7 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "text-slide":
-          "text-slide 8s cubic-bezier(0.83, 0, 0.17, 1) infinite",
+          "text-slide 10s cubic-bezier(0.83, 0, 0.17, 1) infinite",
       },
     },
   },
