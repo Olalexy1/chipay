@@ -90,13 +90,13 @@ const SearchableSelect = ({ control, name, label, placeholder, id, data, onSelec
                   <CommandGroup>
                     {data.map((item) => (
                       <CommandItem
-                        value={item.value}
+                        value={item.name}
                         key={item.id}
                         onSelect={() => {
                           form.setValue("receiver", item.value)
                           setOpen(false)
                         }}
-                        className="!cursor-pointer font-semibold"
+                        className="!cursor-pointer font-semibold capitalize"
                       >
                         <Check
                           className={cn(

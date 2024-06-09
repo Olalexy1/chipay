@@ -51,8 +51,6 @@ const PaymentTransferForm = ({ subAccountId, type, allSubAccounts }: PaymentTran
           valueInUSD: data.valueInUSD!,
         };
 
-        // console.log(transactionData, 'see transactionData')
-
         // setShowModal(true)
 
         const payment = await transferToChiMoneyWallets(transactionData)
