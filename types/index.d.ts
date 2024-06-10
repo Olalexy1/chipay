@@ -98,6 +98,7 @@ declare interface WalletTransactions {
   amount?: number;
   balanceBefore?: number;
   meta?: {
+    issueID?: string;
     date: {
       _seconds: number;
       _nanoseconds: number;
@@ -316,3 +317,8 @@ declare type AnimatedTextProps = {
     visible: Variant;
   };
 };
+
+declare interface verificationConfirmationProps {
+  userId: string;
+  secret: string;
+}

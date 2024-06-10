@@ -146,6 +146,30 @@ export const getAllUserWallets = async (subAccountId: string) => {
   }
 };
 
+export const getSingleUserWallet = async (subAccountId: string, walletId: string) => {
+  const subAccount = decryptId(subAccountId);
+
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      "X-API-KEY": API_KEY!,
+    },
+    body: JSON.stringify({ subAccount, walletID: walletId }),
+  };
+
+  try {
+    const response = await fetch(`${API_URL}/v0.2/wallets/lookup`, options);
+
+    const json = await response.json();
+    return parseStringify(json);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 export const transferToChiMoneyWallets = async (
   transferInfo: WalletTransferProps
 ) => {

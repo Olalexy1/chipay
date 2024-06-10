@@ -26,7 +26,10 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
   if (!userWallets) return;
 
-  const userWalletsData = userWallets?.data;
+  const userWalletsData: Wallets[] = userWallets?.data;
+
+  const filteredUserWalletsData = userWalletsData.filter((wallet: Wallets) =>
+    wallet.transactions && wallet.transactions[0] && wallet.transactions[0].balanceBefore != 0 && wallet.balance != 0)
 
   const transactionData = transactions?.data;
 
@@ -42,7 +45,7 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
           />
 
           <div className="flex flex-row flex-wrap gap-2">
-            {userWalletsData.map((subAccount: Wallets) => (
+            {filteredUserWalletsData.map((subAccount: Wallets) => (
               <TotalBalanceBox
                 key={subAccount.id}
                 balance={subAccount.balance}
@@ -84,12 +87,12 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
             </header>
             <div className='flex justify-center items-center border-[1px] border-gray-200 mt-3 rounded-lg'>
               <Image
-              src={EmptyData}
-              alt='Empty Table State'
-              width={500}
-              height={500}
-              className='object-contain relative'
-            />
+                src={EmptyData}
+                alt='Empty Table State'
+                width={500}
+                height={500}
+                className='object-contain relative'
+              />
             </div>
           </div>
         }
