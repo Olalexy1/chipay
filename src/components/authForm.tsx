@@ -59,7 +59,11 @@ const AuthForm = ({ type }: { type: string }) => {
           password: encryptId(data.password!)
         }
 
+        // console.log(userData, 'see user data')
+
         const newUser = await signUp(userData);
+
+        // console.log(newUser, 'See New Data')
 
         setUser(newUser?.data);
 

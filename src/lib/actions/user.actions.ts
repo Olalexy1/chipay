@@ -10,6 +10,7 @@ const {
   APPWRITE_USER_COLLECTION_ID: USER_COLLECTION_ID,
   CHIMONEY_API_KEY: API_KEY,
   CHIMONEY_API_URL: API_URL,
+  NEXT_PUBLIC_SITE_URL: WEB_APP_URL,
 } = process.env;
 
 export const getUserInfo = async ({ userId }: getUserInfoProps) => {
@@ -32,11 +33,14 @@ export const signIn = async ({ email, password }: signInProps) => {
   let data;
   let error: ErrorResponse | Promise<any> | string | null;
 
-  const decryptPassword = decryptId(password)
+  const decryptPassword = decryptId(password);
 
   try {
     const { account } = await createAdminClient();
-    const session = await account.createEmailPasswordSession(email, decryptPassword);
+    const session = await account.createEmailPasswordSession(
+      email,
+      decryptPassword
+    );
 
     cookies().set("chimoney-session", session.secret, {
       path: "/",
@@ -63,7 +67,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
   let newUserAccount;
 
-  const decryptPassword = decryptId(password)
+  const decryptPassword = decryptId(password);
 
   let data;
   let error: ErrorResponse | Promise<any> | string | null;
@@ -107,7 +111,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       return { data: null, error: parseStringify(error) };
     }
 
-    const encryptChiMoneyUserId = encryptId(chiMoneyUserID.data.id)
+    const encryptChiMoneyUserId = encryptId(chiMoneyUserID.data.id);
 
     const newUser = await database.createDocument(
       DATABASE_ID!,
@@ -120,7 +124,10 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       }
     );
 
-    const session = await account.createEmailPasswordSession(email, decryptPassword);
+    const session = await account.createEmailPasswordSession(
+      email,
+      decryptPassword
+    );
 
     cookies().set("chimoney-session", session.secret, {
       path: "/",
@@ -167,3 +174,37 @@ export const logoutAccount = async () => {
     return null;
   }
 };
+
+export async function createUserEmailVerification() {
+  try {
+    const { account } = await createSessionClient();
+
+    const result = await account.createVerification(
+      WEB_APP_URL! // url
+    );
+
+    return parseStringify(result);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export async function createUserEmailVerificationConfirmation({
+  userId,
+  secret,
+}: verificationConfirmationProps) {
+  try {
+    const { account } = await createSessionClient();
+
+    const result = await account.updateVerification(
+      userId, // userId
+      secret // secret
+    );
+
+    return parseStringify(result);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

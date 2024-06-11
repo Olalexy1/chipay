@@ -214,6 +214,11 @@ export const sidebarLinks = [
     route: "/dashboard/receive-funds",
     label: "Receive Funds",
   },
+  {
+    imgURL: "/icons/user-settings1.svg",
+    route: "/dashboard/account-settings",
+    label: "Account Settings",
+  },
 ];
 
 
