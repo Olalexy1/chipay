@@ -97,8 +97,6 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
           </div>
         }
 
-
-
       </div>
     </section>
   )

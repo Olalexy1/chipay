@@ -1,7 +1,7 @@
 "use server";
 
-import { AppwriteException, ID, Query } from "node-appwrite";
-import { createAdminClient, createSessionClient } from "../appwrite";
+import { Account, AppwriteException, Client, ID, Query } from "node-appwrite";
+import { createAdminClient, createClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
 import { parseStringify, decryptId, encryptId } from "../utils";
 
@@ -124,6 +124,11 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       }
     );
 
+    const user = {
+      ...newUser,
+      ...newUserAccount,
+    };
+
     const session = await account.createEmailPasswordSession(
       email,
       decryptPassword
@@ -136,7 +141,9 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       secure: true,
     });
 
-    data = parseStringify(newUser);
+    const response = await createUserEmailVerification();
+
+    data = parseStringify(user);
     return { data, error: null };
   } catch (err) {
     console.error("Error from signup:", err);
@@ -154,7 +161,12 @@ export async function getLoggedInUser() {
     const { account } = await createSessionClient();
     const result = await account.get();
 
-    const user = await getUserInfo({ userId: result.$id });
+    const userData = await getUserInfo({ userId: result.$id });
+
+    const user = {
+      ...userData,
+      ...result,
+    };
 
     return parseStringify(user);
   } catch (error) {
@@ -180,7 +192,7 @@ export async function createUserEmailVerification() {
     const { account } = await createSessionClient();
 
     const result = await account.createVerification(
-      WEB_APP_URL! // url
+      "http://localhost:3000/verify-email" // url
     );
 
     return parseStringify(result);
@@ -195,6 +207,8 @@ export async function createUserEmailVerificationConfirmation({
   secret,
 }: verificationConfirmationProps) {
   try {
+
+    // const { account } = await createClient();
     const { account } = await createSessionClient();
 
     const result = await account.updateVerification(

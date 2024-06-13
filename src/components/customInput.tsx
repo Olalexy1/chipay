@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { FocusEventHandler, forwardRef } from 'react'
 import { FormControl, FormField, FormLabel, FormMessage } from './ui/form'
 import { Input } from './ui/input'
 
 import { Control, FieldPath } from 'react-hook-form'
 import { z } from 'zod'
-import { authFormSchema } from '@/lib/utils'
+import { authFormSchema, cn } from '@/lib/utils'
 
 const formSchema = authFormSchema('sign-up')
 
-interface CustomInput {
+interface CustomInputProps {
   control: Control<z.infer<typeof formSchema>>;
   name: FieldPath<z.infer<typeof formSchema>>;
   label: string;
@@ -18,9 +18,25 @@ interface CustomInput {
   id?: string;
   rightIcon?: React.ReactElement<any, string> | null;
   onRightIconClick?: () => void;
+  className?: string;
+  wrapperClassName?: string;
+  ref?: any;
 }
 
-const CustomInput = ({ control, name, label, placeholder, inputType, autoComplete, id, rightIcon, onRightIconClick }: CustomInput) => {
+const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(({
+  control,
+  name,
+  label,
+  placeholder,
+  inputType,
+  autoComplete,
+  id,
+  rightIcon,
+  onRightIconClick,
+  className,
+  wrapperClassName
+}, ref) => {
+
   return (
     <FormField
       control={control}
@@ -31,19 +47,27 @@ const CustomInput = ({ control, name, label, placeholder, inputType, autoComplet
             {label}
           </FormLabel>
           <div className="flex w-full flex-col">
-            <div className='flex border-[1px] border-gray-300 rounded-2xl p-1'>
+            <div
+              className={cn(
+                "flex border-[1px] border-gray-300 rounded-2xl p-1 relative",
+                wrapperClassName
+              )}>
               <FormControl>
                 <Input
                   id={id}
                   placeholder={placeholder}
-                  className="input-class"
+                  className={cn(
+                    "input-class",
+                    className
+                  )}
                   type={inputType}
                   autoComplete={autoComplete}
                   {...field}
+                  ref={ref}
                 />
               </FormControl>
               {rightIcon && (
-                <div onClick={onRightIconClick} className="cursor-pointer flex items-center justify-center px-3">
+                <div onClick={onRightIconClick} className="cursor-pointer flex items-center justify-center px-3 opacity-50">
                   {rightIcon}
                 </div>
               )}
@@ -54,6 +78,8 @@ const CustomInput = ({ control, name, label, placeholder, inputType, autoComplet
       )}
     />
   )
-}
+});
+
+CustomInput.displayName = "CustomInput"
 
 export default CustomInput
