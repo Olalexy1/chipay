@@ -4,24 +4,39 @@ import React, { useState, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
 import { createUserEmailVerification } from '@/lib/actions/user.actions';
 import { showToast } from '@/lib/utils';
+import { usePathname } from 'next/navigation';
 
-const Verification = ({ user }: any) => {
+const Verification = ({ userId, emailVerified, type }: VerificationType) => {
 
     const [isLoading, setIsLoading] = useState(false);
+    const pathname = usePathname();
+
+    useEffect(() => {
+        const handleVerification = async () => {
+            if (userId && !emailVerified && pathname === '/dashboard') {
+                const data = await createUserEmailVerification();
+
+                if (data) {
+                    showToast("info", "Verification email sent");
+                }
+            }
+        }
+        handleVerification();
+    }, [emailVerified, pathname, userId])
 
     const handleVerificationResend = async () => {
         setIsLoading(true);
 
         try {
-            if (user) {
+            if (userId) {
                 const data = await createUserEmailVerification();
 
                 if (data) {
-                    showToast("success", "Verification email sent");
+                    showToast("info", "Verification email sent");
                 }
             }
-        } catch {
-
+        } catch (err) {
+            console.error(err)
         } finally {
             setIsLoading(false)
         }
@@ -34,9 +49,23 @@ const Verification = ({ user }: any) => {
             <div className='flex flex-col justify-center items-center gap-y-3 w-11/12 md:w-9/12'>
                 <h1 className='capitalize font-montserrat font-semibold text-xl text-center'>Please verify your email address</h1>
 
-                <p className='text-center'>
-                    In order to login into your account, verify ownership of the email address provided. Go to your email and click on the verification link sent.
-                </p>
+                {
+                    type === "NewUser" && (
+                        <p className='text-center'>
+                            In order to login into your account and verify ownership of the email address provided, go to your email and click on the verification link sent.
+                        </p>
+
+                    )
+                }
+
+                {
+                    type === "OldUser" && (
+                        <p className='text-center'>
+                            To verify ownership of the email address provided, go to your email and click on the verification link sent.
+                        </p>
+                    )
+                }
+
 
                 <p className='text-center'>
                     If you did not receive an email and wish to have it sent again please click the resend verification email button below.

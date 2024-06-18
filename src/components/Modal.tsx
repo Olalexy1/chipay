@@ -1,64 +1,99 @@
-import { Button } from "@/components/ui/button"
+"use client";
+
+import { Button } from "@/components/ui/button";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+    AlertDialogOverlay,
+    AlertDialogPortal
+} from "@/components/ui/alert-dialog";
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogOverlay,
-    DialogClose
-    // DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import React from "react";
 
 interface ModalProps {
-    modalOpen: boolean;
-    modalClose: () => void;
+    modalOpen?: boolean;
+    modalHandle?: () => void;
     children?: React.ReactNode;
+    type: "AlertDialog" | "Dialog";
 }
 
-const Modal = ({ modalOpen, modalClose, children }: ModalProps) => {
+const Modal = ({ modalOpen, modalHandle, children, type }: ModalProps) => {
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleModalState = () => {
+        setOpen(!open);
+    };
+
     return (
-        <Dialog open={modalOpen} modal onOpenChange={modalClose} >
-            <DialogContent className="sm:max-w-md bg-white">
-                <DialogHeader>
-                    <DialogTitle>Edit profile</DialogTitle>
-                    <DialogDescription>
-                        Make changes to your profile here. Click save when you`&apos;`re done.
-                    </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
-                            Name
-                        </Label>
-                        <Input
-                            id="name"
-                            defaultValue="Pedro Duarte"
-                            className="col-span-3"
-                        />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="username" className="text-right">
-                            Username
-                        </Label>
-                        <Input
-                            id="username"
-                            defaultValue="@peduarte"
-                            className="col-span-3"
-                        />
-                    </div>
-                </div>
-                <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type="button" className="cursor-pointer">Save changes</Button>
-                    </DialogClose>
-                </DialogFooter>
-                <DialogOverlay />
-            </DialogContent>
-        </Dialog>
+        <>
+            {
+                type === 'AlertDialog' && (
+                    <AlertDialog open={open} onOpenChange={handleModalState}>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="outline">Show Dialog</Button>
+                        </AlertDialogTrigger>
+                        <button onClick={handleModalState}>Open Dialog</button>
+                        <AlertDialogPortal>
+                            <AlertDialogOverlay />
+                            <AlertDialogContent className="bg-white">
+                                {children}
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. This will permanently delete your
+                                        account and remove your data from our servers.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction>Continue</AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialogPortal>
+                    </AlertDialog>
+                )
+
+            }
+
+            {
+                type === 'Dialog' && (
+                    <Dialog open={open} onOpenChange={handleModalState}>
+                        {/* <DialogTrigger asChild>
+                            <Button variant="outline">Share</Button>
+                        </DialogTrigger> */}
+                        <button onClick={handleModalState}>Open Share</button>
+                        <DialogContent className="bg-white">
+                            {children}
+                            {/* <DialogFooter className="sm:justify-start">
+                                <DialogClose asChild>
+                                    <Button type="button" variant="secondary">
+                                        Close
+                                    </Button>
+                                </DialogClose>
+                            </DialogFooter> */}
+                        </DialogContent>
+                    </Dialog>
+                )
+
+            }
+        </>
     )
 }
 

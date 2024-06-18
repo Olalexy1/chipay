@@ -1,7 +1,18 @@
 "use server";
 
-import { Account, AppwriteException, Client, ID, Query } from "node-appwrite";
-import { createAdminClient, createClient, createSessionClient } from "../appwrite";
+import {
+  Account,
+  AppwriteException,
+  Client,
+  ID,
+  Query,
+  Models,
+} from "node-appwrite";
+import {
+  createAdminClient,
+  createClient,
+  createSessionClient,
+} from "../appwrite";
 import { cookies } from "next/headers";
 import { parseStringify, decryptId, encryptId } from "../utils";
 
@@ -134,6 +145,8 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       decryptPassword
     );
 
+    console.log(session.secret, ": session secret")
+
     cookies().set("chimoney-session", session.secret, {
       path: "/",
       httpOnly: true,
@@ -141,7 +154,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       secure: true,
     });
 
-    const response = await createUserEmailVerification();
+    const response = await createUserEmailVerification(session.$id);
 
     data = parseStringify(user);
     return { data, error: null };
@@ -187,12 +200,12 @@ export const logoutAccount = async () => {
   }
 };
 
-export async function createUserEmailVerification() {
+export async function createUserEmailVerification(sessionId?: string) {
   try {
     const { account } = await createSessionClient();
 
     const result = await account.createVerification(
-      "http://localhost:3000/verify-email" // url
+      `http://localhost:3000/verify-email?id=${sessionId}` // url
     );
 
     return parseStringify(result);
@@ -207,14 +220,31 @@ export async function createUserEmailVerificationConfirmation({
   secret,
 }: verificationConfirmationProps) {
   try {
-
-    // const { account } = await createClient();
-    const { account } = await createSessionClient();
+    const { account } = await createClient();
 
     const result = await account.updateVerification(
       userId, // userId
       secret // secret
     );
+
+    return parseStringify(result);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export async function getUserSession(
+  sessionId: string
+): Promise<Models.Session | null> {
+  try {
+    const { account } = await createClient();
+
+    const result = await account.getSession(
+      sessionId // sessionId
+    );
+
+    console.log(result, "see result from get session");
 
     return parseStringify(result);
   } catch (error) {

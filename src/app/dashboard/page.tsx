@@ -7,6 +7,7 @@ import Button from '@/components/Button';
 import Link from 'next/link';
 import Image from 'next/image';
 import EmptyData from '../../../public/icons/no-data-animate-min.svg';
+import VerificationChecker from '@/components/VerificationChecker';
 
 export const dynamic = "force-dynamic"
 
@@ -15,6 +16,10 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
   const loggedIn = await getLoggedInUser();
 
   if (!loggedIn) return;
+
+  let emailVerification = loggedIn.emailVerification
+
+  let userId =loggedIn.userId
 
   const subAccountId = await loggedIn?.chiMoneyUserId
 
@@ -98,6 +103,7 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
         }
 
       </div>
+      <VerificationChecker emailVerified={emailVerification} userId={userId}/>
     </section>
   )
 }

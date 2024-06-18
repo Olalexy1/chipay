@@ -1,11 +1,16 @@
 export const dynamic = "force-dynamic"
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google"
+import { Inter as FontSans } from "next/font/google";
+import {
+  BlockBrowserNavigation,
+  NavigationBlockerProvider,
+} from '@/components/NavigationBlock';
 
 import { cn } from "@/lib/utils"
 import '@/styles/globals.css'
 // import { ThemeProvider } from "@/components/theme-provider"
 import ToastProvider from "@/lib/react-toastify/ToastProvider"
+import HolyLoader from "holy-loader";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -34,9 +39,19 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ToastProvider>
-          {children}
-        </ToastProvider>
+        <HolyLoader
+          color="#1e40af"
+          height="3px"
+          speed={250}
+          easing="linear"
+          showSpinner
+          boxShadow="0 0 10px #2299DD,0 0 5px #2299DD"
+        />
+        <NavigationBlockerProvider>
+          <ToastProvider>
+            {children}
+          </ToastProvider>
+        </NavigationBlockerProvider>
       </body>
     </html>
   );

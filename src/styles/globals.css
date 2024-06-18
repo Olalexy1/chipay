@@ -90,7 +90,7 @@
 
   .primary-button {
     @apply flex h-fit items-center justify-center rounded-2xl hover:-translate-y-2 active:-translate-y-2 bg-blue-800 py-4 px-[28px] shadow-lg space-y-3
-    duration-300;
+    duration-700 transition-transform motion-reduce:transition-none motion-reduce:translate-y-0 motion-reduce:active:-translate-y-2;
   }
 
   .primary-button-text {

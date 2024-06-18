@@ -322,3 +322,14 @@ declare interface verificationConfirmationProps {
   userId: string;
   secret: string;
 }
+
+declare interface VerificationType {
+  type: "NewUser" | "OldUser";
+  userId: string;
+  emailVerified?: boolean
+}
+
+declare interface VerificationChecker {
+  emailVerified: boolean;
+  userId: string;
+}

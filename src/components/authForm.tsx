@@ -1,16 +1,16 @@
 'use client';
 
-import Image from 'next/image'
-import Link from 'next/link'
-import React, { useState, useRef } from 'react'
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { useState, useRef, useEffect } from 'react';
 
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import Button from './Button';
 import {
   Form,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import CustomInput from './customInput';
 import { authFormSchema, showToast, encryptId } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
@@ -18,10 +18,11 @@ import { useRouter } from 'next/navigation';
 import { signIn, signUp } from '@/lib/actions/user.actions';
 import { FaEye, FaEyeSlash, FaCalendarAlt } from 'react-icons/fa';
 import Verification from './Verification';
+import { startHolyLoader, stopHolyLoader } from 'holy-loader';
 
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [showTwo, setShowTwo] = useState(false);
@@ -53,6 +54,7 @@ const AuthForm = ({ type }: { type: string }) => {
 
     try {
       // Sign up with Appwrite
+      startHolyLoader();
 
       if (type === 'sign-up') {
         const userData = {
@@ -98,8 +100,10 @@ const AuthForm = ({ type }: { type: string }) => {
     } catch (error) {
       console.log(error);
       showToast("error", `${type === 'sign-in' ? 'Sign in failed' : 'Sign up failed'} ${error}`);
+      stopHolyLoader();
     } finally {
       setIsLoading(false);
+      stopHolyLoader();
     }
   }
 
@@ -134,7 +138,7 @@ const AuthForm = ({ type }: { type: string }) => {
       <div className='flex relative flex-col h-full justify-center items-center scrollbar-none scrollbar-thumb-blue-800 scrollbar-track-white md:scrollbar-thin scrollbar-thumb-rounded-2xl mb-5 pr-5 overflow-y-auto md:px-[10%] lg:px-[12%]'>
         {user ? (
           <div className="flex flex-col gap-4">
-            <Verification user={user}/>
+            <Verification userId={user.userId} type='NewUser' />
           </div>
         ) : (
           <div className='w-full h-full flex-1'>
@@ -223,6 +227,11 @@ const AuthForm = ({ type }: { type: string }) => {
                         ? 'Sign In' : 'Sign Up'}
                     </Button>
                   </div>
+
+                  {/* <div className="pb-10">
+                    
+                  </div> */}
+
                 </form>
               </Form>
             </div>
