@@ -17,7 +17,6 @@ const Footer = ({ user, type = 'desktop' }: FooterProps) => {
       const loggedOut = await logoutAccount();
 
       sessionStorage.removeItem("verificationCheckerDisplayed");
-      // sessionStorage.clear();
 
       if (loggedOut) {
         router.push('/sign-in')
@@ -49,8 +48,8 @@ const Footer = ({ user, type = 'desktop' }: FooterProps) => {
         </p>
       </div>
 
-      <div className="footer_image" onClick={handleLogOut}>
-        <MdLogout className='text-gray-600' />
+      <div className="footer_image group" onClick={handleLogOut}>
+        <MdLogout className='text-gray-600 group-hover:text-red-600' />
       </div>
     </footer>
   )

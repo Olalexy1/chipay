@@ -4,13 +4,21 @@ import { Input } from './ui/input'
 
 import { Control, FieldPath } from 'react-hook-form'
 import { z } from 'zod'
-import { authFormSchema, cn } from '@/lib/utils'
+import { authFormSchema, updatePersonalInfoFormSchema, updatePasswordSchema, cn } from '@/lib/utils'
 
-const formSchema = authFormSchema('sign-up')
+const authFormsSchema = authFormSchema('sign-up')
+
+const updatePersonalFormSchema = updatePersonalInfoFormSchema()
+
+const updatePasswordFormSchema = updatePasswordSchema()
 
 interface CustomInputProps {
-  control: Control<z.infer<typeof formSchema>>;
-  name: FieldPath<z.infer<typeof formSchema>>;
+  authControl?: Control<z.infer<typeof authFormsSchema>>;
+  authName?: FieldPath<z.infer<typeof authFormsSchema>>;
+  infoUpdateControl?: Control<z.infer<typeof updatePersonalFormSchema>>;
+  infoName?: FieldPath<z.infer<typeof updatePersonalFormSchema>>;
+  passwordUpdateControl?: Control<z.infer<typeof updatePasswordFormSchema>>;
+  passwordName?: FieldPath<z.infer<typeof updatePasswordFormSchema>>;
   label: string;
   placeholder: string;
   inputType?: string;
@@ -21,11 +29,17 @@ interface CustomInputProps {
   className?: string;
   wrapperClassName?: string;
   ref?: any;
+  schemaType: "auth" | "info" | "password";
+  disabled?: boolean;
 }
 
 const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(({
-  control,
-  name,
+  authControl,
+  authName,
+  infoUpdateControl,
+  infoName,
+  passwordUpdateControl,
+  passwordName,
   label,
   placeholder,
   inputType,
@@ -34,13 +48,30 @@ const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(({
   rightIcon,
   onRightIconClick,
   className,
-  wrapperClassName
+  wrapperClassName,
+  schemaType,
+  disabled
 }, ref) => {
+
+
+  const getControl = () => {
+    switch (schemaType) {
+      case "auth":
+        return authControl
+      case "info":
+        return infoUpdateControl
+      case "password":
+        return passwordUpdateControl
+      default:
+        return undefined
+    }
+  }
+
 
   return (
     <FormField
-      control={control}
-      name={name}
+      control={getControl() as Control<z.infer<typeof authFormsSchema> | z.infer<typeof updatePersonalFormSchema> | z.infer<typeof updatePasswordFormSchema>>}
+      name={schemaType === "auth" ? authName! : schemaType === "info" ? infoName! : passwordName!}
       render={({ field }) => (
         <div className="form-item w-full">
           <FormLabel className="form-label">
@@ -64,6 +95,7 @@ const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(({
                   autoComplete={autoComplete}
                   {...field}
                   ref={ref}
+                  disabled={disabled}
                 />
               </FormControl>
               {rightIcon && (

@@ -1,25 +1,52 @@
 "use client"
-import React, { useCallback, useEffect, useMemo } from 'react'
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import React, { useCallback, useEffect } from 'react'
+// import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { showToast } from '@/lib/utils';
 import Verification from '@/components/Verification';
 import Modal from '@/components/Modal';
+import { createUserEmailVerification } from '@/lib/actions/user.actions';
+import Button from './Button';
+import { Loader2 } from 'lucide-react';
 
 const VerificationChecker = ({ emailVerified, userId }: VerificationChecker) => {
+
+    const [open, setOpen] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    const handleModalState = () => {
+        setOpen(!open);
+    };
+
+    const handleVerificationResend = async () => {
+        setIsLoading(true);
+
+        try {
+            if (userId) {
+                const data = await createUserEmailVerification();
+
+                if (data) {
+                    showToast("info", "Verification email sent");
+                }
+            }
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     const verificationDisplayed = sessionStorage.getItem("verificationCheckerDisplayed");
 
     console.log(verificationDisplayed, 'see verification displayed')
 
-    // const url = document.referrer
-    // console.log(url, ": see url")
+    const url = document.referrer
+    console.log(url, ": see url")
 
     const handleRouteChange = useCallback(() => {
 
         if (document.referrer.includes("verify-email") && emailVerified && userId) {
             console.log("Email verification complete");
             showToast("success", "Account verification successful");
-            return;
         }
 
         // if (emailVerified && userId) {
@@ -33,11 +60,11 @@ const VerificationChecker = ({ emailVerified, userId }: VerificationChecker) => 
             setTimeout(() => {
                 showToast("warning", "Account is not yet verified");
                 sessionStorage.setItem("verificationCheckerDisplayed", "true");
-            }, 5000)
-            return;
+                handleModalState()
+            }, 3000)
         }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [emailVerified, userId])
 
     // handleRouteChange();
@@ -47,13 +74,34 @@ const VerificationChecker = ({ emailVerified, userId }: VerificationChecker) => 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    return null;
-
-
     return (
         <div>
-            <Modal type='Dialog'>
-                <Verification type='OldUser' userId={userId} />
+            <Modal type='AlertDialog' modalOpen={open} modalHandle={handleModalState}>
+                <div>
+                    <Verification type='OldUser' userId={userId} />
+
+                    <div className='flex flex-row justify-between mt-4'>
+
+                        <form action={handleVerificationResend}>
+                            <Button isDisabled={isLoading} className="py-3">
+                                {isLoading ? (
+                                    <div className='flex items-center space-x-1'>
+                                        <Loader2 size={20} className="animate-spin" />
+                                        <p className='text-[14px]'>Resending Email...</p>
+                                    </div>
+                                ) : (<p className='text-[14px]'>Resend <span className='hidden md:inline-flex'>Verification</span> Email</p>)}
+                            </Button>
+                        </form>
+
+                        <Button onClick={handleModalState} className="py-3" backgroundColor='bg-red-600' borderColor='border-red-600' textColor='text-white'>
+                            <div className='flex items-center'>
+                                <p className='text-[14px]'>Close</p>
+                            </div>
+                        </Button>
+
+                    </div>
+                </div>
+
             </Modal>
         </div>
     )

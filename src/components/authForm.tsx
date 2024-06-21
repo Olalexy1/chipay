@@ -164,56 +164,68 @@ const AuthForm = ({ type }: { type: string }) => {
                   {type === 'sign-up' && (
                     <>
                       <div className="flex gap-4">
-                        <CustomInput control={form.control} name='firstName' label="First Name" placeholder='Enter your first name' inputType='text' autoComplete="given-name" id="firsName" />
-                        <CustomInput control={form.control} name='lastName' label="Last Name" placeholder='Enter your last name' inputType='text' autoComplete="family-name" id='lastName' />
+                        <CustomInput authControl={form.control} authName='firstName' label="First Name" placeholder='Enter your first name' inputType='text' autoComplete="given-name" id="firsName" schemaType='auth' />
+                        <CustomInput authControl={form.control} authName='lastName' label="Last Name" placeholder='Enter your last name' inputType='text' autoComplete="family-name" id='lastName' schemaType='auth'/>
                       </div>
 
-                      <CustomInput control={form.control} name='address1' label="Address" placeholder='Enter your specific address' autoComplete='street-address' id='address1' />
+                      <CustomInput authControl={form.control} authName='address1' label="Address" placeholder='Enter your specific address' autoComplete='street-address' id='address1' schemaType='auth'/>
 
-                      <CustomInput control={form.control} name='city' label="City" placeholder='Enter your city' autoComplete='on' id='city' />
+                      <CustomInput authControl={form.control} authName='city' label="City" placeholder='Enter your city' autoComplete='on' id='city' schemaType='auth'/>
                       <div className="flex gap-4">
 
-                        <CustomInput control={form.control} name='state' label="State" placeholder='Enter your state' autoComplete='on' id='state' />
+                        <CustomInput authControl={form.control} authName='state' label="State" placeholder='Enter your state' autoComplete='on' id='state' schemaType='auth'/>
 
-                        <CustomInput control={form.control} name='postalCode' label="Postal Code" placeholder='Example: 11101' autoComplete='section-user1 billing postal-code' id='postalCode' />
+                        <CustomInput authControl={form.control} authName='postalCode' label="Postal Code" placeholder='Example: 11101' autoComplete='section-user1 billing postal-code' id='postalCode' schemaType='auth'/>
 
                       </div>
                       <div className="flex gap-4">
-                        <CustomInput control={form.control}
-                          name='dateOfBirth'
+                        <CustomInput authControl={form.control}
+                          authName='dateOfBirth'
                           label="Date of Birth"
                           placeholder='YYYY-MM-DD'
                           inputType="date" id='dateOfBirth'
                           className='datepicker-input'
                           rightIcon={<FaCalendarAlt />}
-                          onRightIconClick={handleShowPicker}
-                          ref={dateInputRef}
+                        // onRightIconClick={handleShowPicker}
+                        // ref={dateInputRef}
+                        schemaType='auth'
                         />
                       </div>
                     </>
                   )}
 
-                  <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' inputType="email" autoComplete='email' id='email' />
+                  <CustomInput authControl={form.control} authName='email' label="Email" placeholder='Enter your email' inputType="email" autoComplete='email' id='email' schemaType='auth'/>
 
-                  <CustomInput control={form.control}
-                    name='password' label="Password"
+                  <CustomInput authControl={form.control}
+                    authName='password' label="Password"
                     placeholder='Enter your password'
                     inputType={show ? 'text' : 'password'}
                     id='password'
                     rightIcon={show ? <FaEye /> : <FaEyeSlash />}
                     onRightIconClick={handleClick}
+                    schemaType='auth'
                   />
 
                   {type === 'sign-up' && (
 
-                    <CustomInput control={form.control}
-                      name='confirmPassword' label="Confirm Password" placeholder='Confirm your password'
+                    <CustomInput authControl={form.control}
+                      authName='confirmPassword' label="Confirm Password" placeholder='Confirm your password'
                       inputType={showTwo ? 'text' : 'password'}
                       id='confirmPassword'
                       rightIcon={showTwo ? <FaEye /> : <FaEyeSlash />}
                       onRightIconClick={handleClickTwo}
+                      schemaType='auth'
                     />
 
+                  )}
+
+                  {type === 'sign-up' && (
+                    <div className="flex">
+                      <p className='text-[14px] text-slate-500'>
+                        By clicking the button below, I agree to ChiPay’s <Link className='text-[14px] text-blue-500 font-normal leading-none' href='#'>Terms Of Service</Link> and
+                        <Link className='text-[14px] text-blue-500 font-normal leading-none' href='#'> Privacy Policy</Link>.
+                      </p>
+                    </div>
                   )}
 
                   <div className="pb-10">
@@ -227,10 +239,6 @@ const AuthForm = ({ type }: { type: string }) => {
                         ? 'Sign In' : 'Sign Up'}
                     </Button>
                   </div>
-
-                  {/* <div className="pb-10">
-                    
-                  </div> */}
 
                 </form>
               </Form>

@@ -1,70 +1,57 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
     AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
     AlertDialogContent,
-    AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
     AlertDialogOverlay,
     AlertDialogPortal
 } from "@/components/ui/alert-dialog";
 import {
     Dialog,
-    DialogClose,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
-    DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import React from "react";
 
 interface ModalProps {
-    modalOpen?: boolean;
-    modalHandle?: () => void;
+    modalOpen: boolean;
+    modalHandle: () => void;
     children?: React.ReactNode;
     type: "AlertDialog" | "Dialog";
+    header?: React.ReactNode;
+    footer?: React.ReactNode;
 }
 
-const Modal = ({ modalOpen, modalHandle, children, type }: ModalProps) => {
+const Modal = ({ modalOpen, modalHandle, children, type, header, footer }: ModalProps) => {
 
-    const [open, setOpen] = React.useState(false);
-
-    const handleModalState = () => {
-        setOpen(!open);
-    };
 
     return (
         <>
             {
                 type === 'AlertDialog' && (
-                    <AlertDialog open={open} onOpenChange={handleModalState}>
-                        <AlertDialogTrigger asChild>
-                            <Button variant="outline">Show Dialog</Button>
-                        </AlertDialogTrigger>
-                        <button onClick={handleModalState}>Open Dialog</button>
+                    <AlertDialog open={modalOpen} onOpenChange={modalHandle}>
                         <AlertDialogPortal>
                             <AlertDialogOverlay />
                             <AlertDialogContent className="bg-white">
+                                {
+                                    header && (
+                                        <AlertDialogHeader>
+                                            {header}
+                                        </AlertDialogHeader>
+                                    )
+                                }
                                 {children}
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        This action cannot be undone. This will permanently delete your
-                                        account and remove your data from our servers.
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction>Continue</AlertDialogAction>
-                                </AlertDialogFooter>
+                                {
+                                    footer && (
+                                        <AlertDialogFooter>
+                                            {footer}
+                                        </AlertDialogFooter>
+                                    )
+                                }
+
                             </AlertDialogContent>
                         </AlertDialogPortal>
                     </AlertDialog>
@@ -74,20 +61,23 @@ const Modal = ({ modalOpen, modalHandle, children, type }: ModalProps) => {
 
             {
                 type === 'Dialog' && (
-                    <Dialog open={open} onOpenChange={handleModalState}>
-                        {/* <DialogTrigger asChild>
-                            <Button variant="outline">Share</Button>
-                        </DialogTrigger> */}
-                        <button onClick={handleModalState}>Open Share</button>
+                    <Dialog open={modalOpen} onOpenChange={modalHandle}>
                         <DialogContent className="bg-white">
+                            {
+                                header && (
+                                    <DialogHeader>
+                                        {header}
+                                    </DialogHeader>
+                                )
+                            }
                             {children}
-                            {/* <DialogFooter className="sm:justify-start">
-                                <DialogClose asChild>
-                                    <Button type="button" variant="secondary">
-                                        Close
-                                    </Button>
-                                </DialogClose>
-                            </DialogFooter> */}
+                            {
+                                footer && (
+                                    <DialogFooter>
+                                        {footer}
+                                    </DialogFooter>
+                                )
+                            }
                         </DialogContent>
                     </Dialog>
                 )

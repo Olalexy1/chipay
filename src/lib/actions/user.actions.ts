@@ -145,7 +145,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       decryptPassword
     );
 
-    console.log(session.secret, ": session secret")
+    console.log(session.secret, ": session secret");
 
     cookies().set("chimoney-session", session.secret, {
       path: "/",
@@ -174,11 +174,12 @@ export async function getLoggedInUser() {
     const { account } = await createSessionClient();
     const result = await account.get();
 
-    const userData = await getUserInfo({ userId: result.$id });
+    const userData: GetUserParams = await getUserInfo({ userId: result.$id });
 
     const user = {
       ...userData,
       ...result,
+      documentId: userData.$id,
     };
 
     return parseStringify(user);
@@ -252,3 +253,35 @@ export async function getUserSession(
     return null;
   }
 }
+
+export const updateUserInformation = async ({
+  documentId,
+  ...updateUserData
+}: UpdateUserProps) => {
+  let data;
+  let error: ErrorResponse | Promise<any> | string | null;
+
+  try {
+    const { database } = await createAdminClient();
+
+    const updatedUser = await database.updateDocument(
+      DATABASE_ID!,
+      USER_COLLECTION_ID!,
+      documentId,
+      {
+        ...updateUserData,
+      }
+    );
+
+    data = parseStringify(updatedUser);
+    return { data, error: null };
+  } catch (err) {
+    console.error("Error from signup:", err);
+    if (err instanceof AppwriteException) {
+      error = parseStringify(err.message);
+      return { data: null, error };
+    } else {
+      return { data: null, error: parseStringify(err) };
+    }
+  }
+};

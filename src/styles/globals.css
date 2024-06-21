@@ -32,7 +32,7 @@
   -webkit-backdrop-filter: blur(4px);
 }
 
-.custom-scrollbar::-webkit-scrollbar {
+/* .custom-scrollbar::-webkit-scrollbar {
   width: 3px;
   height: 3px;
   border-radius: 2px;
@@ -49,7 +49,7 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #1d4ed8;
-}
+} */
 
 @layer utilities {
   .padding {
@@ -168,7 +168,7 @@
   }
 
   .home-content {
-    @apply flex w-full flex-1 flex-col gap-8 px-5 sm:px-8 py-7 lg:py-12 xl:max-h-screen xl:overflow-y-scroll;
+    @apply flex w-full flex-1 flex-col gap-8 px-5 sm:px-8 py-6 lg:py-6 xl:max-h-screen xl:overflow-y-scroll;
   }
 
   .home-header {
@@ -244,11 +244,11 @@
   }
 
   .my-wallets {
-    @apply flex h-screen max-h-screen w-full flex-col gap-8 bg-gray-25 p-8 xl:py-12;
+    @apply flex h-screen max-h-screen w-full flex-col gap-8 bg-gray-25 p-6 xl:py-6;
   }
 
   .transactions {
-    @apply flex max-h-screen w-full flex-col gap-8 overflow-y-scroll bg-gray-25 p-8 xl:py-12;
+    @apply flex max-h-screen w-full flex-col gap-8 overflow-y-scroll bg-gray-25 p-6 xl:py-6;
   }
 
   .transactions-header {
@@ -341,7 +341,7 @@
 
   /* Payment Transfer */
   .payment-transfer {
-    @apply no-scrollbar flex flex-col overflow-y-scroll bg-gray-25 p-8 md:max-h-screen xl:py-12;
+    @apply no-scrollbar flex flex-col overflow-y-scroll bg-gray-25 p-6 md:max-h-screen xl:py-6;
   }
 
   .payment-transfer_form-item {
@@ -376,7 +376,7 @@
 
   /* Footer */
   .footer {
-    @apply flex cursor-pointer items-center justify-between gap-2 py-6;
+    @apply flex cursor-pointer items-center justify-between gap-2 p-3 bg-blue-100 rounded-lg w-full shadow-lg;
   }
 
   .footer_name {

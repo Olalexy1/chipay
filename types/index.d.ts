@@ -17,6 +17,16 @@ declare type SignUpParams = {
   dateOfBirth: string;
   email: string;
   password: string;
+  phoneNumber?: string;
+};
+
+declare type UpdateUserProps = {
+  address1?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  phoneNumber?: string;
+  documentId: string;
 };
 
 declare type LoginUser = {
@@ -37,6 +47,26 @@ declare type User = {
   postalCode: string;
   dateOfBirth: string;
 };
+
+declare interface GetUserParams {
+  email: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  state: string;
+  city: string;
+  postalCode: string;
+  dateOfBirth: string;
+  chiMoneyUserId: string;
+  phoneNumber: string;
+  $id: string;
+  $createdAt: string;
+  $updatedAt: string;
+  $permissions: any[];
+  $databaseId: string;
+  $collectionId: string;
+}
 
 declare type NewUserParams = {
   userId: string;
@@ -70,6 +100,20 @@ declare interface HeaderBoxProps {
   title: string;
   subtext: string;
   user?: string;
+  isButton?: boolean;
+  buttonTitle?: string;
+  variant?:
+    | "link"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | null
+    | undefined;
+  icon?: React.ReactNode;
+  buttonClassName?: string;
+  onClick?: () => void;
 }
 
 declare interface MobileNavProps {
@@ -326,10 +370,60 @@ declare interface verificationConfirmationProps {
 declare interface VerificationType {
   type: "NewUser" | "OldUser";
   userId: string;
-  emailVerified?: boolean
+  emailVerified?: boolean;
 }
 
 declare interface VerificationChecker {
   emailVerified: boolean;
   userId: string;
+}
+
+declare interface AccountSettingsCardProps {
+  children?: React.ReactNode;
+  title: string;
+  description: string;
+}
+
+declare interface Target {
+  $id: string;
+  $createdAt: string;
+  $updatedAt: string;
+  name: string;
+  userId: string;
+  providerId: string | null;
+  providerType: string;
+  identifier: string;
+}
+
+declare interface LoggedInUserProps {
+  email: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  state: string;
+  city: string;
+  postalCode: string;
+  dateOfBirth: string;
+  chiMoneyUserId: string;
+  phoneNumber: string;
+  $id: string;
+  $createdAt: string;
+  $updatedAt: string;
+  $permissions: any[];
+  $databaseId: string;
+  $collectionId: string;
+  name: string;
+  registration: string;
+  status: boolean;
+  labels: any[];
+  passwordUpdate: string;
+  phone: string;
+  emailVerification: boolean;
+  phoneVerification: boolean;
+  mfa: boolean;
+  prefs: Record<string, unknown>;
+  targets: Target[];
+  accessedAt: string;
+  documentId: string;
 }

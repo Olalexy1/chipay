@@ -32,11 +32,12 @@ const Button: React.FC<ButtonPops> = ({
         <button
             type={type}
             disabled={isDisabled}
-            className={`flex justify-center items-center gap-2 px-7 py-4 border font-montserrat text-base leading-none
+            className={`flex justify-center items-center gap-2 px-7 py-4 border font-montserrat text-base leading-none hover:opacity-95
         ${backgroundColor
                     ? `${backgroundColor} ${textColor} ${borderColor}`
                     : "bg-blue-800 text-white border-blue-800"
-                } rounded-2xl ${className} ${fullWidth && "w-full"}`}
+                } rounded-2xl ${className} ${fullWidth && "w-full"} ${isDisabled && "!opacity-50 hover:!opacity-50"}`}
+            onClick={onClick}
         >
             {label}
 

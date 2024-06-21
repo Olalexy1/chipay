@@ -1,16 +1,30 @@
-import HeaderBox from '@/components/HeaderBox'
 import React from 'react'
+import AccountSettingsCard from '@/components/AccountSettingsCard'
+import { getLoggedInUser, logoutAccount } from '@/lib/actions/user.actions';
+import PersonalForm from '@/components/personalForm';
+import PasswordForm from '@/components/passwordForm';
+import HeaderLogout from '@/components/HeaderLogout';
 
-const AccountSettings = () => {
+const AccountSettings = async () => {
+
+  const user: LoggedInUserProps = await getLoggedInUser();
+
+  if (!user) return;
+
   return (
-    <div className="transactions scrollbar-thumb-blue-800 scrollbar-track-gray-100 scrollbar-thin overflow-y-scroll min-h-screen">
+    <div className="transactions scrollbar-thumb-blue-800 scrollbar-track-gray-100 scrollbar-thin overflow-y-scroll min-h-screen bg-blue-50">
       <div className="transactions-header">
-        <HeaderBox
-          title="Account Settings"
-          subtext="Modify your account details here."
-        />
+        <HeaderLogout/>
       </div>
-      
+
+      <AccountSettingsCard title={'Personal Information'} description={'Update your personal details here'}>
+        <PersonalForm user={user} />
+      </AccountSettingsCard>
+
+      <AccountSettingsCard title={'Password'} description={'Enter your current password to make update'}>
+        <PasswordForm user={user} />
+      </AccountSettingsCard>
+
     </div>
   )
 }

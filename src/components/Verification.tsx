@@ -11,18 +11,18 @@ const Verification = ({ userId, emailVerified, type }: VerificationType) => {
     const [isLoading, setIsLoading] = useState(false);
     const pathname = usePathname();
 
-    useEffect(() => {
-        const handleVerification = async () => {
-            if (userId && !emailVerified && pathname === '/dashboard') {
-                const data = await createUserEmailVerification();
+    // useEffect(() => {
+    //     const handleVerification = async () => {
+    //         if (userId && !emailVerified && pathname === '/dashboard') {
+    //             const data = await createUserEmailVerification();
 
-                if (data) {
-                    showToast("info", "Verification email sent");
-                }
-            }
-        }
-        handleVerification();
-    }, [emailVerified, pathname, userId])
+    //             if (data) {
+    //                 showToast("info", "Verification email sent");
+    //             }
+    //         }
+    //     }
+    //     handleVerification();
+    // }, [emailVerified, pathname, userId])
 
     const handleVerificationResend = async () => {
         setIsLoading(true);
@@ -71,18 +71,23 @@ const Verification = ({ userId, emailVerified, type }: VerificationType) => {
                     If you did not receive an email and wish to have it sent again please click the resend verification email button below.
                 </p>
 
-                <div className="pt-10">
-                    <form action={handleVerificationResend}>
-                        <Button isDisabled={isLoading} className="py-3">
-                            {isLoading ? (
-                                <div className='flex items-center space-x-1'>
-                                    <Loader2 size={20} className="animate-spin" />
-                                    <p className='text-[14px]'>Resending Email...</p>
-                                </div>
-                            ) : 'Resend Verification Email'}
-                        </Button>
-                    </form>
-                </div>
+                {
+                    type === "NewUser" && (
+                        <div className="pt-10">
+                            <form action={handleVerificationResend}>
+                                <Button isDisabled={isLoading} className="py-3">
+                                    {isLoading ? (
+                                        <div className='flex items-center space-x-1'>
+                                            <Loader2 size={20} className="animate-spin" />
+                                            <p className='text-[14px]'>Resending Email...</p>
+                                        </div>
+                                    ) : 'Resend Verification Email'}
+                                </Button>
+                            </form>
+                        </div>
+                    )
+                }
+
             </div>
         </section>
     )
