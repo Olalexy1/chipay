@@ -10,7 +10,7 @@ import { Form } from "@/components/ui/form";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { updatePasswordSchema, showToast, encryptId } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
-import { } from '@/lib/actions/user.actions';
+import { updatePassword } from '@/lib/actions/user.actions';
 
 const PasswordForm = ({ user }: { user: LoggedInUserProps }) => {
 
@@ -21,46 +21,56 @@ const PasswordForm = ({ user }: { user: LoggedInUserProps }) => {
     const handleClick = () => setShow(!show);
     const handleClickTwo = () => setShowTwo(!showTwo);
     const handleClickOld = () => setShowOld(!showOld);
+    const [errorResponse, setErrorResponse] = useState(false);
 
     const passwordFormSchema = updatePasswordSchema();
 
     const passwordForm = useForm<z.infer<typeof passwordFormSchema>>({
         resolver: zodResolver(passwordFormSchema),
-        // defaultValues: {
-        //     oldPassword: '',
-        //     password: '',
-        //     confirmPassword: ''
-        // },
+        defaultValues: {
+            oldPassword: '',
+            password: '',
+            confirmPassword: ''
+        },
     })
+
+    useEffect(() => {
+        if (errorResponse) {
+            passwordForm.reset(undefined, {
+                keepDirtyValues: true, 
+                keepDirty: true
+            });
+        } else {
+            passwordForm.reset();
+        }
+    }, [errorResponse, passwordForm, passwordForm.formState.isSubmitSuccessful]);
+    
 
     const onSubmit = async (data: z.infer<typeof passwordFormSchema>) => {
         setIsLoading(true);
 
         try {
-
-            const userData = {
-                oldPassword: data.oldPassword!,
-                password: data.password!,
-                // oldPassword: encryptId(data.oldPassword!),
-                // password: encryptId(data.password!)
+            const passwordData = {
+                oldPassword: encryptId(data.oldPassword!),
+                newPassword: encryptId(data.password!)
             }
 
-            console.log(userData, 'See  Password Update Data')
 
-            showToast("success", "Personal profile Updated");
+            const updatePasswordResult = await updatePassword(passwordData);
 
-            // const updateUser = await signUp(userData);
+            console.log(updatePasswordResult, 'See New Data')
 
-            // console.log(updateUser, 'See New Data')
-
-            // if (updateUser.error) {
-            //   showToast("error", `Update failed: ${updateUser.error || updateUser.error.error}`);
-            // } else {
-            //   showToast("success", "Personal profile Updated");
-            // }
+            if (updatePasswordResult.error) {
+                setErrorResponse(true);
+                showToast("error", `Update failed: ${updatePasswordResult.error || updatePasswordResult.error.error}`);
+            } else {
+                showToast("success", "Password updated");
+                passwordForm.reset();
+            }
 
         } catch (error) {
             console.log(error);
+            setErrorResponse(true);
             showToast("error", `Update failed ${error}`);
         } finally {
             setIsLoading(false);
@@ -109,7 +119,7 @@ const PasswordForm = ({ user }: { user: LoggedInUserProps }) => {
                     />
 
                     <div className="flex pb-10 justify-end">
-                        <Button type="submit" isDisabled={isLoading} className="py-3">
+                        <Button type="submit" isDisabled={isLoading || !passwordForm.formState.isDirty} className="py-3">
                             {isLoading ? (
                                 <div className='flex items-center space-x-1'>
                                     <Loader2 size={20} className="animate-spin" />

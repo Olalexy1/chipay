@@ -146,7 +146,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().trim().optional()
           : z
               .string({ message: "First name is required." })
@@ -162,7 +163,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().trim().optional()
           : z
               .string({ message: "Last name is required." })
@@ -177,7 +179,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().optional()
           : z.string({ message: "Address is required." }).max(256, {
               message: "Address is cannot be more than 256 characters.",
@@ -186,7 +189,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().optional()
           : z
               .string({ message: "City is required." })
@@ -195,7 +199,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().optional()
           : z.string({ message: "State is required." }).max(256, {
               message: "State cannot be more than 256 characters",
@@ -204,7 +209,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().optional()
           : z.string({ message: "Postal code is required." }).length(6, {
               message: "Postal code must be 6 characters long.",
@@ -213,7 +219,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().optional()
           : z
               .string({ message: "Date of birth is required." })
@@ -242,18 +249,19 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password"
           ? z.string().optional()
           : z.string({ message: "Confirm password is required." }),
       // both
       email:
-        type === "sign-in" || type === "sign-up"
+        type === "sign-in" || type === "sign-up" || type === "forgot-password"
           ? z
               .string({ message: "Email is required." })
               .email({ message: "Enter a valid email address." })
           : z.string().optional(),
       password:
-        type === "sign-in" || type === "sign-up"
+        type === "sign-in" || type === "sign-up" || type === 'confirm-password'
           ? z
               .string({ message: "Password is required." })
               .min(8, { message: "Password must be at least 8 characters." })
@@ -429,7 +437,14 @@ export const updatePersonalInfoFormSchema = (type?: string) =>
 export const updatePasswordSchema = (type?: string) =>
   z
     .object({
-      oldPassword: z.string({ message: "Old password is required." }).trim(),
+      oldPassword: z
+        .string({ message: "Old password is required." })
+        .min(8, { message: "Password must be at least 8 characters." })
+        .regex(passwordValidation, {
+          message:
+            "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+        })
+        .trim(),
       confirmPassword: z.string({ message: "Confirm password is required." }),
       password: z
         .string({ message: "Password is required." })
@@ -447,7 +462,7 @@ export const updatePasswordSchema = (type?: string) =>
         }
       },
       {
-        message: "Passwords must match!",
+        message: "Password must match new password!",
         path: ["confirmPassword"],
       }
     );

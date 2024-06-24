@@ -133,10 +133,6 @@ declare interface PaginationProps {
   totalPages: number;
 }
 
-declare interface AuthFormProps {
-  type: "sign-in" | "sign-up";
-}
-
 declare interface WalletTransactions {
   id: string;
   amount?: number;
@@ -426,4 +422,24 @@ declare interface LoggedInUserProps {
   targets: Target[];
   accessedAt: string;
   documentId: string;
+}
+
+declare interface UpdatePasswordProps {
+  newPassword: string;
+  oldPassword: string;
+}
+
+declare interface passwordRecoveryConfirmationProps {
+  userId: string;
+  secret: string;
+  password: string;
+}
+
+declare interface ForgotPasswordProps {
+  email: string;
+}
+
+declare interface AuthFormProps {
+  type: string;
+  searchParams?: { [key: string]: string | string[] | undefined };
 }

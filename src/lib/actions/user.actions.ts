@@ -285,3 +285,93 @@ export const updateUserInformation = async ({
     }
   }
 };
+
+export async function updatePassword({
+  oldPassword,
+  newPassword,
+}: UpdatePasswordProps) {
+  let data;
+  let error: ErrorResponse | Promise<any> | string | null;
+
+  const decryptOldPassword = decryptId(oldPassword);
+  const decryptNewPassword = decryptId(newPassword);
+
+  try {
+    const { account } = await createSessionClient();
+
+    const result = await account.updatePassword(
+      decryptNewPassword, // newPassword
+      decryptOldPassword
+    );
+
+    console.log(result, "see result from password update");
+
+    data = parseStringify(result);
+    return { data, error: null };
+  } catch (err) {
+    console.error("Error", err);
+    if (err instanceof AppwriteException) {
+      error = parseStringify(err.message);
+      return { data: null, error };
+    } else {
+      return { data: null, error: parseStringify(err) };
+    }
+  }
+}
+
+export async function createPasswordRecovery({ email } :ForgotPasswordProps) {
+  let data;
+  let error: ErrorResponse | Promise<any> | string | null;
+
+  try {
+    const { account } = await createClient();
+
+    const result = await account.createRecovery(
+      email, // email
+      `http://localhost:3000/confirm-password`
+    );
+
+    data = parseStringify(result);
+    return { data, error: null };
+  } catch (err) {
+    console.error("Error", err);
+    if (err instanceof AppwriteException) {
+      error = parseStringify(err.message);
+      return { data: null, error };
+    } else {
+      return { data: null, error: parseStringify(err) };
+    }
+  }
+}
+
+export async function passwordRecoveryConfirmation({
+  userId,
+  secret,
+  password,
+}: passwordRecoveryConfirmationProps) {
+  let data;
+  let error: ErrorResponse | Promise<any> | string | null;
+
+  const decryptPassword = decryptId(password);
+
+  try {
+    const { account } = await createClient();
+
+    const result = await account.updateRecovery(
+      userId, // userId
+      secret, // secret
+      decryptPassword // password
+    );
+
+    data = parseStringify(result);
+    return { data, error: null };
+  } catch (err) {
+    console.error("Error", err);
+    if (err instanceof AppwriteException) {
+      error = parseStringify(err.message);
+      return { data: null, error };
+    } else {
+      return { data: null, error: parseStringify(err) };
+    }
+  }
+}

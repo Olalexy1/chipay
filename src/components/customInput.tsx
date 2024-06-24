@@ -31,6 +31,8 @@ interface CustomInputProps {
   ref?: any;
   schemaType: "auth" | "info" | "password";
   disabled?: boolean;
+  forgotButton?: React.ReactElement<any, string> | null;
+  formTypeName?: string;
 }
 
 const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(({
@@ -50,7 +52,9 @@ const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(({
   className,
   wrapperClassName,
   schemaType,
-  disabled
+  disabled,
+  forgotButton,
+  formTypeName
 }, ref) => {
 
 
@@ -104,7 +108,16 @@ const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(({
                 </div>
               )}
             </div>
-            <FormMessage className="form-message mt-2" />
+            <div className="justify-between flex">
+              <FormMessage className="form-message mt-2" />
+              {
+                (forgotButton && formTypeName === "sign-in") ? (
+                  <div className='px-3'>
+                    {forgotButton}
+                  </div>
+                ) : null
+              }
+            </div>
           </div>
         </div>
       )}
