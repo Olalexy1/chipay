@@ -10,8 +10,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
-import { avatarLetters } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Image from "next/image";
 
 
 export default function MobileNavBar({ user }: { user: User | null }) {
@@ -27,17 +26,50 @@ export default function MobileNavBar({ user }: { user: User | null }) {
                 </div>
             </div>
 
-            <ul className={`-z-[1] md:hidden min-h-screen flex flex-col absolute bg-blue-50 w-full pt-[120px] px-9 transition-all duration-400 ease-in left-0 rounded-br-xl overflow-y-auto scrollbar-none ${open ? 'top-0' : '-top-[3000px]'}`}>
+            <ul className={`-z-[1] md:hidden h-screen flex flex-col absolute bg-blue-50 w-full pt-[120px] px-9 transition-all duration-400 ease-in left-0 rounded-br-xl overflow-y-auto scrollbar-none ${open ? 'top-0' : '-top-[3000px]'}`}>
                 <div className="flex-grow">
 
                     {
                         navLinks.categories.map((link) => (
                             <Accordion key={link.id} type="single" collapsible className="w-full">
                                 <AccordionItem value="item-1">
-                                    <AccordionTrigger className="text-gray-800 hover:text-blue-800 duration-500">{link.name}</AccordionTrigger>
+                                    <AccordionTrigger className="text-gray-800 hover:text-blue-800 duration-300 ease-in-out font-semibold">{link.name}</AccordionTrigger>
                                     <AccordionContent className='flex flex-col space-y-3'>
                                         {link.pages.map((items) => (
-                                            <Link key={items.id} href={items.href} className='text-gray-800 hover:text-gray-400 duration-500'>{items.name}</Link>
+                                            <>
+                                                <Link key={items.id} href={items.href} className='text-gray-800 hover:text-blue-800 text-base font-medium duration-300 ease-in-out'>{items.name}</Link>
+
+                                                {items.content &&
+                                                    <div className="w-10/12 flex-col space-y-4 rounded-lg p-4 bg-white">
+
+                                                        {items.content?.map((contentItem) => (
+
+                                                            <Link key={contentItem.id} className="flex flex-row group/item" href={contentItem.href}>
+
+                                                                <div className="flex mr-3">
+                                                                    <span className="w-[45px] h-[45px] bg-blue-100 rounded-lg flex items-center justify-center">
+                                                                        <Image
+                                                                            src={contentItem.iconUrl}
+                                                                            alt='logo'
+                                                                            width={35}
+                                                                            height={35}
+                                                                            className='w-[35px] h-[35px]'
+                                                                        />
+                                                                    </span>
+                                                                </div>
+
+                                                                <div>
+                                                                    <p className="font-montserrat font-semibold text-blue-800 text-base group-hover/item:text-blue-500 duration-300 ease-in-out">{contentItem.title}</p>
+                                                                    <p className="font-montserrat font-normal text-slate-800 text-sm">{contentItem.description}</p>
+                                                                </div>
+
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                }
+
+
+                                            </>
                                         ))}
 
                                     </AccordionContent>
@@ -50,7 +82,7 @@ export default function MobileNavBar({ user }: { user: User | null }) {
 
                 {user === null ?
                     <>
-                        <div className="flex flex-col gap-y-5 justify-end items-center mb-5">
+                        <div className="flex flex-col gap-y-5 justify-end items-center mb-5 pb-10">
                             <Link className='primary-button group w-full' href="/sign-up">
                                 <p className='primary-button-text'>Sign Up</p>
                             </Link>

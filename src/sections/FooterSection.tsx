@@ -72,7 +72,7 @@ const FooterSection = () => {
           </div>
 
           <div className='flex justify-center'>
-            <Link className='text-base text-slate-500 leading-none font-normal hover:text-blue-800 duration-500' href='mailto:info@chimoney.com'>info@chimoney.com</Link>
+            <Link className='text-base text-slate-500 leading-none font-normal hover:text-blue-800 duration-500' href='mailto:info@chimoney.com'>info@chipay.com</Link>
           </div>
 
         </div>
