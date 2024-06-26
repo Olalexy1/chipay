@@ -4,7 +4,6 @@ import Image from 'next/image';
 import LoginImg from '../../../../public/icons/secure-login-animate.svg'
 import { redirect } from 'next/navigation';
 
-
 const ForgotPassword = async ({
   params,
   searchParams,

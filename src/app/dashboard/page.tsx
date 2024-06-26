@@ -2,7 +2,7 @@ import HeaderBox from '@/components/HeaderBox'
 import RecentTransactions from '@/components/RecentTransactions';
 import TotalBalanceBox from '@/components/TotalBalanceBox';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
-import { getAllUserTransactions, getAllUserWallets, getSubAccountDetails } from '@/lib/actions/chimoney.actions';
+import { getAllUserTransactions, getAllUserWallets } from '@/lib/actions/chimoney.actions';
 import Button from '@/components/Button';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -22,8 +22,6 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
   let userId =loggedIn.userId
 
   const subAccountId = await loggedIn?.chiMoneyUserId
-
-  // const subAccount = await getSubAccountDetails(subAccountId);
 
   const transactions = await getAllUserTransactions(subAccountId);
 
@@ -103,7 +101,7 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
         }
 
       </div>
-      <VerificationChecker emailVerified={emailVerification} userId={userId}/>
+      <VerificationChecker emailVerified={emailVerification} userId={userId} type='OldUser'/>
     </section>
   )
 }

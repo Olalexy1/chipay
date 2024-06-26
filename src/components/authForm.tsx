@@ -12,7 +12,7 @@ import { Form } from "@/components/ui/form";
 import CustomInput from './customInput';
 import { authFormSchema, showToast, encryptId } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { createPasswordRecovery, signIn, signUp } from '@/lib/actions/user.actions';
 import { FaEye, FaEyeSlash, FaCalendarAlt } from 'react-icons/fa';
 import Verification from './Verification';
@@ -30,6 +30,7 @@ const AuthForm = ({ type, searchParams }: AuthFormProps) => {
   const handleClickTwo = () => setShowTwo(!showTwo);
   const [open, setOpen] = React.useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState<string>('')
+  const pathname = usePathname();
 
   const handleModalState = () => {
     setOpen(!open);
@@ -43,11 +44,16 @@ const AuthForm = ({ type, searchParams }: AuthFormProps) => {
     }
   };
 
-  console.log(searchParams, 'see search params inside Auth form')
+  useEffect(() => {
+    if (user && user.emailVerification === true) {
+      router.push('/dashboard')
+    }
+  }, [router, user])
+
+  const userType = pathname === '/sign-up'? 'NewUser' : 'OldUser';
 
   const formSchema = authFormSchema(type);
 
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,12 +62,10 @@ const AuthForm = ({ type, searchParams }: AuthFormProps) => {
     },
   })
 
-  // 2. Define a submit handler.
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);
 
     try {
-      // Sign up with Appwrite
       startHolyLoader();
 
       if (type === 'sign-up') {
@@ -102,7 +106,9 @@ const AuthForm = ({ type, searchParams }: AuthFormProps) => {
           showToast("error", `Sign in failed: ${response.error}`);
         }
         else {
+          // showToast("success", "User successfully logged in");
           router.push('/dashboard');
+          setIsLoading(false);
         }
       }
 
@@ -220,7 +226,7 @@ const AuthForm = ({ type, searchParams }: AuthFormProps) => {
       <div className='flex relative flex-col h-full justify-center items-center scrollbar-none scrollbar-thumb-blue-800 scrollbar-track-white md:scrollbar-thin scrollbar-thumb-rounded-2xl mb-5 pr-5 overflow-y-auto md:px-[10%] lg:px-[12%]'>
         {user ? (
           <div className="flex flex-col gap-4">
-            <Verification userId={user.userId} type='NewUser' />
+            <Verification userId={user.userId} type={userType} />
           </div>
         ) : (
           <div className='w-full h-full flex-1'>
@@ -336,7 +342,7 @@ const AuthForm = ({ type, searchParams }: AuthFormProps) => {
                       ) : type === 'sign-in'
                         ? 'Sign In' : type === 'forgot-password'
                           ? 'Reset Password' : type === 'confirm-password'
-                          ? 'Submit Password' : 'Sign Up'}
+                            ? 'Submit Password' : 'Sign Up'}
                     </Button>
                   </div>
 

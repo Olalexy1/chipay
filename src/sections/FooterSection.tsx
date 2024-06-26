@@ -96,6 +96,8 @@ const FooterSection = () => {
         <Link href="https://storyset.com/online" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 text-balance'>Online illustrations by Storyset</Link>
 
         {/* <Link href="https://storyset.com/data" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 text-balance'>Data illustrations by Storyset</Link> */}
+
+        {/* <Link href="https://storyset.com/work" className='text-xs text-slate-500 leading-none font-normal hover:text-blue-800 text-balance'>Work illustrations by Storyset</Link> */}
       </div>
 
     </section >

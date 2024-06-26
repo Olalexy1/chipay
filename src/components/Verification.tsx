@@ -10,19 +10,21 @@ const Verification = ({ userId, emailVerified, type }: VerificationType) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const pathname = usePathname();
+    const userType = pathname === '/sign-up';
 
-    // useEffect(() => {
-    //     const handleVerification = async () => {
-    //         if (userId && !emailVerified && pathname === '/dashboard') {
-    //             const data = await createUserEmailVerification();
+    useEffect(() => {
+        const handleVerification = async () => {
+            if (userId && !emailVerified && pathname === '/dashboard') {
+                const data = await createUserEmailVerification();
 
-    //             if (data) {
-    //                 showToast("info", "Verification email sent");
-    //             }
-    //         }
-    //     }
-    //     handleVerification();
-    // }, [emailVerified, pathname, userId])
+                if (data) {
+                    showToast("info", "Verification email sent");
+                }
+            }
+        }
+        handleVerification();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleVerificationResend = async () => {
         setIsLoading(true);
@@ -72,7 +74,7 @@ const Verification = ({ userId, emailVerified, type }: VerificationType) => {
                 </p>
 
                 {
-                    type === "NewUser" && (
+                    userType && (
                         <div className="pt-10">
                             <form action={handleVerificationResend}>
                                 <Button isDisabled={isLoading} className="py-3">

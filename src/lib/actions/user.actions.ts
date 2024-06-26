@@ -145,8 +145,6 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       decryptPassword
     );
 
-    console.log(session.secret, ": session secret");
-
     cookies().set("chimoney-session", session.secret, {
       path: "/",
       httpOnly: true,
@@ -206,7 +204,7 @@ export async function createUserEmailVerification(sessionId?: string) {
     const { account } = await createSessionClient();
 
     const result = await account.createVerification(
-      `http://localhost:3000/verify-email?id=${sessionId}` // url
+      `http://localhost:3000/verify-email` // url
     );
 
     return parseStringify(result);
@@ -220,6 +218,8 @@ export async function createUserEmailVerificationConfirmation({
   userId,
   secret,
 }: verificationConfirmationProps) {
+  let data;
+  let error: ErrorResponse | Promise<any> | string | null;
   try {
     const { account } = await createClient();
 
@@ -228,10 +228,18 @@ export async function createUserEmailVerificationConfirmation({
       secret // secret
     );
 
-    return parseStringify(result);
-  } catch (error) {
-    console.log(error);
-    return null;
+    console.log(result, "see result from email verify confirm user action");
+
+    data = parseStringify(result);
+    return { data, error: null };
+  } catch (err) {
+    console.error("Error", err);
+    if (err instanceof AppwriteException) {
+      error = parseStringify(err.message);
+      return { data: null, error };
+    } else {
+      return { data: null, error: parseStringify(err) };
+    }
   }
 }
 
@@ -244,8 +252,6 @@ export async function getUserSession(
     const result = await account.getSession(
       sessionId // sessionId
     );
-
-    console.log(result, "see result from get session");
 
     return parseStringify(result);
   } catch (error) {

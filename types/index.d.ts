@@ -372,6 +372,7 @@ declare interface VerificationType {
 declare interface VerificationChecker {
   emailVerified: boolean;
   userId: string;
+  type: "NewUser" | "OldUser";
 }
 
 declare interface AccountSettingsCardProps {

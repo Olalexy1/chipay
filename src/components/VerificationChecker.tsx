@@ -7,11 +7,13 @@ import Modal from '@/components/Modal';
 import { createUserEmailVerification } from '@/lib/actions/user.actions';
 import Button from './Button';
 import { Loader2 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
-const VerificationChecker = ({ emailVerified, userId }: VerificationChecker) => {
+const VerificationChecker = ({ emailVerified, userId, type }: VerificationChecker) => {
 
     const [open, setOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
+    const pathname = usePathname();
 
     const handleModalState = () => {
         setOpen(!open);
@@ -37,26 +39,15 @@ const VerificationChecker = ({ emailVerified, userId }: VerificationChecker) => 
 
     const verificationDisplayed = sessionStorage.getItem("verificationCheckerDisplayed");
 
-    console.log(verificationDisplayed, 'see verification displayed')
-
-    const url = document.referrer
-    console.log(url, ": see url")
-
     const handleRouteChange = useCallback(() => {
 
-        if (document.referrer.includes("verify-email") && emailVerified && userId) {
-            console.log("Email verification complete");
+        if (pathname === '/verify-email' && emailVerified && userId) {
             showToast("success", "Account verification successful");
+            console.log("Email verified 2");
         }
 
-        // if (emailVerified && userId) {
-        //     console.log("Email verification complete");
-        //     showToast("success", "Account verification successful");
-        //     return;
-        // }
-
-        if (userId && !emailVerified && !verificationDisplayed) {
-            console.log("Email not verified");
+        else if (userId && !emailVerified && !verificationDisplayed) {
+            // console.log("Email not verified");
             setTimeout(() => {
                 showToast("warning", "Account is not yet verified");
                 sessionStorage.setItem("verificationCheckerDisplayed", "true");
@@ -65,9 +56,7 @@ const VerificationChecker = ({ emailVerified, userId }: VerificationChecker) => 
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [emailVerified, userId])
-
-    // handleRouteChange();
+    }, [emailVerified])
 
     useEffect(() => {
         handleRouteChange();
@@ -78,7 +67,7 @@ const VerificationChecker = ({ emailVerified, userId }: VerificationChecker) => 
         <div>
             <Modal type='AlertDialog' modalOpen={open} modalHandle={handleModalState}>
                 <div>
-                    <Verification type='OldUser' userId={userId} />
+                    <Verification type={type} userId={userId} />
 
                     <div className='flex flex-row justify-between mt-4'>
 
