@@ -27,6 +27,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
             height={40}
             alt="chiPay logo"
             className="size-[24px] max-xl:size-14"
+            priority
           />
           <h1 className="sidebar-logo">ChiPay</h1>
         </Link>
