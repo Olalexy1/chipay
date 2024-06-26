@@ -1,16 +1,34 @@
+"use client"
+
 import { logoutAccount } from '@/lib/actions/user.actions'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { MdLogout } from "react-icons/md";
+import { startHolyLoader, stopHolyLoader } from 'holy-loader';
+import { showToast } from '@/lib/utils';
 
 const Footer = ({ user, type = 'desktop' }: FooterProps) => {
   const router = useRouter();
 
   const handleLogOut = async () => {
-    const loggedOut = await logoutAccount();
+    startHolyLoader();
+    try {
+      const loggedOut = await logoutAccount();
 
-    if (loggedOut) router.push('/sign-in')
+      sessionStorage.removeItem("verificationCheckerDisplayed");
+
+      if (loggedOut) {
+        router.push('/sign-in')
+      }
+
+    } catch (error) {
+      showToast("error", `Logout failed: ${error}`);
+
+    } finally {
+      stopHolyLoader();
+    }
+
   }
 
   return (
@@ -30,8 +48,8 @@ const Footer = ({ user, type = 'desktop' }: FooterProps) => {
         </p>
       </div>
 
-      <div className="footer_image" onClick={handleLogOut}>
-        <MdLogout className='text-gray-600' />
+      <div className="footer_image group" onClick={handleLogOut}>
+        <MdLogout className='text-gray-600 group-hover:text-red-600' />
       </div>
     </footer>
   )

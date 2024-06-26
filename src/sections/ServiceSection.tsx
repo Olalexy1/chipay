@@ -30,8 +30,8 @@ const ServiceSection = () => {
       <div className="flex flex-1 flex-col justify-between gap-y-16 h-full">
         <div className=''>
           <h1 className="font-montserrat font-semibold text-2xl mb-3 text-slate-800">
-            Our unique <br />
-            Payment Services
+            Our unique Payments <br />
+            & Payout Services
           </h1>
           <p className="font-montserrat text-base text-slate-400 mb-5 w-10/12 text-balance">
             Discover convenience, security, and global reach with our payment services. From seamless transactions to robust security features, we offer a comprehensive platform for all your financial needs. Experience peace of mind knowing your transactions are handled with care and efficiency.

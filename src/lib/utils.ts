@@ -125,6 +125,8 @@ const passwordValidation = new RegExp(
 // Phone number validation regex
 const phoneRegex = new RegExp("^\\+?[1-9]\\d{1,14}$");
 
+const phoneRegexNew = new RegExp(/(\+|00)(\s*\d{2,4}\s*){1,3}\d{4,20}$/);
+
 function isAtLeast18YearsOld(date: Date) {
   var today = new Date();
   var birthDate = new Date(date);
@@ -144,7 +146,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().trim().optional()
           : z
               .string({ message: "First name is required." })
@@ -160,7 +163,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().trim().optional()
           : z
               .string({ message: "Last name is required." })
@@ -175,7 +179,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().optional()
           : z.string({ message: "Address is required." }).max(256, {
               message: "Address is cannot be more than 256 characters.",
@@ -184,7 +189,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().optional()
           : z
               .string({ message: "City is required." })
@@ -193,7 +199,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().optional()
           : z.string({ message: "State is required." }).max(256, {
               message: "State cannot be more than 256 characters",
@@ -202,7 +209,8 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().optional()
           : z.string({ message: "Postal code is required." }).length(6, {
               message: "Postal code must be 6 characters long.",
@@ -211,44 +219,49 @@ export const authFormSchema = (type: string) =>
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password" || type === 'confirm-password'
           ? z.string().optional()
           : z
               .string({ message: "Date of birth is required." })
               .date()
-              .refine((date) => {
-                // Calculate age
-                const today = new Date();
-                const birthDate = new Date(date);
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const m = today.getMonth() - birthDate.getMonth();
-                if (
-                  m < 0 ||
-                  (m === 0 && today.getDate() < birthDate.getDate())
-                ) {
-                  age--;
+              .refine(
+                (date) => {
+                  // Calculate age
+                  const today = new Date();
+                  const birthDate = new Date(date);
+                  let age = today.getFullYear() - birthDate.getFullYear();
+                  const m = today.getMonth() - birthDate.getMonth();
+                  if (
+                    m < 0 ||
+                    (m === 0 && today.getDate() < birthDate.getDate())
+                  ) {
+                    age--;
+                  }
+                  // Check if age is at least 18
+                  return age >= 18;
+                },
+                {
+                  message: "You must be at least 18 years old.",
                 }
-                // Check if age is at least 18
-                return age >= 18;
-              }, {
-                message: "You must be at least 18 years old.",
-              }),
+              ),
       confirmPassword:
         type === "sign-in" ||
         type === "transfer" ||
         type === "receive" ||
-        type === "transferToOtherUsers"
+        type === "transferToOtherUsers" ||
+        type === "forgot-password"
           ? z.string().optional()
           : z.string({ message: "Confirm password is required." }),
       // both
       email:
-        type === "sign-in" || type === "sign-up"
+        type === "sign-in" || type === "sign-up" || type === "forgot-password"
           ? z
               .string({ message: "Email is required." })
               .email({ message: "Enter a valid email address." })
           : z.string().optional(),
       password:
-        type === "sign-in" || type === "sign-up"
+        type === "sign-in" || type === "sign-up" || type === 'confirm-password'
           ? z
               .string({ message: "Password is required." })
               .min(8, { message: "Password must be at least 8 characters." })
@@ -296,7 +309,7 @@ export const authFormSchema = (type: string) =>
         type === "transferToOtherUsers"
           ? z
               .string({ message: "Recipient phone Number is required" })
-              .regex(phoneRegex, {
+              .regex(phoneRegexNew, {
                 message: "Recipient Phone Number with country code.",
               })
               .trim()
@@ -365,3 +378,91 @@ export const showToast = (
       return toast(content, optionsToApply);
   }
 };
+
+export const updatePersonalInfoFormSchema = (type?: string) =>
+  z.object({
+    firstName: z
+      .string({ message: "First name is required." })
+      .trim()
+      .min(3, {
+        message: "First name must be at least 3 characters long.",
+      })
+      .max(256, {
+        message: "First name must be between 3 and 256 characters long.",
+      }),
+    lastName: z
+      .string({ message: "Last name is required." })
+      .trim()
+      .min(3, {
+        message: "Last name must be at least 3 characters long.",
+      })
+      .max(256, {
+        message: "Last name must be between 3 and 256 characters long",
+      }),
+    address1: z.string({ message: "Address is required." }).max(256, {
+      message: "Address is cannot be more than 256 characters.",
+    }),
+    city: z
+      .string({ message: "City is required." })
+      .max(50, { message: "City cannot be more than 256 characters." }),
+    state: z.string({ message: "State is required." }).max(256, {
+      message: "State cannot be more than 256 characters",
+    }),
+    postalCode: z.string({ message: "Postal code is required." }).length(6, {
+      message: "Postal code must be 6 characters long.",
+    }),
+    phoneNumber: z
+      .string()
+      .optional()
+      .refine(
+        (value) => {
+          if (value) {
+            return phoneRegexNew.test(value);
+          }
+          return true;
+        },
+        { message: "Enter phone number with country code." }
+      )
+      .transform((value) => {
+        if (value) {
+          return value.trim();
+        }
+        return value;
+      }),
+    email: z
+      .string({ message: "Email is required." })
+      .email({ message: "Enter a valid email address." }),
+  });
+
+export const updatePasswordSchema = (type?: string) =>
+  z
+    .object({
+      oldPassword: z
+        .string({ message: "Old password is required." })
+        .min(8, { message: "Password must be at least 8 characters." })
+        .regex(passwordValidation, {
+          message:
+            "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+        })
+        .trim(),
+      confirmPassword: z.string({ message: "Confirm password is required." }),
+      password: z
+        .string({ message: "Password is required." })
+        .min(8, { message: "Password must be at least 8 characters." })
+        .regex(passwordValidation, {
+          message:
+            "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+        })
+        .trim(),
+    })
+    .refine(
+      (values) => {
+        if (values.password === values.confirmPassword) {
+          return true;
+        }
+      },
+      {
+        message: "Password must match new password!",
+        path: ["confirmPassword"],
+      }
+    );

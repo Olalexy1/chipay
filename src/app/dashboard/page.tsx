@@ -2,11 +2,12 @@ import HeaderBox from '@/components/HeaderBox'
 import RecentTransactions from '@/components/RecentTransactions';
 import TotalBalanceBox from '@/components/TotalBalanceBox';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
-import { getAllUserTransactions, getAllUserWallets, getSubAccountDetails } from '@/lib/actions/chimoney.actions';
+import { getAllUserTransactions, getAllUserWallets } from '@/lib/actions/chimoney.actions';
 import Button from '@/components/Button';
 import Link from 'next/link';
 import Image from 'next/image';
 import EmptyData from '../../../public/icons/no-data-animate-min.svg';
+import VerificationChecker from '@/components/VerificationChecker';
 
 export const dynamic = "force-dynamic"
 
@@ -16,9 +17,11 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
   if (!loggedIn) return;
 
-  const subAccountId = await loggedIn?.chiMoneyUserId
+  let emailVerification = loggedIn.emailVerification
 
-  // const subAccount = await getSubAccountDetails(subAccountId);
+  let userId =loggedIn.userId
+
+  const subAccountId = await loggedIn?.chiMoneyUserId
 
   const transactions = await getAllUserTransactions(subAccountId);
 
@@ -97,9 +100,8 @@ const Dashboard = async ({ searchParams: { id, page } }: SearchParamProps) => {
           </div>
         }
 
-
-
       </div>
+      <VerificationChecker emailVerified={emailVerification} userId={userId} type='OldUser'/>
     </section>
   )
 }

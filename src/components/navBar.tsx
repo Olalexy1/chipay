@@ -5,8 +5,6 @@ import Link from "next/link"
 import Image from "next/image";
 import Logo from '../../public/images/chiPayLogo.png';
 import MobileNavBar from "./mobileNavBar";
-import { avatarLetters } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 
 import { cn } from "@/lib/utils"
@@ -20,19 +18,23 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { navLinks } from '@/constants'
-import { useState } from "react";
 
 const NavBar = ({ user }: { user: User | null }) => {
   const [activeContent, setActiveContent] = React.useState('why')
 
   const handleActiveContent = (id: string) => {
     setActiveContent(id)
-    // console.log('see logged id: ', id)
+  }
+
+  const handleInactiveContent = (id: string) => {
+    setTimeout(() => {
+      setActiveContent(id)
+    }, 1500)
   }
 
   return (
-    <header className='w-full z-50 bg-white sticky top-0 md:relative padding-x'>
-      <nav className='max-container flex justify-between z-50 py-5'>
+    <header className='w-full z-50 bg-blue-50 md:bg-white sticky top-0 md:relative padding-x'>
+      <nav className='max-container flex justify-between z-50 py-5 bg-blue-50 md:bg-white'>
         <Link href='/' className="flex items-center">
           <Image
             src={Logo}
@@ -50,26 +52,46 @@ const NavBar = ({ user }: { user: User | null }) => {
               navLinks.categories.slice(0, 1).map((items) => (
                 <NavigationMenuItem key={items.id}>
                   <NavigationMenuTrigger className="link text-slate-600">{items.name}</NavigationMenuTrigger>
-                  <NavigationMenuContent className="mt-3 rounded-2xl">
-                    <ul className="flex flex-row md:w-[550px] lg:w-[600px] bg-white">
-                      <li className="basis-2/4 bg-blue-50 p-4 space-y-2">
+                  <NavigationMenuContent className="mt-3 rounded-2xl shadow-2xl">
+                    <ul className="flex flex-row md:w-[550px] lg:w-[700px] bg-white">
+                      <li className="w-5/12 bg-blue-50 p-4 space-y-2">
                         {items.pages.map((pages) => (
                           <NavigationMenuLink onMouseEnter={() => handleActiveContent(pages.id)} asChild key={pages.id}>
-                            <Link href={pages.href} className={`flex w-full rounded-lg hover:bg-blue-800 hover:text-white text-slate-600 py-4 px-5 ${pages.id === activeContent && ' bg-blue-800 text-white'}`}>
+                            <Link href={pages.href} className={`flex w-full duration-300 ease-in-out text-lg rounded-lg hover:bg-blue-800 hover:text-white text-slate-800 py-4 px-5 ${pages.id === activeContent && ' bg-blue-800 text-white'}`}>
                               <p className="font-montserrat text-base font-semibold">{pages.name}</p>
                             </Link>
                           </NavigationMenuLink>
                         ))}
                       </li>
-                      <div className="basis-2/4 flex grow p-4">
+                      <div className="w-7/12 flex-col space-y-4 grow p-4">
 
-                        {items.pages.map((pages) => (
+                        {items.pages.map((page) => (
 
-                          activeContent === pages.id &&
+                          activeContent === page.id &&
 
-                          <div key={pages.id} className="">
-                            <p className="font-montserrat text-slate-600 text-base font-semibold">{pages.content?.title}</p>
-                          </div>
+                          page?.content?.map((contentItem) => (
+
+                            <Link key={contentItem.id} className="flex flex-row group/item" href={contentItem.href}>
+
+                              <div className="flex mr-3">
+                                <span className="w-[45px] h-[45px] bg-blue-100 rounded-lg flex items-center justify-center">
+                                  <Image
+                                    src={contentItem.iconUrl}
+                                    alt='logo'
+                                    width={35}
+                                    height={35}
+                                    className='w-[35px] h-[35px]'
+                                  />
+                                </span>
+                              </div>
+
+                              <div>
+                                <p className="font-montserrat font-semibold text-blue-800 text-lg group-hover/item:text-blue-500 duration-300 ease-in-out">{contentItem.title}</p>
+                                <p className="font-montserrat font-normal text-slate-800 text-base">{contentItem.description}</p>
+                              </div>
+
+                            </Link>
+                          ))
 
                         ))}
 
@@ -144,7 +166,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-slate-600 hover:text-blue-800",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-slate-800 hover:text-blue-800 text-lg duration-300 ease-in-out",
             className
           )}
           {...props}

@@ -109,17 +109,17 @@ const PaymentTransferForm = ({ subAccountId, type, allSubAccounts }: PaymentTran
           )}
 
           {type === 'transferToOtherUsers' && (
-            <CustomInput control={form.control} name='receiverEmail' label="Receiver Email" placeholder='Enter receiver email Address' inputType="email" autoComplete='email' id='receiverEmail' />
+            <CustomInput authControl={form.control} authName='receiverEmail' label="Receiver Email" placeholder='Enter receiver email Address' inputType="email" autoComplete='email' id='receiverEmail' schemaType='auth'/>
           )}
 
           {type === 'transferToOtherUsers' && (
-            <CustomInput control={form.control} name='phoneNumber' label="Receiver Phone Number" placeholder='Enter receiver phone number' inputType='tel' id='phoneNumber' />
+            <CustomInput authControl={form.control} authName='phoneNumber' label="Receiver Phone Number" placeholder='Enter receiver phone number' inputType='tel' id='phoneNumber' schemaType='auth' />
           )}
 
-          <CustomInput control={form.control} name='valueInUSD' label="Amount In USD" placeholder='Enter amount in USD' inputType='number' id='valueInUsd' />
+          <CustomInput authControl={form.control} authName='valueInUSD' label="Amount In USD" placeholder='Enter amount in USD' inputType='number' id='valueInUsd' schemaType='auth' />
 
           {type === 'transferToOtherUsers' && (
-            <CustomInput control={form.control} name='currency' label="Currency" placeholder='ISO Currency String like CAD, USD etc.' inputType='text' id='currency' />
+            <CustomInput authControl={form.control} authName='currency' label="Currency" placeholder='ISO Currency String like CAD, USD etc.' inputType='text' id='currency' schemaType='auth'/>
           )}
 
           <div className="payment-transfer_btn-box">
@@ -136,7 +136,6 @@ const PaymentTransferForm = ({ subAccountId, type, allSubAccounts }: PaymentTran
           </div>
         </form>
       </Form>
-      {/* <Modal modalOpen={showModal} modalClose={toggleModal}/> */}
     </>
   );
 };

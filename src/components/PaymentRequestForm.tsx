@@ -71,15 +71,15 @@ const PaymentRequestForm = ({ subAccountId, type }: PaymentTransferFormProps) =>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-8 pb-4">
 
-                    <CustomInput control={form.control} name='valueInUSD' label="Amount In USD" placeholder='Enter amount in USD' inputType='number' id='valueInUsd' />
+                    <CustomInput authControl={form.control} authName='valueInUSD' label="Amount In USD" placeholder='Enter amount in USD' inputType='number' id='valueInUsd' schemaType='auth'/>
 
-                    <CustomInput control={form.control} name='payerEmail' label="Payer Email" placeholder='Enter payer email' inputType="email" autoComplete='email' id='payerEmail' />
+                    <CustomInput authControl={form.control} authName='payerEmail' label="Payer Email" placeholder='Enter payer email' inputType="email" autoComplete='email' id='payerEmail' schemaType='auth'/>
 
-                    <CustomInput control={form.control} name='currency' label="Currency" placeholder='ISO Currency String like CAD, USD etc.' inputType='text'  id='currency' />
+                    <CustomInput authControl={form.control} authName='currency' label="Currency" placeholder='ISO Currency String like CAD, USD etc.' inputType='text'  id='currency' schemaType='auth'/>
 
-                    <CustomInput control={form.control} name='amount' label="Amount in specified currency" placeholder='Amount in specific "currency" to collect. Required if currency.' inputType='text'  id='amount' />
+                    <CustomInput authControl={form.control} authName='amount' label="Amount in specified currency" placeholder='Amount in specific "currency" to collect. Required if currency.' inputType='text'  id='amount' schemaType='auth'/>
 
-                    <CustomInput control={form.control} name='redirect_url' label="Redirect URL" placeholder='url to redirect to after payment is confirmed' inputType='text' id='redirect_url' />
+                    <CustomInput authControl={form.control} authName='redirect_url' label="Redirect URL" placeholder='url to redirect to after payment is confirmed' inputType='text' id='redirect_url' schemaType='auth'/>
 
                     <div className="payment-transfer_btn-box">
                         <Button type="submit" className="payment-transfer_btn" isDisabled={isLoading}>
@@ -95,7 +95,6 @@ const PaymentRequestForm = ({ subAccountId, type }: PaymentTransferFormProps) =>
                     </div>
                 </form>
             </Form>
-            {/* <Modal modalOpen={showModal} modalClose={toggleModal} /> */}
         </>
     );
 };
