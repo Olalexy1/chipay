@@ -204,7 +204,7 @@ export async function createUserEmailVerification(sessionId?: string) {
     const { account } = await createSessionClient();
 
     const result = await account.createVerification(
-      `http://localhost:3000/verify-email` // url
+      `https://chipay-three.vercel.app/verify-email` // url
     );
 
     return parseStringify(result);
@@ -227,8 +227,6 @@ export async function createUserEmailVerificationConfirmation({
       userId, // userId
       secret // secret
     );
-
-    console.log(result, "see result from email verify confirm user action");
 
     data = parseStringify(result);
     return { data, error: null };
@@ -310,8 +308,6 @@ export async function updatePassword({
       decryptOldPassword
     );
 
-    console.log(result, "see result from password update");
-
     data = parseStringify(result);
     return { data, error: null };
   } catch (err) {
@@ -334,7 +330,7 @@ export async function createPasswordRecovery({ email } :ForgotPasswordProps) {
 
     const result = await account.createRecovery(
       email, // email
-      `http://localhost:3000/confirm-password`
+      `https://chipay-three.vercel.app/confirm-password`
     );
 
     data = parseStringify(result);

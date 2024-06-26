@@ -43,7 +43,7 @@ const VerificationChecker = ({ emailVerified, userId, type }: VerificationChecke
 
         if (pathname === '/verify-email' && emailVerified && userId) {
             showToast("success", "Account verification successful");
-            console.log("Email verified 2");
+            // console.log("Email verified 2");
         }
 
         else if (userId && !emailVerified && !verificationDisplayed) {

@@ -22,7 +22,6 @@ const PaymentTransferForm = ({ subAccountId, type, allSubAccounts }: PaymentTran
   const [showModal, setShowModal] = useState(false);
 
   const toggleModal = () => {
-    console.log('I am clicked')
     setShowModal(!showModal);
   };
 

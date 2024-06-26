@@ -19,7 +19,6 @@ const PaymentRequestForm = ({ subAccountId, type }: PaymentTransferFormProps) =>
     const [showModal, setShowModal] = useState(false);
 
     const toggleModal = () => {
-        console.log('I am clicked')
         setShowModal(!showModal);
     };
 
