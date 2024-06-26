@@ -1,13 +1,13 @@
 
 # **ChiPay Application Overview**
 
-This application is a web-application that allows users to create and manage their accounts, send and receive payments, and view transaction history. Built with Next.js, TypeScript, Zod for form validation, Tailwind, and Shadcn UI, the app utilizes AppWrite for backend services and authentication. It integrates Chimoney's API for seamless payment functionalities. Key features include:
+This web application allows users to create and manage their accounts, send and receive payments, and view transaction history. Built with Next.js, TypeScript, Zod for form validation, Tailwind, and Shadcn UI, the app utilizes AppWrite for backend services and authentication. It integrates Chimoney's API for seamless payment functionalities. Key features include:
 
-- **User Authentication**: Secure sign up, login, and logout functionality.
+- **User Authentication**: Secure sign-up, login, and logout functionality.
 
 - **Dashboard**: User dashboard displaying wallet balances, recent transactions, and payment actions.
 
-- **Send Payment**: Users can send payments using recipient's account ID, email, or phone number.
+- **Send Payment**: Users can send payments with the recipient's account ID, email, or phone number.
 
 - **Receive Payment**: Users can initiate a payment request, which is reflected in their account balance and transaction history.
 
@@ -17,7 +17,7 @@ This application is a web-application that allows users to create and manage the
 
 # Live Application
 
-The application is live and can be accessed at: [https://chipay-three.vercel.app/](https://chipay-three.vercel.app/)
+The application is live and can be accessed at [https://chipay-three.vercel.app/](https://chipay-three.vercel.app/)
 
 # Approach
 
@@ -58,7 +58,7 @@ The application is hosted on Vercel, which provides a seamless CI/CD process. On
 
 # Local Installation
 
-First clone the repository, install the dependencies then run the development server:
+Firstly, clone the repository, install the dependencies, and then run the development server:
 
 ```bash
 git clone https://github.com/Olalexy1/chipay.git
@@ -108,3 +108,7 @@ To run this project locally, you will need to add the following environment vari
 ![ScreenShot](/public/images/chipayImg3.png)
 
 ![ScreenShot](/public/images/chipayImg4.png)
+
+![ScreenShot](/public/images/chipayImg5.png)
+
+![ScreenShot](/public/images/chipayImg6.png)
