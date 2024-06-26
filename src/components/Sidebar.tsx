@@ -46,6 +46,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
                   className={cn(`group-hover:!brightness-[3] group-hover:!invert-0 ${item.label === 'Receive Funds' ? 'rotate-180' : ''}`, {
                     'brightness-[3] invert-0': isActive
                   })}
+                  priority
                 />
               </div>
               <p className={cn("sidebar-label text-nowrap group-hover:text-white", { "!text-white": isActive })}>

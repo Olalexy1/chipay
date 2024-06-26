@@ -33,7 +33,7 @@ export default function MobileNavBar({ user }: { user: User | null }) {
                         navLinks.categories.map((link) => (
                             <Accordion key={link.id} type="single" collapsible className="w-full">
                                 <AccordionItem value="item-1">
-                                    <AccordionTrigger className="text-gray-800 hover:text-blue-800 duration-300 ease-in-out font-semibold">{link.name}</AccordionTrigger>
+                                    <AccordionTrigger className="text-gray-800 hover:text-blue-800 duration-300 ease-in-out font-semibold ibm-plex-serif">{link.name}</AccordionTrigger>
                                     <AccordionContent className='flex flex-col space-y-3'>
                                         {link.pages.map((items) => (
                                             <>
@@ -54,6 +54,7 @@ export default function MobileNavBar({ user }: { user: User | null }) {
                                                                             width={35}
                                                                             height={35}
                                                                             className='w-[35px] h-[35px]'
+                                                                            priority
                                                                         />
                                                                     </span>
                                                                 </div>

@@ -43,7 +43,7 @@ const NavBar = ({ user }: { user: User | null }) => {
             height={500}
             className='m-0 w-[40px] h-[40px] p-0 mr-3'
           />
-          <p className="font-bold text-xl font-montserrat text-blue-800">ChiPay</p>
+          <p className="font-bold text-xl ibm-plex-serif text-blue-800">ChiPay</p>
         </Link>
         <NavigationMenu className="mx-auto hidden md:flex">
           <NavigationMenuList>
@@ -51,7 +51,7 @@ const NavBar = ({ user }: { user: User | null }) => {
             {
               navLinks.categories.slice(0, 1).map((items) => (
                 <NavigationMenuItem key={items.id}>
-                  <NavigationMenuTrigger className="link text-slate-600">{items.name}</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="link text-slate-800 ibm-plex-serif">{items.name}</NavigationMenuTrigger>
                   <NavigationMenuContent className="mt-3 rounded-2xl shadow-2xl">
                     <ul className="flex flex-row md:w-[550px] lg:w-[700px] bg-white">
                       <li className="w-5/12 bg-blue-50 p-4 space-y-2">
@@ -81,6 +81,7 @@ const NavBar = ({ user }: { user: User | null }) => {
                                     width={35}
                                     height={35}
                                     className='w-[35px] h-[35px]'
+                                    priority
                                   />
                                 </span>
                               </div>
@@ -107,7 +108,7 @@ const NavBar = ({ user }: { user: User | null }) => {
             {
               navLinks.categories.slice(1).map((items) => (
                 <NavigationMenuItem key={items.id}>
-                  <NavigationMenuTrigger className="link text-slate-600">{items.name}</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="link text-slate-800 ibm-plex-serif">{items.name}</NavigationMenuTrigger>
                   <NavigationMenuContent className="mt-3 rounded-2xl">
                     <ul className="py-3 px-1 bg-white w-full">
                       {items.pages.map((component) => (
