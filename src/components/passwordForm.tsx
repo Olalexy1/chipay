@@ -58,8 +58,6 @@ const PasswordForm = ({ user }: { user: LoggedInUserProps }) => {
 
             const updatePasswordResult = await updatePassword(passwordData);
 
-            console.log(updatePasswordResult, 'See New Data')
-
             if (updatePasswordResult.error) {
                 setErrorResponse(true);
                 showToast("error", `Update failed: ${updatePasswordResult.error || updatePasswordResult.error.error}`);
@@ -69,7 +67,6 @@ const PasswordForm = ({ user }: { user: LoggedInUserProps }) => {
             }
 
         } catch (error) {
-            console.log(error);
             setErrorResponse(true);
             showToast("error", `Update failed ${error}`);
         } finally {

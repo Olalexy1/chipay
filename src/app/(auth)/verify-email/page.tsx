@@ -48,29 +48,27 @@ const VerifyEmail = ({
                         secret: secret,
                     })
 
-                    console.log(loggedIn, emailVerification, "see user & verification status from create verification");
-
                     setUserVerification(emailVerification);
 
                     if (emailVerification) {
                         showToast("success", "Account already verified");
-                        console.log("Email already verified");
+                        // console.log("Email already verified");
                         router.push('/dashboard');
                     } else if (response?.error && !emailVerification) {
                         showToast("error", `Verification failed: ${response.error}`);
-                        console.log("Email verification failed");
+                        // console.log("Email verification failed");
                         setVerifiedFailed(true);
                     }
                     else {
                         showToast("success", "Account verification successful");
-                        console.log("Email verified 1");
+                        // console.log("Email verified 1");
                         router.push('/dashboard');
                     }
                 }
             } catch (error) {
                 showToast("error", `Verification failed: ${error}`);
                 setVerifiedFailed(true);
-                console.log("Email verification failed inside catch");
+                // console.log("Email verification failed inside catch");
             } finally {
                 stopHolyLoader();
             }
