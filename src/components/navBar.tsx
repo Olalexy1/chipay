@@ -42,6 +42,7 @@ const NavBar = ({ user }: { user: User | null }) => {
             width={500}
             height={500}
             className='m-0 w-[40px] h-[40px] p-0 mr-3'
+            priority
           />
           <p className="font-bold text-xl ibm-plex-serif text-blue-800">ChiPay</p>
         </Link>
