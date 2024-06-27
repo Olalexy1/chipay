@@ -279,7 +279,7 @@ export const sidebarLinks = [
     label: "Account Overview",
   },
   {
-    imgURL: "/icons/dollar-circle.svg",
+    imgURL: "/icons/wallet-bar.svg",
     route: "/dashboard/my-wallets",
     label: "My Wallets",
   },
