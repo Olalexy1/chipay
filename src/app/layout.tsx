@@ -19,7 +19,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: "ChiPay",
-  description: "Stay connected to your finances with our secure banking app. Manage accounts, transfer funds, pay bills, and monitor transactions seamlessly on-the-go",
+  description: "Welcome to ChiPay, where simplicity meets security. Say goodbye to complex transactions and hello to seamless payments and payouts",
   icons: {
     icon: "/images/chiPayLogo.png",
   },

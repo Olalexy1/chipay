@@ -31,8 +31,8 @@ const MobileNav = ({ user }: MobileNavProps) => {
             className="cursor-pointer"
           />
         </SheetTrigger>
-        <SheetContent side="left" className="border-none bg-white w-[90%] h-screen">
-          <Link href="/" className="cursor-pointer flex items-center gap-1 px-4">
+        <SheetContent side="left" className="border-none bg-white w-[90%] h-screen lg:hidden">
+          <Link href="/" className="cursor-pointer flex items-center gap-1 px-4 w-max">
             <Image
               src="/images/chiPayLogo.png"
               width={40}

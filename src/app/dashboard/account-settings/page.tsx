@@ -12,7 +12,7 @@ const AccountSettings = async () => {
   if (!user) return;
 
   return (
-    <div className="transactions scrollbar-thumb-blue-800 scrollbar-track-gray-100 scrollbar-thin overflow-y-scroll min-h-screen bg-blue-50">
+    <div className="transactions scrollbar-thumb-blue-800 scrollbar-track-gray-100 scrollbar-thin overflow-y-scroll min-h-screen bg-blue-50 pb-20">
       <div className="transactions-header">
         <HeaderLogout/>
       </div>
@@ -21,7 +21,7 @@ const AccountSettings = async () => {
         <PersonalForm user={user} />
       </AccountSettingsCard>
 
-      <AccountSettingsCard title={'Password'} description={'Enter your current password to make update'}>
+      <AccountSettingsCard title={'Password'} description={'Enter your current password to make update'} className='mb-20 md:mb-0'>
         <PasswordForm user={user} />
       </AccountSettingsCard>
 
