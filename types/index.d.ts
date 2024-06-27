@@ -379,6 +379,7 @@ declare interface AccountSettingsCardProps {
   children?: React.ReactNode;
   title: string;
   description: string;
+  className?: string;
 }
 
 declare interface Target {

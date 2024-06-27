@@ -38,8 +38,8 @@ const HeaderLogout = () => {
             subtext="Modify your account details here."
             variant="outline"
             buttonTitle='Log Out'
-            icon={<LogOut className="mr-2 h-4 w-4" />}
-            buttonClassName='text-red-600 font-semibold border-red-600 border hover:bg-red-600 hover:text-white'
+            icon={<LogOut className="h-4 w-4" />}
+            buttonClassName='text-red-600 font-semibold border-red-600 border hover:bg-red-600 hover:text-white space-x-2'
             isButton
             onClick={handleLogOut}
         />

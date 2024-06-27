@@ -20,13 +20,13 @@ const Sidebar = ({ user }: SiderbarProps) => {
   return (
     <section className="sidebar z-40">
       <nav className="flex flex-col gap-4">
-        <Link href="/" className="mb-12 cursor-pointer flex items-center gap-2">
+        <Link href="/" className="mb-12 cursor-pointer flex items-center space-x-2">
           <Image
             src="/images/chiPayLogo.png"
             width={40}
             height={40}
             alt="chiPay logo"
-            className="size-[24px] max-xl:size-14"
+            className=' h-6 md:h-10 max-w-[100%]'
             priority
           />
           <h1 className="sidebar-logo">ChiPay</h1>

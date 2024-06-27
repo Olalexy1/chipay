@@ -1,8 +1,9 @@
 import React from 'react'
+import { cn } from "@/lib/utils"
 
-const AccountSettingsCard = ({ children, title, description }: AccountSettingsCardProps) => {
+const AccountSettingsCard = ({ children, title, description, className }: AccountSettingsCardProps) => {
     return (
-        <div className='flex flex-col md:flex-row w-full border border-blue-300 rounded-md p-4 gap-4 md:gap-0'>
+        <div className={cn('flex flex-col md:flex-row w-full border border-blue-300 rounded-md p-4 gap-4 md:gap-0', className)}>
             <div className='flex flex-col md:w-4/12'>
                 <h1 className='font-semibold text-base'>
                     {title}
