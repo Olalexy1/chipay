@@ -27,7 +27,7 @@ const HeaderBox = ({ type = "title", title, subtext, user, isButton, buttonTitle
               onClick={onClick}
             >
               {icon}
-              {buttonTitle}
+              <span className="hidden md:inline-flex">{buttonTitle}</span>
             </Button>
           </div>
         )
