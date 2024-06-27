@@ -6,6 +6,8 @@ import { getAllSubAccountAssociatedWithUser } from '@/lib/actions/chimoney.actio
 import { encryptId } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+export const maxDuration = 60;
+
 export const dynamic = "force-dynamic"
 
 const Transfer = async () => {
