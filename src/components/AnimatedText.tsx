@@ -87,7 +87,7 @@ const AnimatedText = ({
                                     </motion.span>
                                 ))
                                 }
-                                < span className="inline-block" >& nbsp;</span>
+                                <span className="inline-block">&nbsp;</span>
                             </span>
                         ))}
                     </span>

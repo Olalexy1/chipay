@@ -155,7 +155,7 @@ const AuthForm = ({ type, searchParams }: AuthFormProps) => {
       stopHolyLoader();
     } finally {
       setIsLoading(false);
-      stopHolyLoader();
+      // stopHolyLoader();
     }
   }
 
